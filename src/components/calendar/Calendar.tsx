@@ -3,7 +3,7 @@ import CalendarDayGrid from './day/CalendarDayGrid';
 
 import classNames from 'classnames';
 import CalendarNavigation from './navigation/CalendarNavigation';
-import { lastDayOfMonth, lastDayOfYear, startOfMonth } from 'date-fns';
+import { lastDayOfMonth, lastDayOfYear, set, setDate, startOfMonth } from 'date-fns';
 import CalendarYearGrid from './year/CalendarYearGrid';
 import CalendarMonthGrid from './month/CalendarMonthGrid';
 import { CalendarModifiers, CalendarModifiersClassNames, CalendarType, DateChangeHandler } from '../../index';
@@ -65,7 +65,7 @@ const Calendar: FC<CalendarProps> = ({
     if (type !== 'year') {
       setMode('month');
     } else if (onSelect) {
-      onSelect(year);
+      onSelect(set(year, { date: 1, month: 0 }));
     }
   };
 
@@ -75,7 +75,7 @@ const Calendar: FC<CalendarProps> = ({
     if (type !== 'month') {
       setMode('day');
     } else if (onSelect) {
-      onSelect(month);
+      onSelect(setDate(month, 1));
     }
   };
 

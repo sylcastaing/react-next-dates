@@ -12,6 +12,7 @@ export function useDependentState<S>(
     if (newState !== state) {
       setState(newState);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, inputs);
 
   return [state, setState];

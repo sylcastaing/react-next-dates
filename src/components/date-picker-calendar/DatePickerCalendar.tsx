@@ -3,7 +3,7 @@ import { CalendarModifiers, CalendarModifiersClassNames, CalendarType, DateChang
 import { useControllableState } from '../../hooks/utils';
 import { isSameDay, isSameMonth, isSameYear, startOfMonth } from 'date-fns';
 import Calendar from '../calendar/Calendar';
-import { isDateInRange, setTime } from '../../utils/date';
+import { isDateInRange, removeTime, setTime } from '../../utils/date';
 import { mergeCalendarModifiers } from '../../utils/modifiers';
 
 export interface DatePickerCalendarProps {
@@ -74,7 +74,7 @@ const DatePickerCalendar: FC<DatePickerCalendarProps> = ({
 
   const handleSelectDate: DateChangeHandler = d => {
     if (onDateChange) {
-      onDateChange(date ? setTime(d, date) : d);
+      onDateChange(date ? setTime(d, date) : removeTime(d));
     }
   };
 

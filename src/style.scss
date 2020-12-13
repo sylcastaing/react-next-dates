@@ -111,6 +111,11 @@
           pointer-events: none;
         }
 
+        &.-selected {
+          background: #000000;
+          color: #ffffff;
+        }
+
         &:hover {
           background: #f2f2f2;
         }
@@ -185,5 +190,4 @@
   background: #ffffff;
   border-radius: 5px;
   box-shadow: 0 1px 8px rgba(0,0,0,.12);
-  margin-top: 5px;
 }

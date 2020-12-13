@@ -15,6 +15,14 @@ const CalendarPopper = forwardRef<HTMLDivElement, CalendarPopperProps>(
     const { styles, attributes } = usePopper(inputElement, popperElement, {
       placement: 'bottom-start',
       strategy: portalContainer ? 'fixed' : 'absolute',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 8],
+          },
+        },
+      ],
     });
 
     const popper = (

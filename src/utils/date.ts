@@ -30,3 +30,12 @@ export function setTime(date: Date, dateWithTime: Date): Date {
     milliseconds: dateWithTime.getMilliseconds(),
   });
 }
+
+export function removeTime(date: Date): Date {
+  return set(date, {
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    milliseconds: 0,
+  });
+}

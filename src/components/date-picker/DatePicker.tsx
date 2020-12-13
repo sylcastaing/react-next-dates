@@ -6,9 +6,8 @@ import {
   DatePredicate,
   ModifiersClassNames,
   NullableDateChangeHandler,
-  useDateInput,
 } from '../../index';
-import { UseDateInputValue } from '../../hooks/useDateInput';
+import useDateInput, { UseDateInputValue } from '../../hooks/useDateInput';
 import { useOutsideClickHandler } from '../../hooks/utils';
 import DatePickerCalendar from '../date-picker-calendar/DatePickerCalendar';
 import CalendarPopper from '../popper/CalendarPopper';
@@ -52,22 +51,41 @@ const DatePicker: FC<DatePickerProps> = ({
   onChange,
   children,
 }) => {
-  const [month, setMonth] = useState(date || new Date());
+  const [month, setMonth] = useState(date ?? new Date());
 
-  const [focused, setFocused] = useState<boolean>(false);
+  const [isOpen, setOpen] = useState<boolean>(false);
 
   const [inputRef, popperRef] = useOutsideClickHandler<HTMLInputElement, HTMLDivElement>(() => {
-    setFocused(false);
+    setOpen(false);
   });
 
-  const inputProps = useDateInput({ locale, date, format, minDate, maxDate, validate, placeholder, onChange });
+  const handleDateChange: NullableDateChangeHandler = date => {
+    if (onChange) {
+      onChange(date);
+    }
+
+    if (date) {
+      setMonth(date);
+    }
+  };
+
+  const inputProps = useDateInput({
+    locale,
+    date,
+    format,
+    minDate,
+    maxDate,
+    validate,
+    placeholder,
+    onChange: handleDateChange,
+  });
 
   const handleChange: DateChangeHandler = date => {
     if (onChange) {
       onChange(date);
     }
 
-    setFocused(false);
+    setOpen(false);
   };
 
   return (
@@ -80,7 +98,7 @@ const DatePicker: FC<DatePickerProps> = ({
               inputProps.onFocus();
             }
 
-            setFocused(true);
+            setOpen(true);
           },
           ref: inputRef,
         },
@@ -88,7 +106,7 @@ const DatePicker: FC<DatePickerProps> = ({
 
       <CalendarPopper
         ref={popperRef}
-        isOpen={focused}
+        isOpen={isOpen}
         inputElement={inputRef.current}
         popperElement={popperRef.current}
         portalContainer={portalContainer}>
