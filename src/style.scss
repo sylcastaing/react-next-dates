@@ -1,0 +1,120 @@
+.react-next-dates {
+  font-size: 16px;
+
+  .navigation {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 12% 1fr 12%;
+    grid-column-gap: 10px;
+    height: 50px;
+
+    > button {
+      height: 100%;
+    }
+
+    > p {
+      margin: 0;
+      text-align: center;
+      text-transform: capitalize;
+    }
+  }
+
+  .day-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 10px 0;
+    border-bottom: 1px solid #cacbce;
+
+    > span {
+      color: #95969e;
+      font-size: 14px;
+      text-align: center;
+      text-transform: capitalize;
+    }
+  }
+
+  .day-grid {
+    position: relative;
+
+    .day-grid-content {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-gap: 2px;
+      padding-top: 10px;
+
+      .day {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 4px;
+
+        &:before {
+          content: '';
+          display: inline-block;
+          width: 1px;
+          height: 0;
+          padding-bottom: 100%;
+        }
+
+        .day-month {
+          position: absolute;
+          top: 2px;
+          font-size: 10px;
+          text-transform: capitalize;
+          color: #95969e;
+        }
+
+        .day-number {
+          font-size: 14px;
+        }
+
+        &:hover {
+          background: #f2f2f2;
+        }
+      }
+    }
+  }
+
+  .year-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 2px;
+    padding-top: 10px;
+
+    .year {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 4px;
+      height: 40px;
+
+      &:hover {
+        background: #f2f2f2;
+      }
+    }
+  }
+
+  .month-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2px;
+    padding-top: 10px;
+
+    .month {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 4px;
+      height: 40px;
+      text-transform: capitalize;
+
+      &:hover {
+        background: #f2f2f2;
+      }
+    }
+  }
+}
