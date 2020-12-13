@@ -22,7 +22,9 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "classnames": "^2.2.6"
+    "@popperjs/core": "^2.5.4",
+    "classnames": "^2.2.6",
+    "react-popper": "^2.2.4"
   },
   "peerDependencies": {
     "date-fns": "^2.0.0",

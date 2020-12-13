@@ -1,4 +1,4 @@
-import { isValid, parse, format, isBefore, startOfDay, isAfter } from 'date-fns';
+import { isValid, parse, format, isBefore, startOfDay, isAfter, set } from 'date-fns';
 
 export function getDefaultDateFormat(locale: Locale, formatString?: string): string {
   return formatString ?? locale.formatLong?.date({ width: 'short' }) ?? 'yyyy-MM-dd';
@@ -20,4 +20,13 @@ export function formatDate(date: Date, formatString: string, locale: Locale): st
 
 export function isDateInRange(date: Date, minDate?: Date, maxDate?: Date): boolean {
   return !(minDate ? isBefore(date, startOfDay(minDate)) : false) && !(maxDate ? isAfter(date, maxDate) : false);
+}
+
+export function setTime(date: Date, dateWithTime: Date): Date {
+  return set(date, {
+    hours: dateWithTime.getHours(),
+    minutes: dateWithTime.getMinutes(),
+    seconds: dateWithTime.getSeconds(),
+    milliseconds: dateWithTime.getMilliseconds(),
+  });
 }

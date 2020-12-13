@@ -9,13 +9,40 @@
     height: 50px;
 
     > button {
+      position: relative;
       height: 100%;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      &:before {
+        border-right: 2px solid #95969e;
+        border-top: 2px solid #95969e;
+        box-sizing: border-box;
+        content: '';
+        display: block;
+        height: 14px;
+        left: 50%;
+        margin-left: -7px;
+        margin-top: -7px;
+        position: absolute;
+        top: 50%;
+        transform: rotate(45deg);
+        transition: 200ms border-color;
+        width: 14px;
+      }
+
+      &:first-child:before {
+        transform: rotate(-135deg);
+      }
     }
 
     > p {
       margin: 0;
       text-align: center;
       text-transform: capitalize;
+      cursor: pointer;
     }
   }
 
@@ -151,4 +178,12 @@
       }
     }
   }
+}
+
+.react-next-dates-popper {
+  width: 350px;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 1px 8px rgba(0,0,0,.12);
+  margin-top: 5px;
 }
