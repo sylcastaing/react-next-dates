@@ -1,14 +1,14 @@
 import React, { FC, useMemo } from 'react';
 import { formatDate } from '../../../utils/date';
 import { addMonths, addYears, startOfMonth, subMonths, subYears } from 'date-fns';
-import { CalendarMode } from '../Calendar';
+import { CalendarType } from '../../../index';
 
 interface CalendarNavigationProps {
   locale: Locale;
   month: Date;
-  mode: CalendarMode;
+  mode: CalendarType;
   onChangeMonth: (month: Date) => void;
-  onChangeMode: (mode: CalendarMode) => void;
+  onChangeMode: (mode: CalendarType) => void;
 }
 
 const CalendarNavigation: FC<CalendarNavigationProps> = ({ locale, month, mode, onChangeMonth, onChangeMode }) => {

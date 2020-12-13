@@ -4,7 +4,7 @@ import { isValid, Locale } from 'date-fns';
 
 import { formatDate, getDefaultDateFormat, isDateInRange, parseDate } from '../utils/date';
 
-import { DateChangeHandler, DateValidator } from '../index';
+import { NullableDateChangeHandler, DatePredicate } from '../index';
 
 export interface UseDateInputParams {
   locale: Locale;
@@ -12,8 +12,8 @@ export interface UseDateInputParams {
   format?: string;
   minDate?: Date;
   maxDate?: Date;
-  validate?: DateValidator;
-  onChange?: DateChangeHandler;
+  validate?: DatePredicate;
+  onChange?: NullableDateChangeHandler;
 }
 
 export type UseDateInputValue = Pick<

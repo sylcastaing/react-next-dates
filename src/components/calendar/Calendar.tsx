@@ -1,33 +1,88 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import CalendarDayGrid from './day/CalendarDayGrid';
 
 import classNames from 'classnames';
 import CalendarNavigation from './navigation/CalendarNavigation';
-import { startOfMonth } from 'date-fns';
+import { lastDayOfMonth, lastDayOfYear, startOfMonth } from 'date-fns';
 import CalendarYearGrid from './year/CalendarYearGrid';
 import CalendarMonthGrid from './month/CalendarMonthGrid';
-
-export type CalendarMode = 'day' | 'month' | 'year';
+import { CalendarModifiers, CalendarModifiersClassNames, CalendarType, DateChangeHandler } from '../../index';
+import { useControllableState, useDependentState } from '../../hooks/utils';
+import { mergeCalendarModifiers } from '../../utils/modifiers';
+import { isDateInRange } from '../../utils/date';
 
 export interface CalendarProps {
   locale: Locale;
-  date?: Date;
+  type?: CalendarType;
+  month?: Date | null;
+  minDate?: Date;
+  maxDate?: Date;
+  modifiers?: CalendarModifiers;
+  modifiersClassNames?: CalendarModifiersClassNames;
   className?: string;
+  onMonthChange?: DateChangeHandler;
+  onSelect?: DateChangeHandler;
 }
 
-const Calendar: FC<CalendarProps> = ({ locale, date, className }) => {
-  const [mode, setMode] = useState<CalendarMode>('day');
+const Calendar: FC<CalendarProps> = ({
+  locale,
+  type,
+  month: receivedMonth,
+  minDate,
+  maxDate,
+  modifiers: receivedModifiers,
+  modifiersClassNames,
+  className,
+  onMonthChange,
+  onSelect,
+}) => {
+  const [mode, setMode] = useDependentState<CalendarType>(() => type ?? 'day', [type]);
 
-  const [month, setMonth] = useState(() => startOfMonth(date ?? new Date()));
+  const [month, setMonth] = useControllableState(
+    () => startOfMonth(new Date()),
+    receivedMonth ?? undefined,
+    onMonthChange,
+  );
+
+  const modifiers = mergeCalendarModifiers(
+    {
+      day: {
+        disabled: date => !isDateInRange(date, minDate, maxDate),
+      },
+      month: {
+        disabled: date => !isDateInRange(lastDayOfMonth(date), minDate, maxDate),
+      },
+      year: {
+        disabled: date => !isDateInRange(lastDayOfYear(date), minDate, maxDate),
+      },
+    },
+    receivedModifiers,
+  );
 
   const handleSelectYear = (year: Date) => {
     setMonth(year);
-    setMode('month');
+
+    if (type !== 'year') {
+      setMode('month');
+    } else if (onSelect) {
+      onSelect(year);
+    }
   };
 
   const handleSelectMonth = (month: Date) => {
     setMonth(month);
-    setMode('day');
+
+    if (type !== 'month') {
+      setMode('day');
+    } else if (onSelect) {
+      onSelect(month);
+    }
+  };
+
+  const handleSelectDay = (date: Date) => {
+    if (onSelect) {
+      onSelect(date);
+    }
   };
 
   return (
@@ -35,11 +90,28 @@ const Calendar: FC<CalendarProps> = ({ locale, date, className }) => {
       <CalendarNavigation locale={locale} month={month} mode={mode} onChangeMonth={setMonth} onChangeMode={setMode} />
 
       {mode === 'day' ? (
-        <CalendarDayGrid locale={locale} month={month} onMonthChange={setMonth} />
+        <CalendarDayGrid
+          locale={locale}
+          month={month}
+          modifiers={modifiers.day}
+          modifiersClassNames={modifiersClassNames?.day}
+          onSelect={handleSelectDay}
+        />
       ) : mode === 'year' ? (
-        <CalendarYearGrid month={month} onYearChange={handleSelectYear} />
+        <CalendarYearGrid
+          month={month}
+          modifiers={modifiers.year}
+          modifiersClassNames={modifiersClassNames?.year}
+          onYearChange={handleSelectYear}
+        />
       ) : (
-        <CalendarMonthGrid locale={locale} month={month} onMonthChange={handleSelectMonth} />
+        <CalendarMonthGrid
+          locale={locale}
+          month={month}
+          modifiers={modifiers.month}
+          modifiersClassNames={modifiersClassNames?.month}
+          onMonthChange={handleSelectMonth}
+        />
       )}
     </div>
   );

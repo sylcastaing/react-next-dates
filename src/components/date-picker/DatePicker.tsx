@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { DateChangeHandler, DateValidator, useDateInput } from '../../index';
+import { NullableDateChangeHandler, DatePredicate, useDateInput } from '../../index';
 import { UseDateInputValue } from '../../hooks/useDateInput';
 
 export interface DatePickerInputProps extends UseDateInputValue {}
@@ -12,8 +12,8 @@ interface DatePickerProps {
   format?: string;
   minDate?: Date;
   maxDate?: Date;
-  validate?: DateValidator;
-  onChange?: DateChangeHandler;
+  validate?: DatePredicate;
+  onChange?: NullableDateChangeHandler;
   children: DatePickerChildren;
 }
 

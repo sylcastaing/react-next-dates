@@ -70,6 +70,20 @@
           font-size: 14px;
         }
 
+        &.-today {
+          font-weight: bold;
+        }
+
+        &.-outside {
+          color: #95969e;
+        }
+
+        &.-disabled {
+          opacity: 0.5;
+          cursor: default;
+          pointer-events: none;
+        }
+
         &:hover {
           background: #f2f2f2;
         }
@@ -94,6 +108,16 @@
       &:hover {
         background: #f2f2f2;
       }
+
+      &.-today {
+        font-weight: bold;
+      }
+
+      &.-disabled {
+        opacity: 0.5;
+        cursor: default;
+        pointer-events: none;
+      }
     }
   }
 
@@ -111,6 +135,16 @@
       border-radius: 4px;
       height: 40px;
       text-transform: capitalize;
+
+      &.-today {
+        font-weight: bold;
+      }
+
+      &.-disabled {
+        opacity: 0.5;
+        cursor: default;
+        pointer-events: none;
+      }
 
       &:hover {
         background: #f2f2f2;

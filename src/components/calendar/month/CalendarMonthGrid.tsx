@@ -1,14 +1,23 @@
 import React, { FC, useMemo } from 'react';
 import { setMonth } from 'date-fns';
 import CalendarMonth from './CalendarMonth';
+import { Modifiers, ModifiersClassNames } from '../../../index';
 
 interface CalendarMonthGridProps {
   locale: Locale;
   month: Date;
+  modifiers?: Modifiers;
+  modifiersClassNames?: ModifiersClassNames;
   onMonthChange: (month: Date) => void;
 }
 
-const CalendarMonthGrid: FC<CalendarMonthGridProps> = ({ locale, month, onMonthChange }) => {
+const CalendarMonthGrid: FC<CalendarMonthGridProps> = ({
+  locale,
+  month,
+  modifiers,
+  modifiersClassNames,
+  onMonthChange,
+}) => {
   const months = useMemo(
     () =>
       Array(12)
@@ -19,8 +28,15 @@ const CalendarMonthGrid: FC<CalendarMonthGridProps> = ({ locale, month, onMonthC
 
   return (
     <div className="month-grid">
-      {months.map(month => (
-        <CalendarMonth locale={locale} month={month} onSelect={onMonthChange} />
+      {months.map(m => (
+        <CalendarMonth
+          key={m.toISOString()}
+          locale={locale}
+          month={m}
+          modifiers={modifiers}
+          modifiersClassNames={modifiersClassNames}
+          onSelect={onMonthChange}
+        />
       ))}
     </div>
   );
