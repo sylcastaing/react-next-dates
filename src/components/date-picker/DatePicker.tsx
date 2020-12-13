@@ -16,7 +16,7 @@ export interface DatePickerInputProps extends UseDateInputValue {
   ref: MutableRefObject<HTMLInputElement | null>;
 }
 
-export type DatePickerChildren = (props: { inputProps: DatePickerInputProps }) => ReactNode;
+export type DatePickerChildren = (props: { inputProps: DatePickerInputProps; openDatePicker: () => void }) => ReactNode;
 
 export interface DatePickerProps {
   locale: Locale;
@@ -30,8 +30,9 @@ export interface DatePickerProps {
   className?: string;
   modifiers?: CalendarModifiers;
   modifiersClassName?: ModifiersClassNames;
-  onChange?: NullableDateChangeHandler;
   portalContainer?: Element;
+  autoOpen?: boolean;
+  onChange?: NullableDateChangeHandler;
   children: DatePickerChildren;
 }
 
@@ -48,12 +49,15 @@ const DatePicker: FC<DatePickerProps> = ({
   modifiers,
   modifiersClassName,
   portalContainer,
+  autoOpen = true,
   onChange,
   children,
 }) => {
   const [month, setMonth] = useState(date ?? new Date());
 
   const [isOpen, setOpen] = useState<boolean>(false);
+
+  const openDatePicker = () => setOpen(true);
 
   const [inputRef, popperRef] = useOutsideClickHandler<HTMLInputElement, HTMLDivElement>(() => {
     setOpen(false);
@@ -98,10 +102,13 @@ const DatePicker: FC<DatePickerProps> = ({
               inputProps.onFocus();
             }
 
-            setOpen(true);
+            if (autoOpen) {
+              openDatePicker();
+            }
           },
           ref: inputRef,
         },
+        openDatePicker,
       })}
 
       <CalendarPopper
