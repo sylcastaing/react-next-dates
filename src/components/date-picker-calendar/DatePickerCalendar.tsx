@@ -1,9 +1,15 @@
 import React, { FC } from 'react';
-import { CalendarModifiers, CalendarModifiersClassNames, CalendarType, DateChangeHandler } from '../../index';
+import {
+  CalendarModifiers,
+  CalendarModifiersClassNames,
+  CalendarType,
+  DateChangeHandler,
+  Modifiers,
+} from '../../index';
 import { useControllableState } from '../../hooks/utils';
-import { isSameDay, isSameMonth, isSameYear, startOfMonth } from 'date-fns';
+import { isSameDay, isSameMonth, isSameYear, startOfDay, startOfMonth } from 'date-fns';
 import Calendar from '../calendar/Calendar';
-import { isDateInRange, removeTime, setTime } from '../../utils/date';
+import { isDateInRange, setTime } from '../../utils/date';
 import { mergeCalendarModifiers } from '../../utils/modifiers';
 
 export interface DatePickerCalendarProps {
@@ -54,27 +60,20 @@ const DatePickerCalendar: FC<DatePickerCalendarProps> = ({
     }
   };
 
+  const baseModifier: Modifiers = { selected: isSelected };
+
   const modifiers = mergeCalendarModifiers(
     {
-      day: {
-        selected: isSelected,
-        disabled: isSelected,
-      },
-      month: {
-        selected: isSelected,
-        disabled: isSelected,
-      },
-      year: {
-        selected: isSelected,
-        disabled: isSelected,
-      },
+      day: baseModifier,
+      month: baseModifier,
+      year: baseModifier,
     },
     receivedModifiers,
   );
 
   const handleSelectDate: DateChangeHandler = d => {
     if (onDateChange) {
-      onDateChange(date ? setTime(d, date) : removeTime(d));
+      onDateChange(date ? setTime(d, date) : startOfDay(d));
     }
   };
 

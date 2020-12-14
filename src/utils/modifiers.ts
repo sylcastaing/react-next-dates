@@ -1,4 +1,4 @@
-import { CalendarModifiers, CalendarType, DefaultModifiers, Modifiers, ModifiersClassNames } from '../index';
+import { CalendarModifiers, CalendarType, BaseModifiersKey, Modifiers, ModifiersClassNames } from '../index';
 import { DEFAULT_MODIFIERS_CLASS_NAMES } from '../constants';
 
 export function mergeModifiers(baseModifiers: Modifiers = {}, extendsModifiers: Modifiers = {}): Modifiers {
@@ -39,7 +39,7 @@ export function mergeCalendarModifiers(
 export function computeModifierClassNames(
   modifiers: Modifiers = {},
   modifiersClassNames: ModifiersClassNames = {},
-): (date: Date) => Record<DefaultModifiers | string, boolean> {
+): (date: Date) => Record<BaseModifiersKey | string, boolean> {
   const allClassNames: ModifiersClassNames = { ...DEFAULT_MODIFIERS_CLASS_NAMES, ...modifiersClassNames };
 
   return date =>
@@ -55,5 +55,5 @@ export function computeModifierClassNames(
       }
 
       return acc;
-    }, {} as Record<DefaultModifiers | string, boolean>);
+    }, {} as Record<BaseModifiersKey | string, boolean>);
 }

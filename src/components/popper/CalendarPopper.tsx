@@ -22,6 +22,9 @@ const CalendarPopper = forwardRef<HTMLDivElement, CalendarPopperProps>(
             offset: [0, 8],
           },
         },
+        {
+          name: 'flip',
+        },
       ],
     });
 

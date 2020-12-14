@@ -9,10 +9,19 @@ export type DatePredicate = (date: Date) => boolean;
 
 export type CalendarType = 'day' | 'month' | 'year';
 
-export type DefaultModifiers = 'disabled' | 'selected' | 'today' | 'outside';
+export type BaseModifiersKey =
+  | 'disabled'
+  | 'selected'
+  | 'today'
+  | 'outside'
+  | 'selectedStart'
+  | 'selectedMiddle'
+  | 'selectedEnd';
 
-export type Modifiers = { [key in DefaultModifiers | string]: DatePredicate };
-export type ModifiersClassNames = { [key in DefaultModifiers | string]: string };
+export type Modifiers = { [key in BaseModifiersKey | string]: DatePredicate };
+export type ModifiersClassNames = { [key in BaseModifiersKey | string]: string };
 
 export type CalendarModifiers = { [key in CalendarType]?: Modifiers };
 export type CalendarModifiersClassNames = { [key in CalendarType]?: ModifiersClassNames };
+
+export type DateRangeInputType = 'startDate' | 'endDate';

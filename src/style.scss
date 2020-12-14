@@ -66,7 +66,6 @@
     .day-grid-content {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      grid-gap: 2px;
       padding-top: 10px;
 
       .day {
@@ -111,9 +110,28 @@
           pointer-events: none;
         }
 
-        &.-selected {
+        &.-selected,
+        &.-selected-start,
+        &.-selected-middle,
+        &.-selected-end {
           background: #000000;
           color: #ffffff;
+
+          &:hover {
+            background: #000000;
+          }
+        }
+
+        &.-selected-start:not(.-selected-end) {
+          border-radius: 4px 0 0 4px;
+        }
+
+        &.-selected-middle {
+          border-radius: 0;
+        }
+
+        &.-selected-end:not(.-selected-start) {
+          border-radius: 0 4px 4px 0;
         }
 
         &:hover {
@@ -189,5 +207,5 @@
   width: 350px;
   background: #ffffff;
   border-radius: 5px;
-  box-shadow: 0 1px 8px rgba(0,0,0,.12);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
 }

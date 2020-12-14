@@ -31,11 +31,6 @@ export function setTime(date: Date, dateWithTime: Date): Date {
   });
 }
 
-export function removeTime(date: Date): Date {
-  return set(date, {
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-    milliseconds: 0,
-  });
+export function setTimeOrRemoveTime(date: Date, dateWithTime?: Date | null): Date {
+  return dateWithTime ? setTime(date, dateWithTime) : startOfDay(date);
 }

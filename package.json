@@ -29,7 +29,8 @@
   },
   "peerDependencies": {
     "date-fns": "^2.0.0",
-    "react": ">=16"
+    "react": ">=16",
+    "react-dom": ">=16"
   },
   "devDependencies": {
     "@babel/core": "7.12.10",
