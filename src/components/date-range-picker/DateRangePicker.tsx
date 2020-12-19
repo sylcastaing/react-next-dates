@@ -6,7 +6,7 @@ import {
   ModifiersClassNames,
   NullableDateChangeHandler,
 } from '../../index';
-import { useOutsideClickHandler, usePrevious } from '../../hooks/utils';
+import { useDetectTouch, useOutsideClickHandler, usePrevious } from '../../hooks/utils';
 import { useDateInput } from '../../hooks';
 import { constVoid } from '../../utils/function';
 import CalendarPopper from '../popper/CalendarPopper';
@@ -32,6 +32,7 @@ export interface DateRangePickerProps {
   endDatePlaceholder?: string;
   className?: string;
   portalContainer?: Element;
+  readonlyOnTouch?: boolean;
   onStartDateChange?: NullableDateChangeHandler;
   onEndDateChange?: NullableDateChangeHandler;
   children: DateRangePickerChildren;
@@ -50,6 +51,7 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
   endDatePlaceholder,
   className,
   portalContainer,
+  readonlyOnTouch = true,
   onStartDateChange = constVoid,
   onEndDateChange = constVoid,
   children,
@@ -58,6 +60,8 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
 
   const [focus, setFocus] = useState<DateRangeInputType | null>(null);
   const [popperFocus, setPopperFocus] = useState<DateRangeInputType | null>(null);
+
+  const isTouch = useDetectTouch();
 
   const prevFocus = usePrevious(focus);
 
@@ -121,8 +125,13 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
             if (startDate) {
               setMonth(startDate);
             }
+
+            if (readonlyOnTouch && isTouch) {
+              startDateInputRef.current?.blur();
+            }
           },
           ref: startDateInputRef,
+          readOnly: readonlyOnTouch && isTouch,
         },
         endDateInputProps: {
           ...endDateInputProps,
@@ -133,8 +142,13 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
             if (endDate) {
               setMonth(endDate);
             }
+
+            if (readonlyOnTouch && isTouch) {
+              endDateInputRef.current?.blur();
+            }
           },
           ref: endDateInputRef,
+          readOnly: readonlyOnTouch && isTouch,
         },
       })}
 

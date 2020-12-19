@@ -9,7 +9,7 @@ import {
   NullableDateChangeHandler,
 } from '../../index';
 import useDateInput from '../../hooks/useDateInput';
-import { useOutsideClickHandler } from '../../hooks/utils';
+import { useDetectTouch, useOutsideClickHandler } from '../../hooks/utils';
 import DatePickerCalendar from '../date-picker-calendar/DatePickerCalendar';
 import CalendarPopper from '../popper/CalendarPopper';
 import { constVoid } from '../../utils/function';
@@ -34,6 +34,7 @@ export interface DatePickerProps {
   modifiers?: CalendarModifiers;
   modifiersClassName?: ModifiersClassNames;
   portalContainer?: Element;
+  readonlyOnTouch?: boolean;
   autoOpen?: boolean;
   onChange?: NullableDateChangeHandler;
   children: DatePickerChildren;
@@ -52,6 +53,7 @@ const DatePicker: FC<DatePickerProps> = ({
   modifiers,
   modifiersClassName,
   portalContainer,
+  readonlyOnTouch = true,
   autoOpen = true,
   onChange = constVoid,
   children,
@@ -63,6 +65,8 @@ const DatePicker: FC<DatePickerProps> = ({
   const openDatePicker = () => setOpen(true);
 
   const [inputRef, popperRef] = useOutsideClickHandler<HTMLInputElement, HTMLDivElement>(() => setOpen(false));
+
+  const isTouch = useDetectTouch();
 
   const handleDateInputChange: NullableDateChangeHandler = date => {
     onChange(date);
@@ -100,8 +104,13 @@ const DatePicker: FC<DatePickerProps> = ({
             if (autoOpen) {
               openDatePicker();
             }
+
+            if (readonlyOnTouch && isTouch) {
+              inputRef.current?.blur();
+            }
           },
           ref: inputRef,
+          readOnly: readonlyOnTouch && isTouch,
         },
         openDatePicker,
       })}

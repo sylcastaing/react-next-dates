@@ -21,7 +21,7 @@ export interface UseDateInputParams {
 export interface UseDateInputValue
   extends Pick<
     React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
-    'type' | 'value' | 'placeholder' | 'onChange' | 'onBlur' | 'onFocus'
+    'type' | 'value' | 'placeholder' | 'onChange' | 'onBlur' | 'onFocus' | 'readOnly'
   > {
   onFocus: () => void;
 }
