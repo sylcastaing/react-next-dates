@@ -1,0 +1,23 @@
+import { Clock } from '../src';
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+import { useState } from 'react';
+import { format } from 'date-fns';
+
+<Meta title="Clock" component={Clock} />
+
+# Default
+
+<Canvas>
+  <Story name="Default">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <div>
+          <p>{date ? format(date, 'HH:mm') : 'null'}</p>
+          <Clock date={date} onChange={setDate} />
+        </div>
+      )
+    }}
+  </Story>
+</Canvas>

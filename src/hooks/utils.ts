@@ -68,3 +68,24 @@ export function usePrevious<T>(value: T) {
 
   return ref.current;
 }
+
+export function useDetectTouch() {
+  const [isTouch, setIsTouch] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleTouch = () => {
+      setIsTouch(true);
+      removeListener();
+    };
+
+    const removeListener = () => {
+      document.removeEventListener('touchstart', handleTouch);
+    };
+
+    document.addEventListener('touchstart', handleTouch);
+
+    return removeListener;
+  }, []);
+
+  return isTouch;
+}

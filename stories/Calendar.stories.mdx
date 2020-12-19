@@ -1,4 +1,4 @@
-import { ArgsTable, Canvas, Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
 import { Calendar } from '../src';
 
 import './calendar.scss';
@@ -20,11 +20,11 @@ import { enUS, fr } from 'date-fns/locale';
 
 # Default
 
-<Preview>
+<Canvas>
   <Story name="Default">
     <Calendar locale={enUS} className="story-calendar" />
   </Story>
-</Preview>
+</Canvas>
 
 # With french locale
 
