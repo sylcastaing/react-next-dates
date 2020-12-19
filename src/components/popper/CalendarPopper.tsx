@@ -34,7 +34,7 @@ const CalendarPopper = forwardRef<HTMLDivElement, CalendarPopperProps>(
         className="react-next-dates-popper"
         style={{ ...styles.popper, display: isOpen ? 'block' : 'none' }}
         {...attributes.popper}>
-        {children}
+        {isOpen ? children : null}
       </div>
     );
 

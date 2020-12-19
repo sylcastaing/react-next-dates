@@ -31,7 +31,7 @@ function format2Digits(val: number): string {
   return `${val < 10 ? '0' : ''}${val}`;
 }
 
-interface ClockProps {
+export interface ClockProps {
   date?: Date | null;
   onChange?: DateChangeHandler;
 }
@@ -139,7 +139,7 @@ const Clock: FC<ClockProps> = ({ date, onChange = constVoid }) => {
           onTouchStart={isTouch ? handleTouchStart : undefined}
           onTouchMove={isTouch ? handleToucheEnd : undefined}
           onTouchEnd={isTouch ? handleSelectEnd : undefined}>
-          {containerWidth && (
+          {containerWidth !== null ? (
             <>
               {Array(12)
                 .fill('')
@@ -170,7 +170,7 @@ const Clock: FC<ClockProps> = ({ date, onChange = constVoid }) => {
                 />
               ) : null}
             </>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
