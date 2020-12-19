@@ -6,10 +6,17 @@ import CalendarNavigation from './navigation/CalendarNavigation';
 import { lastDayOfMonth, lastDayOfYear, set, setDate, startOfMonth } from 'date-fns';
 import CalendarYearGrid from './year/CalendarYearGrid';
 import CalendarMonthGrid from './month/CalendarMonthGrid';
-import { CalendarModifiers, CalendarModifiersClassNames, CalendarType, DateChangeHandler } from '../../index';
+import {
+  CalendarModifiers,
+  CalendarModifiersClassNames,
+  CalendarType,
+  DateChangeHandler,
+  NullableDateChangeHandler,
+} from '../../index';
 import { useControllableState, useDependentState } from '../../hooks/utils';
 import { mergeCalendarModifiers } from '../../utils/modifiers';
 import { isDateInRange } from '../../utils/date';
+import { constVoid } from '../../utils/function';
 
 export interface CalendarProps {
   locale: Locale;
@@ -22,6 +29,7 @@ export interface CalendarProps {
   className?: string;
   onMonthChange?: DateChangeHandler;
   onSelect?: DateChangeHandler;
+  onHover?: NullableDateChangeHandler;
 }
 
 const Calendar: FC<CalendarProps> = ({
@@ -34,7 +42,8 @@ const Calendar: FC<CalendarProps> = ({
   modifiersClassNames,
   className,
   onMonthChange,
-  onSelect,
+  onSelect = constVoid,
+  onHover = constVoid,
 }) => {
   const [mode, setMode] = useDependentState<CalendarType>(() => type ?? 'day', [type]);
 
@@ -64,7 +73,7 @@ const Calendar: FC<CalendarProps> = ({
 
     if (type !== 'year') {
       setMode('month');
-    } else if (onSelect) {
+    } else {
       onSelect(set(year, { date: 1, month: 0 }));
     }
   };
@@ -74,14 +83,8 @@ const Calendar: FC<CalendarProps> = ({
 
     if (type !== 'month') {
       setMode('day');
-    } else if (onSelect) {
+    } else {
       onSelect(setDate(month, 1));
-    }
-  };
-
-  const handleSelectDay = (date: Date) => {
-    if (onSelect) {
-      onSelect(date);
     }
   };
 
@@ -95,7 +98,8 @@ const Calendar: FC<CalendarProps> = ({
           month={month}
           modifiers={modifiers.day}
           modifiersClassNames={modifiersClassNames?.day}
-          onSelect={handleSelectDay}
+          onSelect={onSelect}
+          onHover={onHover}
         />
       ) : mode === 'year' ? (
         <CalendarYearGrid

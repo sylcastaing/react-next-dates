@@ -10,7 +10,7 @@ import {
 } from 'date-fns';
 import CalendarDay from './CalendarDay';
 import CalendarDayHeader from './CalendarDayHeader';
-import { Modifiers, ModifiersClassNames } from '../../../index';
+import { DateChangeHandler, Modifiers, ModifiersClassNames, NullableDateChangeHandler } from '../../../index';
 
 function rowsBetweenDates(startDate: Date, endDate: Date, locale: Locale) {
   return differenceInCalendarWeeks(endDate, startDate, { locale }) + 1;
@@ -33,10 +33,18 @@ interface CalendarDayGridProps {
   month: Date;
   modifiers?: Modifiers;
   modifiersClassNames?: ModifiersClassNames;
-  onSelect: (date: Date) => void;
+  onSelect: DateChangeHandler;
+  onHover: NullableDateChangeHandler;
 }
 
-const CalendarDayGrid: FC<CalendarDayGridProps> = ({ locale, month, modifiers, modifiersClassNames, onSelect }) => {
+const CalendarDayGrid: FC<CalendarDayGridProps> = ({
+  locale,
+  month,
+  modifiers,
+  modifiersClassNames,
+  onSelect,
+  onHover,
+}) => {
   const days = useMemo(
     () =>
       eachDayOfInterval({
@@ -60,6 +68,7 @@ const CalendarDayGrid: FC<CalendarDayGridProps> = ({ locale, month, modifiers, m
             modifiers={modifiers}
             modifiersClassNames={modifiersClassNames}
             onClick={onSelect}
+            onHover={onHover}
           />
         ))}
       </div>

@@ -128,6 +128,11 @@
 
         &.-selected-middle {
           border-radius: 0;
+          opacity: 0.3;
+
+          &:hover {
+            opacity: 0.4;
+          }
         }
 
         &.-selected-end:not(.-selected-start) {
@@ -208,4 +213,5 @@
   background: #ffffff;
   border-radius: 5px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
 }

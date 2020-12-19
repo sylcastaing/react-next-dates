@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import {
   DateChangeHandler,
+  DatePredicate,
   DateRangeInputType,
   Modifiers,
   ModifiersClassNames,
@@ -52,18 +53,33 @@ const DateRangePickerCalendar: FC<DateRangePickerCalendarProps> = ({
     onMonthChange,
   );
 
+  const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const displayedStartDate = startDate ? startOfDay(startDate) : null;
   const displayedEndDate = endDate ? startOfDay(endDate) : null;
 
+  const isStartDate: DatePredicate = date => displayedStartDate !== null && isSameDay(date, displayedStartDate);
+  const isEndDate: DatePredicate = date => displayedEndDate !== null && isSameDay(date, displayedEndDate);
+
+  const isSelectedMiddleDate: DatePredicate = date =>
+    displayedStartDate !== null &&
+    displayedEndDate !== null &&
+    isAfter(date, displayedStartDate) &&
+    isBefore(date, displayedEndDate);
+
+  const isHoverDate: DatePredicate = date =>
+    hoveredDate !== null &&
+    displayedStartDate !== null &&
+    displayedEndDate === null &&
+    isAfter(date, displayedStartDate) &&
+    (isBefore(date, hoveredDate) || isSameDay(date, hoveredDate));
+
+  const isMiddleDate: DatePredicate = date => isSelectedMiddleDate(date) || isHoverDate(date);
+
   const modifiers = mergeModifiers(
     {
-      selectedStart: date => displayedStartDate !== null && isSameDay(date, displayedStartDate),
-      selectedMiddle: date =>
-        displayedStartDate !== null &&
-        displayedEndDate !== null &&
-        isAfter(date, displayedStartDate) &&
-        isBefore(date, displayedEndDate),
-      selectedEnd: date => displayedEndDate !== null && isSameDay(date, displayedEndDate),
+      selectedStart: isStartDate,
+      selectedMiddle: isMiddleDate,
+      selectedEnd: isEndDate,
     },
     receivedModifiers,
   );
@@ -104,6 +120,7 @@ const DateRangePickerCalendar: FC<DateRangePickerCalendarProps> = ({
       className={className}
       onMonthChange={setMonth}
       onSelect={handleSelectDate}
+      onHover={setHoveredDate}
     />
   );
 };

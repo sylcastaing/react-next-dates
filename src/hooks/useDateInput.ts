@@ -5,6 +5,7 @@ import { isValid, Locale } from 'date-fns';
 import { formatDate, getDefaultDateFormat, isDateInRange, parseDate } from '../utils/date';
 
 import { DatePredicate, NullableDateChangeHandler } from '../index';
+import { constVoid } from '../utils/function';
 
 export interface UseDateInputParams {
   locale: Locale;
@@ -41,7 +42,7 @@ export default function useDateInput({
   maxDate,
   validate,
   placeholder,
-  onChange,
+  onChange = constVoid,
 }: UseDateInputParams): UseDateInputValue {
   const defaultFormat = useMemo(() => getDefaultDateFormat(locale, format), [locale, format]);
 
@@ -58,7 +59,7 @@ export default function useDateInput({
 
     const parsedDate = parseDate(newValue, defaultFormat, locale);
 
-    if (parsedDate !== null && isDateValid(parsedDate, minDate, maxDate, validate) && onChange) {
+    if (parsedDate !== null && isDateValid(parsedDate, minDate, maxDate, validate)) {
       onChange(parsedDate);
     }
   };
@@ -74,7 +75,7 @@ export default function useDateInput({
       } else {
         setValue('');
       }
-    } else if (onChange) {
+    } else {
       onChange(null);
     }
 

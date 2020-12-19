@@ -1,22 +1,25 @@
-import React, { FC, MutableRefObject, ReactNode, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 import {
   CalendarModifiers,
   CalendarType,
   DateChangeHandler,
+  DatePickerInputProps,
   DatePredicate,
   ModifiersClassNames,
   NullableDateChangeHandler,
 } from '../../index';
-import useDateInput, { UseDateInputValue } from '../../hooks/useDateInput';
+import useDateInput from '../../hooks/useDateInput';
 import { useOutsideClickHandler } from '../../hooks/utils';
 import DatePickerCalendar from '../date-picker-calendar/DatePickerCalendar';
 import CalendarPopper from '../popper/CalendarPopper';
+import { constVoid } from '../../utils/function';
 
-export interface DatePickerInputProps extends UseDateInputValue {
-  ref: MutableRefObject<HTMLInputElement | null>;
+export interface DatePickerChildrenProps {
+  inputProps: DatePickerInputProps;
+  openDatePicker: () => void;
 }
 
-export type DatePickerChildren = (props: { inputProps: DatePickerInputProps; openDatePicker: () => void }) => ReactNode;
+export type DatePickerChildren = (props: DatePickerChildrenProps) => ReactNode;
 
 export interface DatePickerProps {
   locale: Locale;
@@ -50,7 +53,7 @@ const DatePicker: FC<DatePickerProps> = ({
   modifiersClassName,
   portalContainer,
   autoOpen = true,
-  onChange,
+  onChange = constVoid,
   children,
 }) => {
   const [month, setMonth] = useState(date ?? new Date());
@@ -59,14 +62,10 @@ const DatePicker: FC<DatePickerProps> = ({
 
   const openDatePicker = () => setOpen(true);
 
-  const [inputRef, popperRef] = useOutsideClickHandler<HTMLInputElement, HTMLDivElement>(() => {
-    setOpen(false);
-  });
+  const [inputRef, popperRef] = useOutsideClickHandler<HTMLInputElement, HTMLDivElement>(() => setOpen(false));
 
-  const handleDateChange: NullableDateChangeHandler = date => {
-    if (onChange) {
-      onChange(date);
-    }
+  const handleDateInputChange: NullableDateChangeHandler = date => {
+    onChange(date);
 
     if (date) {
       setMonth(date);
@@ -81,13 +80,11 @@ const DatePicker: FC<DatePickerProps> = ({
     maxDate,
     validate,
     placeholder,
-    onChange: handleDateChange,
+    onChange: handleDateInputChange,
   });
 
   const handleChange: DateChangeHandler = date => {
-    if (onChange) {
-      onChange(date);
-    }
+    onChange(date);
 
     setOpen(false);
   };
@@ -98,9 +95,7 @@ const DatePicker: FC<DatePickerProps> = ({
         inputProps: {
           ...inputProps,
           onFocus: () => {
-            if (inputProps.onFocus) {
-              inputProps.onFocus();
-            }
+            inputProps?.onFocus();
 
             if (autoOpen) {
               openDatePicker();

@@ -7,10 +7,11 @@ import {
   Modifiers,
 } from '../../index';
 import { useControllableState } from '../../hooks/utils';
-import { isSameDay, isSameMonth, isSameYear, startOfDay, startOfMonth } from 'date-fns';
+import { isSameDay, isSameMonth, isSameYear, startOfMonth } from 'date-fns';
 import Calendar from '../calendar/Calendar';
-import { isDateInRange, setTime } from '../../utils/date';
+import { isDateInRange, setTimeOrRemoveTime } from '../../utils/date';
 import { mergeCalendarModifiers } from '../../utils/modifiers';
+import { constVoid } from '../../utils/function';
 
 export interface DatePickerCalendarProps {
   locale: Locale;
@@ -29,14 +30,14 @@ export interface DatePickerCalendarProps {
 const DatePickerCalendar: FC<DatePickerCalendarProps> = ({
   locale,
   type,
-  date,
+  date = null,
   month: receivedMonth,
   minDate,
   maxDate,
   modifiers: receivedModifiers,
   modifiersClassNames,
   className,
-  onDateChange,
+  onDateChange = constVoid,
   onMonthChange,
 }) => {
   const [month, setMonth] = useControllableState(
@@ -46,7 +47,7 @@ const DatePickerCalendar: FC<DatePickerCalendarProps> = ({
   );
 
   const isSelected = (d: Date) => {
-    if (!date || !isDateInRange(d, minDate, maxDate)) {
+    if (date === null || !isDateInRange(d, minDate, maxDate)) {
       return false;
     }
 
@@ -71,11 +72,7 @@ const DatePickerCalendar: FC<DatePickerCalendarProps> = ({
     receivedModifiers,
   );
 
-  const handleSelectDate: DateChangeHandler = d => {
-    if (onDateChange) {
-      onDateChange(date ? setTime(d, date) : startOfDay(d));
-    }
-  };
+  const handleSelectDate: DateChangeHandler = d => onDateChange(setTimeOrRemoveTime(d, date));
 
   return (
     <Calendar

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Modifiers, ModifiersClassNames } from '../../../index';
+import { DateChangeHandler, Modifiers, ModifiersClassNames } from '../../../index';
 import { computeModifierClassNames, mergeModifiers } from '../../../utils/modifiers';
 import { isThisYear } from 'date-fns';
 import classNames from 'classnames';
@@ -8,7 +8,7 @@ interface CalendarYearProps {
   year: Date;
   modifiers?: Modifiers;
   modifiersClassNames?: ModifiersClassNames;
-  onSelect: (year: Date) => void;
+  onSelect: DateChangeHandler;
 }
 
 const CalendarYear: FC<CalendarYearProps> = ({ year, modifiers: receivedModifiers, modifiersClassNames, onSelect }) => {

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { formatDate } from '../../../utils/date';
-import { Modifiers, ModifiersClassNames } from '../../../index';
+import { DateChangeHandler, Modifiers, ModifiersClassNames } from '../../../index';
 import { computeModifierClassNames, mergeModifiers } from '../../../utils/modifiers';
 import { isThisMonth } from 'date-fns';
 import classNames from 'classnames';
@@ -10,7 +10,7 @@ interface CalendarMonthProps {
   month: Date;
   modifiers?: Modifiers;
   modifiersClassNames?: ModifiersClassNames;
-  onSelect: (month: Date) => void;
+  onSelect: DateChangeHandler;
 }
 
 const CalendarMonth: FC<CalendarMonthProps> = ({

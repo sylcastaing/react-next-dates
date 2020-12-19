@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { getDate, isSameMonth, isToday } from 'date-fns';
 import { formatDate } from '../../../utils/date';
 import classNames from 'classnames';
-import { Modifiers, ModifiersClassNames } from '../../../index';
+import { DateChangeHandler, Modifiers, ModifiersClassNames, NullableDateChangeHandler } from '../../../index';
 import { computeModifierClassNames, mergeModifiers } from '../../../utils/modifiers';
 
 interface CalendarDayProps {
@@ -11,7 +11,8 @@ interface CalendarDayProps {
   month: Date;
   modifiers?: Modifiers;
   modifiersClassNames?: ModifiersClassNames;
-  onClick: (date: Date) => void;
+  onClick: DateChangeHandler;
+  onHover: NullableDateChangeHandler;
 }
 
 const CalendarDay: FC<CalendarDayProps> = ({
@@ -21,10 +22,15 @@ const CalendarDay: FC<CalendarDayProps> = ({
   modifiers: receivedModifiers,
   modifiersClassNames,
   onClick,
+  onHover,
 }) => {
   const dayNumber = getDate(day);
 
   const handleClick = () => onClick(day);
+
+  const handleMouseEnter = () => onHover(day);
+
+  const handleMouseLeave = () => onHover(null);
 
   const modifiers = mergeModifiers(
     {
@@ -37,7 +43,11 @@ const CalendarDay: FC<CalendarDayProps> = ({
   const dayClassNames = computeModifierClassNames(modifiers, modifiersClassNames)(day);
 
   return (
-    <span className={classNames('day', dayClassNames)} onClick={handleClick}>
+    <span
+      className={classNames('day', dayClassNames)}
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}>
       {dayNumber === 1 && <span className="day-month">{formatDate(day, 'LLL', locale)}</span>}
       <span className="day-number">{dayNumber}</span>
     </span>

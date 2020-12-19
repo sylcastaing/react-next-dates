@@ -1,4 +1,6 @@
 import './style.scss';
+import { UseDateInputValue } from './hooks/useDateInput';
+import { MutableRefObject } from 'react';
 
 export * from './components';
 export * from './hooks';
@@ -25,3 +27,7 @@ export type CalendarModifiers = { [key in CalendarType]?: Modifiers };
 export type CalendarModifiersClassNames = { [key in CalendarType]?: ModifiersClassNames };
 
 export type DateRangeInputType = 'startDate' | 'endDate';
+
+export interface DatePickerInputProps extends UseDateInputValue {
+  ref: MutableRefObject<HTMLInputElement | null>;
+}

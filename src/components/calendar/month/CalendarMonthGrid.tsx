@@ -1,14 +1,14 @@
 import React, { FC, useMemo } from 'react';
 import { setMonth } from 'date-fns';
 import CalendarMonth from './CalendarMonth';
-import { Modifiers, ModifiersClassNames } from '../../../index';
+import { DateChangeHandler, Modifiers, ModifiersClassNames } from '../../../index';
 
 interface CalendarMonthGridProps {
   locale: Locale;
   month: Date;
   modifiers?: Modifiers;
   modifiersClassNames?: ModifiersClassNames;
-  onMonthChange: (month: Date) => void;
+  onMonthChange: DateChangeHandler;
 }
 
 const CalendarMonthGrid: FC<CalendarMonthGridProps> = ({

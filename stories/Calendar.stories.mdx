@@ -1,0 +1,69 @@
+import { ArgsTable, Canvas, Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { Calendar } from '../src';
+
+import './calendar.scss';
+import { enUS, fr } from 'date-fns/locale';
+
+<Meta title="Calendar" component={Calendar} argTypes={{
+  locale: {
+    name: 'locale',
+    description: 'Date fns locale',
+    table: {
+      type: { summary: 'Locale' },
+    }
+  }
+}} />
+
+# Props
+
+<ArgsTable of="." />
+
+# Default
+
+<Preview>
+  <Story name="Default">
+    <Calendar locale={enUS} className="story-calendar" />
+  </Story>
+</Preview>
+
+# With french locale
+
+You can pass any `date-fns` locale on `locale` props.
+
+<Canvas>
+  <Story name="Locale">
+    <Calendar locale={fr} className="story-calendar" />
+  </Story>
+</Canvas>
+
+# Month picker
+
+<Canvas>
+  <Story name="Month">
+    <Calendar locale={enUS} type="month" className="story-calendar" />
+  </Story>
+</Canvas>
+
+# Year picker
+
+<Canvas>
+  <Story name="Year">
+    <Calendar locale={enUS} type="month" className="story-calendar" />
+  </Story>
+</Canvas>
+
+# Min date
+
+<Canvas>
+  <Story name="MinDate">
+    <Calendar locale={enUS} minDate={new Date()} className="story-calendar" />
+  </Story>
+</Canvas>
+
+# Max date
+
+<Canvas>
+  <Story name="MaxDate">
+    <Calendar locale={enUS} maxDate={new Date()} className="story-calendar" />
+  </Story>
+</Canvas>

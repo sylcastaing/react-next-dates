@@ -1,0 +1,44 @@
+import { DatePicker } from '../src';
+import { ArgsTable, Canvas, CodeOrSourceMdx, Meta, Preview, Source, Story } from '@storybook/addon-docs/blocks';
+
+import { enUS } from 'date-fns/locale';
+
+import './date-picker.scss';
+import { useState } from 'react';
+
+<Meta
+  title="DatePicker"
+  component={DatePicker}
+  argTypes={{
+    locale: {
+      name: 'locale',
+      description: 'Date fns locale',
+      table: {
+        type: { summary: 'Locale' },
+      },
+    },
+  }}
+/>
+
+# Props
+
+<ArgsTable of="." />
+
+# Default
+
+export const Template = (args) => {
+  const [date, setDate] = useState(null);
+  return (
+    <div className="date-picker-container">
+      <DatePicker {...args} locale={enUS} date={date} onChange={setDate} portalContainer={document.body}>
+        {({ inputProps }) => <input {...inputProps} />}
+      </DatePicker>
+    </div>
+  );
+};
+
+<Canvas>
+  <Story name="Default">
+    {Template.bind({})}
+  </Story>
+</Canvas>

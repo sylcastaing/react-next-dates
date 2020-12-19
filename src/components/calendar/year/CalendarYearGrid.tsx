@@ -1,13 +1,13 @@
 import React, { FC, useMemo } from 'react';
 import { addYears, eachYearOfInterval, subYears } from 'date-fns';
 import CalendarYear from './CalendarYear';
-import { Modifiers, ModifiersClassNames } from '../../../index';
+import { DateChangeHandler, Modifiers, ModifiersClassNames } from '../../../index';
 
 interface CalendarYearGridProps {
   month: Date;
   modifiers?: Modifiers;
   modifiersClassNames?: ModifiersClassNames;
-  onYearChange: (date: Date) => void;
+  onYearChange: DateChangeHandler;
 }
 
 const CalendarYearGrid: FC<CalendarYearGridProps> = ({ month, modifiers, modifiersClassNames, onYearChange }) => {
