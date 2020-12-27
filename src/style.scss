@@ -65,7 +65,7 @@
 
     .day-grid-content {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template: repeat(6, 1fr) / repeat(7, 1fr);
       padding-top: 10px;
 
       .day {

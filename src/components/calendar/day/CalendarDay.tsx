@@ -1,6 +1,5 @@
-import React, { FC } from 'react';
-import { getDate, isSameMonth, isToday } from 'date-fns';
-import { formatDate } from '../../../utils/date';
+import React, { FC, useMemo } from 'react';
+import { differenceInDays, getDate, isSameMonth, isToday, startOfWeek } from 'date-fns';
 import classNames from 'classnames';
 import { DateChangeHandler, Modifiers, ModifiersClassNames, NullableDateChangeHandler } from '../../../index';
 import { computeModifierClassNames, mergeModifiers } from '../../../utils/modifiers';
@@ -42,13 +41,21 @@ const CalendarDay: FC<CalendarDayProps> = ({
 
   const dayClassNames = computeModifierClassNames(modifiers, modifiersClassNames)(day);
 
+  const gridColumnStart = useMemo(() => {
+    if (getDate(day) === 1) {
+      return differenceInDays(day, startOfWeek(day, { locale })) + 1;
+    }
+
+    return undefined;
+  }, [day, locale]);
+
   return (
     <span
       className={classNames('day', dayClassNames)}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}>
-      {dayNumber === 1 && <span className="day-month">{formatDate(day, 'LLL', locale)}</span>}
+      onMouseLeave={handleMouseLeave}
+      style={{ gridColumnStart }}>
       <span className="day-number">{dayNumber}</span>
     </span>
   );
