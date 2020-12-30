@@ -11,7 +11,7 @@ import Calendar from '../calendar/Calendar';
 import { isAfter, isBefore, isSameDay, startOfDay, startOfMonth } from 'date-fns';
 import { useControllableState } from '../../hooks/utils';
 import { constVoid } from '../../utils/function';
-import { setTimeOrRemoveTime } from '../../utils/date';
+import { isRangeLengthValid, setTimeOrRemoveTime } from '../../utils/date';
 import { mergeModifiers } from '../../utils/modifiers';
 
 export interface DateRangePickerCalendarProps {
@@ -22,6 +22,8 @@ export interface DateRangePickerCalendarProps {
   month?: Date | null;
   minDate?: Date;
   maxDate?: Date;
+  minLength?: number;
+  maxLength?: number;
   modifiers?: Modifiers;
   modifiersClassNames?: ModifiersClassNames;
   className?: string;
@@ -39,6 +41,8 @@ const DateRangePickerCalendar: FC<DateRangePickerCalendarProps> = ({
   month: receivedMonth,
   minDate,
   maxDate,
+  minLength = 0,
+  maxLength,
   modifiers: receivedModifiers,
   modifiersClassNames,
   className,
@@ -54,6 +58,7 @@ const DateRangePickerCalendar: FC<DateRangePickerCalendarProps> = ({
   );
 
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
+
   const displayedStartDate = startDate ? startOfDay(startDate) : null;
   const displayedEndDate = endDate ? startOfDay(endDate) : null;
 
@@ -80,6 +85,15 @@ const DateRangePickerCalendar: FC<DateRangePickerCalendarProps> = ({
       selectedStart: isStartDate,
       selectedMiddle: isMiddleDate,
       selectedEnd: isEndDate,
+      disabled: date => {
+        if (focus === 'endDate' && startDate !== null) {
+          return isAfter(date, startOfDay(startDate)) && !isRangeLengthValid(startDate, date, minLength, maxLength);
+        } else if (focus === 'startDate' && endDate !== null) {
+          return isBefore(date, startOfDay(endDate)) && !isRangeLengthValid(date, endDate, minLength, maxLength);
+        }
+
+        return false;
+      },
     },
     receivedModifiers,
   );

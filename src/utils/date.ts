@@ -1,4 +1,4 @@
-import { isValid, parse, format, isBefore, startOfDay, isAfter, set } from 'date-fns';
+import { isValid, parse, format, isBefore, startOfDay, isAfter, set, differenceInDays } from 'date-fns';
 
 export function getDefaultDateFormat(locale: Locale, formatString?: string): string {
   return formatString ?? locale.formatLong?.date({ width: 'short' }) ?? 'yyyy-MM-dd';
@@ -33,4 +33,11 @@ export function setTime(date: Date, dateWithTime: Date): Date {
 
 export function setTimeOrRemoveTime(date: Date, dateWithTime?: Date | null): Date {
   return dateWithTime ? setTime(date, dateWithTime) : startOfDay(date);
+}
+
+export function isRangeLengthValid(startDate: Date, endDate: Date, minLength: number, maxLength?: number): boolean {
+  const start = startOfDay(startDate);
+  const end = startOfDay(endDate);
+
+  return differenceInDays(end, start) >= minLength && (!maxLength || differenceInDays(end, start) <= maxLength);
 }

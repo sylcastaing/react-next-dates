@@ -1,6 +1,7 @@
 import { DateRangePicker } from '../src';
 
-import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks'; import { useState } from 'react';
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+import { useState } from 'react';
 
 import { enUS } from 'date-fns/locale';
 
@@ -21,7 +22,13 @@ import { enUS } from 'date-fns/locale';
       const [endDate, setEndDate] = useState(null);
       return (
         <div className="date-picker-container">
-          <DateRangePicker locale={enUS} startDate={startDate} endDate={endDate} onStartDateChange={setStartDate} onEndDateChange={setEndDate} portalContainer={document.body}>
+          <DateRangePicker
+            locale={enUS}
+            startDate={startDate}
+            endDate={endDate}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
+            portalContainer={document.body}>
             {({ startDateInputProps, endDateInputProps }) => (
               <>
                 <input {...startDateInputProps} />
@@ -44,7 +51,14 @@ import { enUS } from 'date-fns/locale';
       const [endDate, setEndDate] = useState(null);
       return (
         <div className="date-picker-container">
-          <DateRangePicker locale={enUS} startDate={startDate} endDate={endDate} minDate={new Date()} onStartDateChange={setStartDate} onEndDateChange={setEndDate} portalContainer={document.body}>
+          <DateRangePicker
+            locale={enUS}
+            startDate={startDate}
+            endDate={endDate}
+            minDate={new Date()}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
+            portalContainer={document.body}>
             {({ startDateInputProps, endDateInputProps }) => (
               <>
                 <input {...startDateInputProps} />
@@ -58,7 +72,6 @@ import { enUS } from 'date-fns/locale';
   </Story>
 </Canvas>
 
-
 # Max Date
 
 <Canvas>
@@ -68,7 +81,74 @@ import { enUS } from 'date-fns/locale';
       const [endDate, setEndDate] = useState(null);
       return (
         <div className="date-picker-container">
-          <DateRangePicker locale={enUS} startDate={startDate} endDate={endDate} maxDate={new Date()} onStartDateChange={setStartDate} onEndDateChange={setEndDate} portalContainer={document.body}>
+          <DateRangePicker
+            locale={enUS}
+            startDate={startDate}
+            endDate={endDate}
+            maxDate={new Date()}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
+            portalContainer={document.body}>
+            {({ startDateInputProps, endDateInputProps }) => (
+              <>
+                <input {...startDateInputProps} />
+                <input {...endDateInputProps} />
+              </>
+            )}
+          </DateRangePicker>
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+# Min length (2)
+
+<Canvas>
+  <Story name="Min length">
+    {() => {
+      const [startDate, setStartDate] = useState(null);
+      const [endDate, setEndDate] = useState(null);
+      return (
+        <div className="date-picker-container">
+          <DateRangePicker
+            locale={enUS}
+            startDate={startDate}
+            endDate={endDate}
+            minLength={2}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
+            portalContainer={document.body}>
+            {({ startDateInputProps, endDateInputProps }) => (
+              <>
+                <input {...startDateInputProps} />
+                <input {...endDateInputProps} />
+              </>
+            )}
+          </DateRangePicker>
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+# Max length (5)
+
+<Canvas>
+  <Story name="Max length">
+    {() => {
+      const [startDate, setStartDate] = useState(null);
+      const [endDate, setEndDate] = useState(null);
+      return (
+        <div className="date-picker-container">
+          <DateRangePicker
+            locale={enUS}
+            startDate={startDate}
+            endDate={endDate}
+            maxLength={5}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
+            portalContainer={document.body}>
             {({ startDateInputProps, endDateInputProps }) => (
               <>
                 <input {...startDateInputProps} />

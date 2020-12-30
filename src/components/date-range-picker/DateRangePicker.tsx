@@ -11,6 +11,7 @@ import { useDateInput } from '../../hooks';
 import { constVoid } from '../../utils/function';
 import CalendarPopper from '../popper/CalendarPopper';
 import DateRangePickerCalendar from '../date-range-picker-calendar/DateRangePickerCalendar';
+import { isRangeLengthValid } from '../../utils/date';
 
 export interface DateRangePickerChildrenProps {
   startDateInputProps: DatePickerInputProps;
@@ -26,6 +27,8 @@ export interface DateRangePickerProps {
   endDate?: Date | null;
   minDate?: Date;
   maxDate?: Date;
+  minLength?: number;
+  maxLength?: number;
   modifiers?: Modifiers;
   modifiersClassNames?: ModifiersClassNames;
   startDatePlaceholder?: string;
@@ -45,6 +48,8 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
   endDate,
   minDate,
   maxDate,
+  minLength = 0,
+  maxLength,
   modifiers,
   modifiersClassNames,
   startDatePlaceholder,
@@ -101,6 +106,7 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
     maxDate,
     placeholder: startDatePlaceholder,
     onChange: handleStartDateInputChange,
+    validate: date => !endDate || isRangeLengthValid(date, endDate, minLength, maxLength),
   });
 
   const endDateInputProps = useDateInput({
@@ -111,6 +117,7 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
     maxDate,
     placeholder: endDatePlaceholder,
     onChange: handleEndDateInputChange,
+    validate: date => !startDate || isRangeLengthValid(startDate, date, minLength, maxLength),
   });
 
   return (
@@ -167,6 +174,8 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
           month={month}
           minDate={minDate}
           maxDate={maxDate}
+          minLength={minLength}
+          maxLength={maxLength}
           modifiers={modifiers}
           modifiersClassNames={modifiersClassNames}
           className={className}
