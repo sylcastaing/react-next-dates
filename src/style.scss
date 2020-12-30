@@ -1,107 +1,254 @@
+$theme: () !default;
+
+$theme: map-merge(
+  (
+    color-primary: #2979ff,
+    color-grey: #6b6d77,
+    color-light-grey: #f2f2f2,
+    font-size-small: 12px,
+    font-size-base: 14px,
+    font-size-large: 16px,
+  ),
+  $theme
+);
+
+@mixin v($property, $varName) {
+  #{$property}: map-get($theme, $varName);
+  #{$property}: var(--#{$varName});
+}
+
 .react-next-dates {
-  font-size: 16px;
-
-  .navigation {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 12% 1fr 12%;
-    grid-column-gap: 10px;
-    height: 50px;
-
-    > button {
-      position: relative;
-      height: 100%;
-      background: none;
-      border: none;
-      outline: none;
-      cursor: pointer;
-
-      &:before {
-        border-right: 2px solid #95969e;
-        border-top: 2px solid #95969e;
-        box-sizing: border-box;
-        content: '';
-        display: block;
-        height: 14px;
-        left: 50%;
-        margin-left: -7px;
-        margin-top: -7px;
-        position: absolute;
-        top: 50%;
-        transform: rotate(45deg);
-        transition: 200ms border-color;
-        width: 14px;
-      }
-
-      &:first-child:before {
-        transform: rotate(-135deg);
-      }
-    }
-
-    > p {
-      margin: 0;
-      text-align: center;
-      text-transform: capitalize;
-      cursor: pointer;
-    }
+  @each $key, $value in $theme {
+    --#{$key}: #{$value};
   }
 
-  .day-header {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    padding: 10px 0;
-    border-bottom: 1px solid #cacbce;
+  @include v(font-size, font-size-base);
 
-    > span {
-      color: #95969e;
-      font-size: 14px;
-      text-align: center;
-      text-transform: capitalize;
-    }
-  }
+  &.calendar {
+    background: #ffffff;
 
-  .day-grid {
-    position: relative;
-
-    .day-grid-content {
+    .navigation {
       display: grid;
-      grid-template: repeat(6, 1fr) / repeat(7, 1fr);
-      padding-top: 10px;
+      align-items: center;
+      grid-template-columns: 1fr 35px 35px;
+      grid-column-gap: 2px;
+      height: 50px;
+      padding: 0 5px;
 
-      .day {
+      > div:first-child {
+        padding-left: 5px;
+
+        > p {
+          position: relative;
+          display: inline-block;
+          margin: 0;
+          padding: 3px 25px 3px 10px;
+          border-radius: 100px;
+          text-transform: capitalize;
+          cursor: pointer;
+          @include v(font-size, font-size-large);
+          font-weight: 500;
+          transition: background 0.15s linear;
+
+          &:after {
+            position: absolute;
+            right: 10px;
+            top: calc(50% - 2px);
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border: 5px solid transparent;
+            border-top-color: black;
+          }
+
+          &:hover {
+            @include v(background, color-light-grey);
+          }
+        }
+      }
+
+      > button {
         position: relative;
+        height: 35px;
+        padding: 0;
+        background: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        border-radius: 100%;
+        transition: background 0.15s linear;
+
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          top: calc(50% - 5px);
+          left: calc(50% - 4px);
+          height: 12px;
+          width: 12px;
+          border-right: 2px solid;
+          border-top: 2px solid;
+          @include v(border-color, color-grey);
+          box-sizing: border-box;
+          transform: rotate(45deg);
+        }
+
+        &.prev:before {
+          transform: rotate(-135deg);
+        }
+
+        &.next:before {
+          left: calc(50% - 8px);
+        }
+
+        &:hover {
+          @include v(background, color-light-grey);
+        }
+      }
+    }
+
+    .day-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      align-items: center;
+      height: 25px;
+      padding: 0 5px;
+
+      > span {
+        @include v(color, color-grey);
+        font-size: 14px;
+        text-align: center;
+        text-transform: capitalize;
+      }
+    }
+
+    .day-grid {
+      position: relative;
+
+      .day-grid-content {
+        display: grid;
+        grid-template: repeat(6, 1fr) / repeat(7, 1fr);
+        padding: 5px;
+
+        .day {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          border-radius: 100%;
+
+          &:before {
+            content: '';
+            display: inline-block;
+            width: 1px;
+            height: 0;
+            padding-bottom: 100%;
+          }
+
+          &.-today {
+            font-weight: bold;
+          }
+
+          &.-disabled {
+            opacity: 0.5;
+            cursor: default;
+            pointer-events: none;
+          }
+
+          &.-selected,
+          &.-selected-start,
+          &.-selected-middle,
+          &.-selected-end {
+            @include v(background, color-primary);
+            color: #ffffff;
+
+            &:hover {
+              @include v(background, color-primary);
+            }
+          }
+
+          &.-selected-start:not(.-selected-end) {
+            border-radius: 100% 0 0 100%;
+          }
+
+          &.-selected-middle {
+            border-radius: 0;
+            opacity: 0.6;
+
+            &:hover {
+              opacity: 0.7;
+            }
+          }
+
+          &.-selected-end:not(.-selected-start) {
+            border-radius: 0 100% 100% 0;
+          }
+
+          &:hover {
+            background: #f2f2f2;
+          }
+        }
+      }
+    }
+
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 2px;
+      padding: 5px;
+
+      .year {
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border-radius: 4px;
+        border-radius: 100px;
+        height: 40px;
 
-        &:before {
-          content: '';
-          display: inline-block;
-          width: 1px;
-          height: 0;
-          padding-bottom: 100%;
-        }
-
-        .day-month {
-          position: absolute;
-          top: 2px;
-          font-size: 10px;
-          text-transform: capitalize;
-          color: #95969e;
-        }
-
-        .day-number {
-          font-size: 14px;
+        &:hover {
+          background: #f2f2f2;
         }
 
         &.-today {
           font-weight: bold;
         }
 
-        &.-outside {
-          color: #95969e;
+        &.-disabled {
+          opacity: 0.5;
+          cursor: default;
+          pointer-events: none;
+        }
+      }
+    }
+
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 2px;
+      padding: 5px;
+
+      .month {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 100px;
+        height: 40px;
+        text-transform: capitalize;
+
+        &.-today {
+          font-weight: bold;
+        }
+
+        &.-selected {
+          @include v(background, color-primary);
+          color: #ffffff;
+
+          &:hover {
+            @include v(background, color-primary);
+          }
         }
 
         &.-disabled {
@@ -110,99 +257,9 @@
           pointer-events: none;
         }
 
-        &.-selected,
-        &.-selected-start,
-        &.-selected-middle,
-        &.-selected-end {
-          background: #000000;
-          color: #ffffff;
-
-          &:hover {
-            background: #000000;
-          }
-        }
-
-        &.-selected-start:not(.-selected-end) {
-          border-radius: 4px 0 0 4px;
-        }
-
-        &.-selected-middle {
-          border-radius: 0;
-          opacity: 0.3;
-
-          &:hover {
-            opacity: 0.4;
-          }
-        }
-
-        &.-selected-end:not(.-selected-start) {
-          border-radius: 0 4px 4px 0;
-        }
-
         &:hover {
           background: #f2f2f2;
         }
-      }
-    }
-  }
-
-  .year-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 2px;
-    padding-top: 10px;
-
-    .year {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border-radius: 4px;
-      height: 40px;
-
-      &:hover {
-        background: #f2f2f2;
-      }
-
-      &.-today {
-        font-weight: bold;
-      }
-
-      &.-disabled {
-        opacity: 0.5;
-        cursor: default;
-        pointer-events: none;
-      }
-    }
-  }
-
-  .month-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2px;
-    padding-top: 10px;
-
-    .month {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border-radius: 4px;
-      height: 40px;
-      text-transform: capitalize;
-
-      &.-today {
-        font-weight: bold;
-      }
-
-      &.-disabled {
-        opacity: 0.5;
-        cursor: default;
-        pointer-events: none;
-      }
-
-      &:hover {
-        background: #f2f2f2;
       }
     }
   }
@@ -221,7 +278,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,.07);
+        background: rgba(0, 0, 0, 0.07);
         border-radius: 100%;
 
         > span {
@@ -231,11 +288,12 @@
           justify-content: center;
           height: 24px;
           width: 24px;
-          font-size: 14px;
+          @include v(font-size, font-size-small);
           line-height: 1;
           border-radius: 100%;
           cursor: pointer;
           user-select: none;
+          z-index: 1;
         }
 
         .clock-selection {
@@ -245,7 +303,7 @@
           display: block;
           height: 2px;
           width: calc(50% - 32px);
-          background: rgba(0, 0, 0, 0.5);
+          @include v(background, color-primary);
           transform-origin: left;
 
           &.pm {
@@ -260,7 +318,7 @@
             left: -5px;
             width: 10px;
             height: 10px;
-            background: rgba(0, 0, 0, 0.5);
+            @include v(background, color-primary);
             border-radius: 100%;
           }
 
@@ -268,11 +326,11 @@
             content: '';
             display: block;
             position: absolute;
-            top: -10px;
+            top: -11px;
             right: -24px;
             width: 24px;
             height: 24px;
-            background: rgba(0, 0, 0, 0.5);
+            @include v(background, color-primary);
             border-radius: 100%;
           }
         }
@@ -282,9 +340,18 @@
 }
 
 .react-next-dates-popper {
-  width: 350px;
   background: #ffffff;
   border-radius: 5px;
+  overflow: hidden;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
   z-index: 1000;
+
+  &.date {
+    width: 300px;
+  }
+
+  &.time {
+    width: 200px;
+    padding: 5px;
+  }
 }

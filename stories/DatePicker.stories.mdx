@@ -26,19 +26,34 @@ import { useState } from 'react';
 
 # Default
 
-export const Template = (args) => {
-  const [date, setDate] = useState(null);
-  return (
-    <div className="date-picker-container">
-      <DatePicker {...args} locale={enUS} date={date} onChange={setDate} portalContainer={document.body}>
-        {({ inputProps }) => <input {...inputProps} />}
-      </DatePicker>
-    </div>
-  );
-};
-
 <Canvas>
   <Story name="Default">
-    {Template.bind({})}
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <div className="date-picker-container">
+          <DatePicker locale={enUS} date={date} onChange={setDate} portalContainer={document.body}>
+            {({ inputProps }) => <input {...inputProps} />}
+          </DatePicker>
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+# Month
+
+<Canvas>
+  <Story name="Month">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <div className="date-picker-container">
+          <DatePicker locale={enUS} type="month" format="MM/yyyy" date={date} onChange={setDate} portalContainer={document.body}>
+            {({ inputProps }) => <input {...inputProps} />}
+          </DatePicker>
+        </div>
+      );
+    }}
   </Story>
 </Canvas>

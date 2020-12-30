@@ -1,17 +1,19 @@
 import React, { forwardRef, ReactNode } from 'react';
 import { usePopper } from 'react-popper';
 import { createPortal } from 'react-dom';
+import classNames from 'classnames';
 
 interface CalendarPopperProps {
   isOpen: boolean;
   inputElement: HTMLInputElement | null;
   popperElement: HTMLDivElement | null;
   portalContainer?: Element;
+  className?: string;
   children?: ReactNode;
 }
 
 const CalendarPopper = forwardRef<HTMLDivElement, CalendarPopperProps>(
-  ({ isOpen, inputElement, popperElement, portalContainer, children }, ref) => {
+  ({ isOpen, inputElement, popperElement, portalContainer, className, children }, ref) => {
     const { styles, attributes } = usePopper(inputElement, popperElement, {
       placement: 'bottom-start',
       strategy: portalContainer ? 'fixed' : 'absolute',
@@ -31,7 +33,7 @@ const CalendarPopper = forwardRef<HTMLDivElement, CalendarPopperProps>(
     const popper = (
       <div
         ref={ref}
-        className="react-next-dates-popper"
+        className={classNames('react-next-dates-popper', className)}
         style={{ ...styles.popper, display: isOpen ? 'block' : 'none' }}
         {...attributes.popper}>
         {isOpen ? children : null}

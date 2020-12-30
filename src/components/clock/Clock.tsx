@@ -3,14 +3,14 @@ import classNames from 'classnames';
 import { DateChangeHandler } from '../../index';
 import { constVoid } from '../../utils/function';
 import { getHours, getMinutes, setHours, setMinutes, startOfDay } from 'date-fns';
-import { useDetectTouch } from '../../hooks/utils';
+import { useControllableState, useDetectTouch } from '../../hooks/utils';
 
 const ITEM_WIDTH = 24;
 
 const HOUR_ANGLE = 30; // 360 / 12
 const MINUTE_ANGLE = 6; // 360 / 50
 
-type SelectionType = 'hours' | 'minutes';
+export type TimeSelectionType = 'hours' | 'minutes';
 
 function getItemPosition(index: number, containerRadius: number, radius: number): { top: number; left: number } {
   return {
@@ -19,7 +19,7 @@ function getItemPosition(index: number, containerRadius: number, radius: number)
   };
 }
 
-function getSelectionAngle(date: Date, selection: SelectionType): number {
+function getSelectionAngle(date: Date, selection: TimeSelectionType): number {
   if (selection === 'hours') {
     return HOUR_ANGLE * (getHours(date) - 3);
   } else {
@@ -33,17 +33,23 @@ function format2Digits(val: number): string {
 
 export interface ClockProps {
   date?: Date | null;
+  selection?: TimeSelectionType;
   onChange?: DateChangeHandler;
+  onSelectionChange?: (selection: TimeSelectionType) => void;
 }
 
-const Clock: FC<ClockProps> = ({ date, onChange = constVoid }) => {
+const Clock: FC<ClockProps> = ({ date, selection: receivedSelection, onChange = constVoid, onSelectionChange }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const isDragging = useRef<boolean>(false);
 
   const [containerWidth, setContainerWidth] = useState<number | null>(() => containerRef.current?.clientWidth ?? null);
 
-  const [selection, setSelection] = useState<SelectionType>('hours');
+  const [selection, setSelection] = useControllableState<TimeSelectionType>(
+    () => 'hours',
+    receivedSelection,
+    onSelectionChange,
+  );
 
   const isTouch = useDetectTouch();
 
@@ -110,7 +116,7 @@ const Clock: FC<ClockProps> = ({ date, onChange = constVoid }) => {
   const handleSelectEnd = () => {
     isDragging.current = false;
 
-    setSelection(old => (old === 'hours' ? 'minutes' : 'hours'));
+    setSelection(selection === 'hours' ? 'minutes' : 'hours');
   };
 
   const handleMouseDown: MouseEventHandler<HTMLDivElement> = e => handleSelectStart(e.currentTarget, e.pageX, e.pageY);

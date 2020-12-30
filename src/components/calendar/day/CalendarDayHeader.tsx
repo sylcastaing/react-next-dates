@@ -13,13 +13,13 @@ const CalendarDayHeader: FC<CalendarDayHeaderProps> = ({ locale }) => {
     return eachDayOfInterval({
       start: startOfWeek(today, { locale }),
       end: endOfWeek(today, { locale }),
-    }).map(date => formatDate(date, 'eee', locale));
+    }).map(date => formatDate(date, 'eeeee', locale));
   }, [locale]);
 
   return (
     <div className="day-header">
-      {weekDays.map(day => (
-        <span key={day}>{day}</span>
+      {weekDays.map((day, i) => (
+        <span key={i}>{day}</span>
       ))}
     </div>
   );

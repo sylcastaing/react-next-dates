@@ -19,7 +19,7 @@ const CalendarNavigation: FC<CalendarNavigationProps> = ({ locale, month, mode, 
       case 'month':
         return formatDate(month, 'yyyy', locale);
       default:
-        return '';
+        return null;
     }
   }, [month, mode, locale]);
 
@@ -63,11 +63,11 @@ const CalendarNavigation: FC<CalendarNavigationProps> = ({ locale, month, mode, 
 
   return (
     <div className="navigation">
-      <button type="button" onClick={handlePrev} />
+      <div>{title && <p onClick={handleTitleClick}>{title}</p>}</div>
 
-      <p onClick={handleTitleClick}>{title}</p>
+      <button type="button" className="prev" onClick={handlePrev} />
 
-      <button type="button" onClick={handleNext} />
+      <button type="button" className="next" onClick={handleNext} />
     </div>
   );
 };

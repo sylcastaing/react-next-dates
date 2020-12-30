@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useState } from 'react';
-import { DatePickerInputProps, NullableDateChangeHandler } from '../../index';
+import { DatePickerInputProps, NullableDateChangeHandler, TimeSelectionType } from '../../index';
 import { useDetectTouch, useOutsideClickHandler } from '../../hooks/utils';
 import { constVoid } from '../../utils/function';
 import useDateInput from '../../hooks/useDateInput';
@@ -8,7 +8,7 @@ import Clock from '../clock/Clock';
 
 export interface TimePickerChildrenProps {
   inputProps: DatePickerInputProps;
-  openDatePicker: () => void;
+  openTimePicker: () => void;
 }
 
 export type TimePickerChildren = (props: TimePickerChildrenProps) => ReactNode;
@@ -38,9 +38,14 @@ const TimePicker: FC<TimePickerProps> = ({
 }) => {
   const [isOpen, setOpen] = useState<boolean>(false);
 
-  const openDatePicker = () => setOpen(true);
+  const [selection, setSelection] = useState<TimeSelectionType>('hours');
 
-  const [inputRef, popperRef] = useOutsideClickHandler<HTMLInputElement, HTMLDivElement>(() => setOpen(false));
+  const openTimePicker = () => setOpen(true);
+
+  const [inputRef, popperRef] = useOutsideClickHandler<HTMLInputElement, HTMLDivElement>(() => {
+    setOpen(false);
+    setSelection('hours');
+  });
 
   const isTouch = useDetectTouch();
 
@@ -52,6 +57,14 @@ const TimePicker: FC<TimePickerProps> = ({
     onChange,
   });
 
+  const handleSelectionChange = (selection: TimeSelectionType) => {
+    setSelection(selection);
+
+    if (selection === 'hours') {
+      setOpen(false);
+    }
+  };
+
   return (
     <>
       {children({
@@ -61,7 +74,7 @@ const TimePicker: FC<TimePickerProps> = ({
             inputProps?.onFocus();
 
             if (autoOpen) {
-              openDatePicker();
+              openTimePicker();
             }
 
             if (readonlyOnTouch && isTouch) {
@@ -71,7 +84,7 @@ const TimePicker: FC<TimePickerProps> = ({
           ref: inputRef,
           readOnly: readonlyOnTouch && isTouch,
         },
-        openDatePicker,
+        openTimePicker,
       })}
 
       <CalendarPopper
@@ -79,8 +92,9 @@ const TimePicker: FC<TimePickerProps> = ({
         isOpen={isOpen}
         inputElement={inputRef.current}
         popperElement={popperRef.current}
-        portalContainer={portalContainer}>
-        <Clock date={date} onChange={onChange} />
+        portalContainer={portalContainer}
+        className="time">
+        <Clock date={date} selection={selection} onChange={onChange} onSelectionChange={handleSelectionChange} />
       </CalendarPopper>
     </>
   );

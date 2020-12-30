@@ -157,7 +157,8 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
         isOpen={focus !== null}
         inputElement={popperFocus === 'endDate' ? endDateInputRef.current : startDateInputRef.current}
         popperElement={popperRef.current}
-        portalContainer={portalContainer}>
+        portalContainer={portalContainer}
+        className="date">
         <DateRangePickerCalendar
           locale={locale}
           focus={focus ?? 'startDate'}

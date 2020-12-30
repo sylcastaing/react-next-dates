@@ -120,7 +120,8 @@ const DatePicker: FC<DatePickerProps> = ({
         isOpen={isOpen}
         inputElement={inputRef.current}
         popperElement={popperRef.current}
-        portalContainer={portalContainer}>
+        portalContainer={portalContainer}
+        className="date">
         <DatePickerCalendar
           locale={locale}
           type={type}
