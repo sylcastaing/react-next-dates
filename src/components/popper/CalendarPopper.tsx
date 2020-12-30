@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode, useLayoutEffect } from 'react';
 import { usePopper } from 'react-popper';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
@@ -14,7 +14,7 @@ interface CalendarPopperProps {
 
 const CalendarPopper = forwardRef<HTMLDivElement, CalendarPopperProps>(
   ({ isOpen, inputElement, popperElement, portalContainer, className, children }, ref) => {
-    const { styles, attributes } = usePopper(inputElement, popperElement, {
+    const { styles, attributes, forceUpdate } = usePopper(inputElement, popperElement, {
       placement: 'bottom-start',
       strategy: portalContainer ? 'fixed' : 'absolute',
       modifiers: [
@@ -29,6 +29,12 @@ const CalendarPopper = forwardRef<HTMLDivElement, CalendarPopperProps>(
         },
       ],
     });
+
+    useLayoutEffect(() => {
+      if (isOpen && forceUpdate) {
+        forceUpdate();
+      }
+    }, [isOpen, forceUpdate]);
 
     const popper = (
       <div
