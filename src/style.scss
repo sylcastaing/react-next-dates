@@ -305,6 +305,10 @@ $theme: map-merge(
           cursor: pointer;
           user-select: none;
           z-index: 1;
+
+          &.selected {
+            color: #ffffff;
+          }
         }
 
         .clock-selection {

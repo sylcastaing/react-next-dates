@@ -4,20 +4,11 @@ import { DateChangeHandler } from '../../index';
 import { constVoid } from '../../utils/function';
 import { getHours, getMinutes, setHours, setMinutes, startOfDay } from 'date-fns';
 import { useControllableState, useDetectTouch } from '../../hooks/utils';
-
-const ITEM_WIDTH = 24;
-
-const HOUR_ANGLE = 30; // 360 / 12
-const MINUTE_ANGLE = 6; // 360 / 50
+import { HOUR_ANGLE, MINUTE_ANGLE } from '../../utils/clock';
+import ClockHours from './hours/ClockHours';
+import ClockMinutes from './hours/ClockMinutes';
 
 export type TimeSelectionType = 'hours' | 'minutes';
-
-function getItemPosition(index: number, containerRadius: number, radius: number): { top: number; left: number } {
-  return {
-    top: radius * Math.sin(HOUR_ANGLE * (index - 2) * (Math.PI / 180)) + containerRadius - ITEM_WIDTH / 2,
-    left: radius * Math.cos(HOUR_ANGLE * (index - 2) * (Math.PI / 180)) + containerRadius - ITEM_WIDTH / 2,
-  };
-}
 
 function getSelectionAngle(date: Date, selection: TimeSelectionType): number {
   if (selection === 'hours') {
@@ -25,10 +16,6 @@ function getSelectionAngle(date: Date, selection: TimeSelectionType): number {
   } else {
     return MINUTE_ANGLE * (getMinutes(date) - 15);
   }
-}
-
-function format2Digits(val: number): string {
-  return `${val < 10 ? '0' : ''}${val}`;
 }
 
 export interface ClockProps {
@@ -147,23 +134,11 @@ const Clock: FC<ClockProps> = ({ date, selection: receivedSelection, onChange = 
           onTouchEnd={isTouch ? handleSelectEnd : undefined}>
           {containerWidth !== null ? (
             <>
-              {Array(12)
-                .fill('')
-                .map((_, i) => (
-                  <span key={i} style={getItemPosition(i, containerWidth / 2, containerWidth / 2 - 20)}>
-                    {selection === 'hours' ? i + 1 : format2Digits(i === 11 ? 0 : (i + 1) * 5)}
-                  </span>
-                ))}
-
-              {selection === 'hours'
-                ? Array(12)
-                    .fill('')
-                    .map((_, i) => (
-                      <span key={i} style={getItemPosition(i, containerWidth / 2, containerWidth / 4)}>
-                        {i + 13 === 24 ? '00' : i + 13}
-                      </span>
-                    ))
-                : null}
+              {selection === 'hours' ? (
+                <ClockHours date={date} containerRadius={containerWidth / 2} />
+              ) : (
+                <ClockMinutes date={date} containerRadius={containerWidth / 2} />
+              )}
 
               {date != null ? (
                 <div
