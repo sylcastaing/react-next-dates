@@ -25,10 +25,17 @@ export interface ClockProps {
   onSelectionChange?: (selection: TimeSelectionType) => void;
 }
 
-const Clock: FC<ClockProps> = ({ date, selection: receivedSelection, onChange = constVoid, onSelectionChange }) => {
+const Clock: FC<ClockProps> = ({
+  date: receivedDate,
+  selection: receivedSelection,
+  onChange = constVoid,
+  onSelectionChange,
+}) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const isDragging = useRef<boolean>(false);
+
+  const [date, setDate] = useState<Date | null>(() => receivedDate ?? null);
 
   const [containerWidth, setContainerWidth] = useState<number | null>(() => containerRef.current?.clientWidth ?? null);
 
@@ -56,7 +63,24 @@ const Clock: FC<ClockProps> = ({ date, selection: receivedSelection, onChange = 
     };
   }, []);
 
-  const handleCalcSelected = (currentTarget: HTMLDivElement, pageX: number, pageY: number) => {
+  useEffect(() => {
+    setDate(receivedDate ?? null);
+  }, [receivedDate]);
+
+  const handleDateChange = (date: Date, fireChange: boolean) => {
+    setDate(date);
+
+    if (fireChange) {
+      onChange(date);
+    }
+  };
+
+  const handleCalcSelected = (
+    currentTarget: HTMLDivElement,
+    pageX: number,
+    pageY: number,
+    fireChange: boolean = false,
+  ) => {
     const rect = currentTarget.getBoundingClientRect();
 
     const containerRadius = rect.width / 2;
@@ -76,16 +100,16 @@ const Clock: FC<ClockProps> = ({ date, selection: receivedSelection, onChange = 
       const amHour = hour > 12 ? hour - 12 : hour;
 
       if (Math.abs(x) < pmRadius && Math.abs(y) < pmRadius) {
-        onChange(setHours(date ?? startOfDay(new Date()), amHour === 12 ? 0 : amHour + 12));
+        handleDateChange(setHours(date ?? startOfDay(new Date()), amHour === 12 ? 0 : amHour + 12), fireChange);
       } else {
-        onChange(setHours(date ?? startOfDay(new Date()), amHour));
+        handleDateChange(setHours(date ?? startOfDay(new Date()), amHour), fireChange);
       }
     } else {
       const minute = Math.round(positiveAngle / MINUTE_ANGLE + 15);
 
       const computedMinute = minute >= 60 ? minute - 60 : minute;
 
-      onChange(setMinutes(date ?? startOfDay(new Date()), computedMinute));
+      handleDateChange(setMinutes(date ?? startOfDay(new Date()), computedMinute), fireChange);
     }
   };
 
@@ -103,7 +127,7 @@ const Clock: FC<ClockProps> = ({ date, selection: receivedSelection, onChange = 
   const handleSelectEnd = (currentTarget: HTMLDivElement, pageX: number, pageY: number) => {
     isDragging.current = false;
 
-    handleCalcSelected(currentTarget, pageX, pageY);
+    handleCalcSelected(currentTarget, pageX, pageY, true);
 
     setSelection(selection === 'hours' ? 'minutes' : 'hours');
   };
