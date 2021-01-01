@@ -66,6 +66,12 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
   const [focus, setFocus] = useState<DateRangeInputType | null>(null);
   const [popperFocus, setPopperFocus] = useState<DateRangeInputType | null>(null);
 
+  const [startDateInputRef, endDateInputRef, popperRef] = useOutsideClickHandler<
+    HTMLInputElement,
+    HTMLInputElement,
+    HTMLDivElement
+  >(() => setFocus(null));
+
   const isTouch = useDetectTouch();
 
   const prevFocus = usePrevious(focus);
@@ -74,13 +80,11 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
     if (prevFocus === null) {
       setPopperFocus(focus);
     }
-  }, [focus, prevFocus]);
 
-  const [startDateInputRef, endDateInputRef, popperRef] = useOutsideClickHandler<
-    HTMLInputElement,
-    HTMLInputElement,
-    HTMLDivElement
-  >(() => setFocus(null));
+    if (prevFocus === 'startDate' && focus === 'endDate') {
+      endDateInputRef.current?.focus();
+    }
+  }, [focus, prevFocus, endDateInputRef]);
 
   const handleStartDateInputChange: NullableDateChangeHandler = date => {
     onStartDateChange(date);
