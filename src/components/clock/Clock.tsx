@@ -100,14 +100,17 @@ const Clock: FC<ClockProps> = ({ date, selection: receivedSelection, onChange = 
     }
   };
 
-  const handleSelectEnd = () => {
+  const handleSelectEnd = (currentTarget: HTMLDivElement, pageX: number, pageY: number) => {
     isDragging.current = false;
+
+    handleCalcSelected(currentTarget, pageX, pageY);
 
     setSelection(selection === 'hours' ? 'minutes' : 'hours');
   };
 
   const handleMouseDown: MouseEventHandler<HTMLDivElement> = e => handleSelectStart(e.currentTarget, e.pageX, e.pageY);
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = e => handleSelecting(e.currentTarget, e.pageX, e.pageY);
+  const handleMouseUp: MouseEventHandler<HTMLDivElement> = e => handleSelectEnd(e.currentTarget, e.pageX, e.pageY);
 
   const handleTouchStart: TouchEventHandler<HTMLDivElement> = e => {
     if (e.changedTouches[0]) {
@@ -115,9 +118,16 @@ const Clock: FC<ClockProps> = ({ date, selection: receivedSelection, onChange = 
     }
   };
 
-  const handleToucheEnd: TouchEventHandler<HTMLDivElement> = e => {
+  const handleTouchMove: TouchEventHandler<HTMLDivElement> = e => {
     if (e.changedTouches[0]) {
+      isDragging.current = true;
       handleSelecting(e.currentTarget, e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+    }
+  };
+
+  const handleTouchEnd: TouchEventHandler<HTMLDivElement> = e => {
+    if (e.changedTouches[0]) {
+      handleSelectEnd(e.currentTarget, e.changedTouches[0].pageX, e.changedTouches[0].pageY);
     }
   };
 
@@ -128,10 +138,10 @@ const Clock: FC<ClockProps> = ({ date, selection: receivedSelection, onChange = 
           className="clock-content"
           onMouseDown={isTouch ? undefined : handleMouseDown}
           onMouseMove={isTouch ? undefined : handleMouseMove}
-          onMouseUp={isTouch ? undefined : handleSelectEnd}
+          onMouseUp={isTouch ? undefined : handleMouseUp}
           onTouchStart={isTouch ? handleTouchStart : undefined}
-          onTouchMove={isTouch ? handleToucheEnd : undefined}
-          onTouchEnd={isTouch ? handleSelectEnd : undefined}>
+          onTouchMove={isTouch ? handleTouchMove : undefined}
+          onTouchEnd={isTouch ? handleTouchEnd : undefined}>
           {containerWidth !== null ? (
             <>
               {selection === 'hours' ? (
