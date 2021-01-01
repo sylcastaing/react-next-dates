@@ -2,11 +2,12 @@ import React, { FC, MouseEventHandler, TouchEventHandler, useEffect, useRef, use
 import classNames from 'classnames';
 import { DateChangeHandler } from '../../index';
 import { constVoid } from '../../utils/function';
-import { getHours, getMinutes, setHours, setMinutes, startOfDay } from 'date-fns';
+import { getHours, getMinutes, isEqual, setHours, setMinutes, startOfDay } from 'date-fns';
 import { useControllableState, useDetectTouch } from '../../hooks/utils';
 import { HOUR_ANGLE, MINUTE_ANGLE } from '../../utils/clock';
 import ClockHours from './hours/ClockHours';
 import ClockMinutes from './hours/ClockMinutes';
+import ClockNavigation from './navigation/ClockNavigation';
 
 export type TimeSelectionType = 'hours' | 'minutes';
 
@@ -19,17 +20,21 @@ function getSelectionAngle(date: Date, selection: TimeSelectionType): number {
 }
 
 export interface ClockProps {
+  locale: Locale;
   date?: Date | null;
   selection?: TimeSelectionType;
   onChange?: DateChangeHandler;
   onSelectionChange?: (selection: TimeSelectionType) => void;
+  onSelectionEnd?: () => void;
 }
 
 const Clock: FC<ClockProps> = ({
+  locale,
   date: receivedDate,
   selection: receivedSelection,
   onChange = constVoid,
   onSelectionChange,
+  onSelectionEnd = constVoid,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -68,9 +73,15 @@ const Clock: FC<ClockProps> = ({
   }, [receivedDate]);
 
   const handleDateChange = (date: Date, fireChange: boolean) => {
-    setDate(date);
+    setDate(d => {
+      if (d === null || !isEqual(d, date)) {
+        return date;
+      }
 
-    if (fireChange) {
+      return d;
+    });
+
+    if (fireChange && (receivedDate == null || !isEqual(receivedDate, date))) {
       onChange(date);
     }
   };
@@ -129,7 +140,13 @@ const Clock: FC<ClockProps> = ({
 
     handleCalcSelected(currentTarget, pageX, pageY, true);
 
-    setSelection(selection === 'hours' ? 'minutes' : 'hours');
+    const newSelection = selection === 'hours' ? 'minutes' : 'hours';
+
+    setSelection(newSelection);
+
+    if (newSelection === 'hours') {
+      onSelectionEnd();
+    }
   };
 
   const handleMouseDown: MouseEventHandler<HTMLDivElement> = e => handleSelectStart(e.currentTarget, e.pageX, e.pageY);
@@ -156,8 +173,10 @@ const Clock: FC<ClockProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="react-next-dates clock-container">
-      <div className="clock-wrapper">
+    <div className="react-next-dates clock-container">
+      <ClockNavigation locale={locale} date={date} selection={selection} onSelectionChange={setSelection} />
+
+      <div ref={containerRef} className="clock-wrapper">
         <div
           className="clock-content"
           onMouseDown={isTouch ? undefined : handleMouseDown}

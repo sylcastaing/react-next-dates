@@ -59,11 +59,9 @@ const TimePicker: FC<TimePickerProps> = ({
 
   const handleSelectionChange = (selection: TimeSelectionType) => {
     setSelection(selection);
-
-    if (selection === 'hours') {
-      setOpen(false);
-    }
   };
+
+  const handleSelectionEnd = () => setOpen(false);
 
   return (
     <>
@@ -94,7 +92,14 @@ const TimePicker: FC<TimePickerProps> = ({
         popperElement={popperRef.current}
         portalContainer={portalContainer}
         className="time">
-        <Clock date={date} selection={selection} onChange={onChange} onSelectionChange={handleSelectionChange} />
+        <Clock
+          locale={locale}
+          date={date}
+          selection={selection}
+          onChange={onChange}
+          onSelectionChange={handleSelectionChange}
+          onSelectionEnd={handleSelectionEnd}
+        />
       </CalendarPopper>
     </>
   );

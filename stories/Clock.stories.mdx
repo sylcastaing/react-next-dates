@@ -4,6 +4,8 @@ import { Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
 import { useState } from 'react';
 import { format } from 'date-fns';
 
+import { enUS } from 'date-fns/locale';
+
 <Meta title="Clock" component={Clock} />
 
 # Default
@@ -15,7 +17,7 @@ import { format } from 'date-fns';
       return (
         <div>
           <p>{date ? format(date, 'HH:mm') : 'null'}</p>
-          <Clock date={date} onChange={setDate} />
+          <Clock locale={enUS} date={date} onChange={setDate} />
         </div>
       )
     }}

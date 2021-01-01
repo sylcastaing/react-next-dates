@@ -8,6 +8,7 @@ $theme: map-merge(
     font-size-small: 12px,
     font-size-base: 14px,
     font-size-large: 16px,
+    font-size-extra-large: 18px,
   ),
   $theme
 );
@@ -24,13 +25,54 @@ $theme: map-merge(
 
   @include v(font-size, font-size-base);
 
+  .navigation {
+    > button {
+      position: relative;
+      height: 32px;
+      padding: 0;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-radius: 100%;
+      transition: background 0.15s linear;
+
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: calc(50% - 4px);
+        left: calc(50% - 3px);
+        height: 9px;
+        width: 9px;
+        border-right: 2px solid;
+        border-top: 2px solid;
+        @include v(border-color, color-grey);
+        box-sizing: border-box;
+        transform: rotate(45deg);
+      }
+
+      &.prev:before {
+        transform: rotate(-135deg);
+      }
+
+      &.next:before {
+        left: calc(50% - 6px);
+      }
+
+      &:hover {
+        @include v(background, color-light-grey);
+      }
+    }
+  }
+
   &.calendar {
     background: #ffffff;
 
     .navigation {
       display: grid;
       align-items: center;
-      grid-template-columns: 1fr 35px 35px;
+      grid-template-columns: 1fr 32px 32px;
       grid-column-gap: 2px;
       height: 50px;
       padding: 0 5px;
@@ -65,45 +107,6 @@ $theme: map-merge(
           &:hover {
             @include v(background, color-light-grey);
           }
-        }
-      }
-
-      > button {
-        position: relative;
-        height: 35px;
-        padding: 0;
-        background: none;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        border-radius: 100%;
-        transition: background 0.15s linear;
-
-        &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          top: calc(50% - 5px);
-          left: calc(50% - 4px);
-          height: 12px;
-          width: 12px;
-          border-right: 2px solid;
-          border-top: 2px solid;
-          @include v(border-color, color-grey);
-          box-sizing: border-box;
-          transform: rotate(45deg);
-        }
-
-        &.prev:before {
-          transform: rotate(-135deg);
-        }
-
-        &.next:before {
-          left: calc(50% - 8px);
-        }
-
-        &:hover {
-          @include v(background, color-light-grey);
         }
       }
     }
@@ -267,6 +270,20 @@ $theme: map-merge(
   &.clock-container {
     position: relative;
     max-width: 250px;
+
+    .navigation {
+      display: grid;
+      grid-template-columns: 32px 1fr 32px;
+      align-items: center;
+      padding-bottom: 5px;
+
+      > p {
+        margin: 0;
+        text-align: center;
+        grid-column: 2;
+        @include v(font-size, font-size-extra-large);
+      }
+    }
 
     .clock-wrapper {
       position: relative;
