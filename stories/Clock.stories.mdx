@@ -14,28 +14,33 @@ import { enUS } from 'date-fns/locale';
   <Story name="Default">
     {() => {
       const [date, setDate] = useState(null);
-      return (
-        <div>
-          <p>{date ? format(date, 'HH:mm') : 'null'}</p>
-          <Clock locale={enUS} date={date} onChange={setDate} />
-        </div>
-      );
+      return <Clock locale={enUS} date={date} onChange={setDate} />;
     }}
   </Story>
 </Canvas>
 
 # Precision
 
+Setup clock with `5` minutes precision
+
 <Canvas>
   <Story name="Precision">
     {() => {
       const [date, setDate] = useState(null);
-      return (
-        <div>
-          <p>{date ? format(date, 'HH:mm') : 'null'}</p>
-          <Clock locale={enUS} date={date} precision={5} onChange={setDate} />
-        </div>
-      );
+      return <Clock locale={enUS} date={date} precision={5} onChange={setDate} />;
+    }}
+  </Story>
+</Canvas>
+
+# Hour
+
+Setup clock with `60` minutes precision for hour clock
+
+<Canvas>
+  <Story name="Hour">
+    {() => {
+      const [date, setDate] = useState(null);
+      return <Clock locale={enUS} date={date} precision={60} onChange={setDate} />;
     }}
   </Story>
 </Canvas>

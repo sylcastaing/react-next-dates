@@ -91,16 +91,16 @@ const Clock: FC<ClockProps> = ({
 
   const handleCalcSelected = (
     currentTarget: HTMLDivElement,
-    pageX: number,
-    pageY: number,
+    clientX: number,
+    clientY: number,
     fireChange: boolean = false,
   ) => {
     const rect = currentTarget.getBoundingClientRect();
 
     const containerRadius = rect.width / 2;
 
-    const x = pageX - rect.left + window.screenX - containerRadius;
-    const y = pageY - rect.top + window.screenY - containerRadius;
+    const x = clientX - rect.left - containerRadius;
+    const y = clientY - rect.top - containerRadius;
 
     const angle = (Math.atan2(y, x) * 180.0) / Math.PI;
 
@@ -129,21 +129,21 @@ const Clock: FC<ClockProps> = ({
     }
   };
 
-  const handleSelectStart = (currentTarget: HTMLDivElement, pageX: number, pageY: number) => {
-    handleCalcSelected(currentTarget, pageX, pageY);
+  const handleSelectStart = (currentTarget: HTMLDivElement, clientX: number, clientY: number) => {
+    handleCalcSelected(currentTarget, clientX, clientY);
     isDragging.current = true;
   };
 
-  const handleSelecting = (currentTarget: HTMLDivElement, pageX: number, pageY: number) => {
+  const handleSelecting = (currentTarget: HTMLDivElement, clientX: number, clientY: number) => {
     if (isDragging.current) {
-      handleCalcSelected(currentTarget, pageX, pageY);
+      handleCalcSelected(currentTarget, clientX, clientY);
     }
   };
 
-  const handleSelectEnd = (currentTarget: HTMLDivElement, pageX: number, pageY: number) => {
+  const handleSelectEnd = (currentTarget: HTMLDivElement, clientX: number, clientY: number) => {
     isDragging.current = false;
 
-    handleCalcSelected(currentTarget, pageX, pageY, true);
+    handleCalcSelected(currentTarget, clientX, clientY, true);
 
     const newSelection = selection === 'hours' && precision !== 60 ? 'minutes' : 'hours';
 
@@ -154,35 +154,44 @@ const Clock: FC<ClockProps> = ({
     }
   };
 
-  const handleMouseDown: MouseEventHandler<HTMLDivElement> = e => handleSelectStart(e.currentTarget, e.pageX, e.pageY);
-  const handleMouseMove: MouseEventHandler<HTMLDivElement> = e => handleSelecting(e.currentTarget, e.pageX, e.pageY);
-  const handleMouseUp: MouseEventHandler<HTMLDivElement> = e => handleSelectEnd(e.currentTarget, e.pageX, e.pageY);
+  const handleMouseDown: MouseEventHandler<HTMLDivElement> = e =>
+    handleSelectStart(e.currentTarget, e.clientX, e.clientY);
+  const handleMouseMove: MouseEventHandler<HTMLDivElement> = e =>
+    handleSelecting(e.currentTarget, e.clientX, e.clientY);
+  const handleMouseUp: MouseEventHandler<HTMLDivElement> = e => handleSelectEnd(e.currentTarget, e.clientX, e.clientY);
 
   const handleTouchStart: TouchEventHandler<HTMLDivElement> = e => {
     if (e.changedTouches[0]) {
-      handleSelectStart(e.currentTarget, e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+      handleSelectStart(e.currentTarget, e.changedTouches[0].clientX, e.changedTouches[0].clientY);
     }
   };
 
   const handleTouchMove: TouchEventHandler<HTMLDivElement> = e => {
     if (e.changedTouches[0]) {
       isDragging.current = true;
-      handleSelecting(e.currentTarget, e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+      handleSelecting(e.currentTarget, e.changedTouches[0].clientX, e.changedTouches[0].clientY);
     }
   };
 
   const handleTouchEnd: TouchEventHandler<HTMLDivElement> = e => {
     if (e.changedTouches[0]) {
-      handleSelectEnd(e.currentTarget, e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+      handleSelectEnd(e.currentTarget, e.changedTouches[0].clientX, e.changedTouches[0].clientY);
     }
   };
 
   return (
     <div className="react-next-dates clock-container">
-      <ClockNavigation locale={locale} date={date} selection={selection} onSelectionChange={setSelection} />
+      <ClockNavigation
+        locale={locale}
+        date={date}
+        selection={selection}
+        showNav={precision !== 60}
+        onSelectionChange={setSelection}
+      />
 
-      <div ref={containerRef} className="clock-wrapper">
+      <div className="clock-wrapper">
         <div
+          ref={containerRef}
           className="clock-content"
           onMouseDown={isTouch ? undefined : handleMouseDown}
           onMouseMove={isTouch ? undefined : handleMouseMove}

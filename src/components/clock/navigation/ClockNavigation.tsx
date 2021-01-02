@@ -5,21 +5,22 @@ import { ClockSelection } from '../Clock';
 interface ClockNavigationProps {
   locale: Locale;
   date: Date | null;
+  showNav: boolean;
   selection: ClockSelection;
   onSelectionChange: (selection: ClockSelection) => void;
 }
 
-const ClockNavigation: FC<ClockNavigationProps> = ({ locale, date, selection, onSelectionChange }) => {
+const ClockNavigation: FC<ClockNavigationProps> = ({ locale, date, showNav, selection, onSelectionChange }) => {
   const handlePrev = () => onSelectionChange('hours');
   const handleNext = () => onSelectionChange('minutes');
 
   return (
     <div className="navigation">
-      {selection === 'minutes' && <button type="button" className="prev" onClick={handlePrev} />}
+      {showNav && selection === 'minutes' && <button type="button" className="prev" onClick={handlePrev} />}
 
       <p>{date ? formatDate(date, 'HH:mm', locale) : '--:--'}</p>
 
-      {selection === 'hours' && <button type="button" className="next" onClick={handleNext} />}
+      {showNav && selection === 'hours' && <button type="button" className="next" onClick={handleNext} />}
     </div>
   );
 };
