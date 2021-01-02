@@ -1,39 +1,207 @@
-import { DatePicker } from '../src';
-import { ArgsTable, Canvas, CodeOrSourceMdx, Meta, Preview, Source, Story } from '@storybook/addon-docs/blocks';
-
-import { enUS } from 'date-fns/locale';
-
-import './date-picker.scss';
 import { useState } from 'react';
 
-<Meta
-  title="DatePicker"
-  component={DatePicker}
-  argTypes={{
-    locale: {
-      name: 'locale',
-      description: 'Date fns locale',
-      table: {
-        type: { summary: 'Locale' },
-      },
-    },
-  }}
-/>
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
 
-# Props
+import { DatePicker } from '../src';
+
+import { enUS, fr } from 'date-fns/locale';
+
+<Meta title="Components/DatePicker" component={DatePicker} />
+
+# Date Picker
+
+<br />
+
+## Props
 
 <ArgsTable of="." />
 
-# Default
+## Children
+
+React next dates don't provide `Input` element.
+
+`DatePicker` children props is a function with parameters to render your own input with your own style.
+
+```tsx
+export interface DatePickerChildrenProps {
+  inputProps: DatePickerInputProps;
+  openDatePicker: () => void;
+}
+
+export type DatePickerChildren = (props: DatePickerChildrenProps) => ReactNode;
+```
+
+```tsx
+<DatePicker locale={enUS}>{({ inputProps }) => <input {...inputProps} />}</DatePicker>
+```
+
+## Default
 
 <Canvas>
   <Story name="Default">
     {() => {
       const [date, setDate] = useState(null);
       return (
-        <div className="date-picker-container">
-          <DatePicker locale={enUS} date={date} onChange={setDate} portalContainer={document.body}>
-            {({ inputProps }) => <input {...inputProps} />}
+        <DatePicker locale={enUS} date={date} onChange={setDate} portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Locale
+
+Example with french `fr` locale.
+
+<Canvas>
+  <Story name="Locale">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DatePicker locale={fr} date={date} onChange={setDate} portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Format
+
+Default input date format is computed from locale -> `locale.formatLong?.date({ width: 'short' })`.
+See [date-fns doc](https://date-fns.org/docs/Locale).
+
+You can pass `format` props to override this.
+
+<Canvas>
+  <Story name="Format">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DatePicker locale={enUS} date={date} format="MM-dd-yyyy" onChange={setDate} portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Month
+
+<Canvas>
+  <Story name="Month">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DatePicker
+          locale={enUS}
+          type="month"
+          format="MM/yyyy"
+          date={date}
+          onChange={setDate}
+          portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Year
+
+<Canvas>
+  <Story name="Year">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DatePicker
+          locale={enUS}
+          type="year"
+          format="yyyy"
+          date={date}
+          onChange={setDate}
+          portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Min Date
+
+Current date as `minDate`.
+
+<Canvas>
+  <Story name="Min Date">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DatePicker locale={enUS} date={date} minDate={new Date()} onChange={setDate} portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Max Date
+
+Current date as `maxDate`.
+
+<Canvas>
+  <Story name="Max Date">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DatePicker locale={enUS} date={date} maxDate={new Date()} onChange={setDate} portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Placeholder
+
+Default placeholder is date format. You can pass `placeholder` props to change it.
+
+<Canvas>
+  <Story name="Placeholder">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DatePicker
+          locale={enUS}
+          date={date}
+          placeholder="Birth Date"
+          onChange={setDate}
+          portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Custom Trigger
+
+By default, calendar popper auto open on input focus. If you want a custom open trigger, you can deactivate `autoOpen` and call `openDatePicker` function on children props.
+
+<Canvas>
+  <Story name="Custom Trigger">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <div className="custom-trigger-container">
+          <DatePicker locale={enUS} date={date} autoOpen={false} onChange={setDate} portalContainer={document.body}>
+            {({ inputProps, openDatePicker }) => (
+              <>
+                <input {...inputProps} />
+                <button onClick={openDatePicker} />
+              </>
+            )}
           </DatePicker>
         </div>
       );
@@ -41,18 +209,50 @@ import { useState } from 'react';
   </Story>
 </Canvas>
 
-# Month
+## Portal
+
+React Next Dates use [react-popper](https://github.com/popperjs/react-popper) for calendar popper positioning.
+
+To prevent scrolling bugs, popper can use react portals to inject the calendar at the end of your DOM.
+To do this, you can pass a `portalContainer` props to `DatePicker`.
+
+For example, you can pass `portalContainer={document.body}`
 
 <Canvas>
-  <Story name="Month">
+  <Story name="Portal">
     {() => {
       const [date, setDate] = useState(null);
       return (
-        <div className="date-picker-container">
-          <DatePicker locale={enUS} type="month" format="MM/yyyy" date={date} onChange={setDate} portalContainer={document.body}>
-            {({ inputProps }) => <input {...inputProps} />}
-          </DatePicker>
-        </div>
+        <DatePicker locale={enUS} date={date} onChange={setDate} portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Readonly On touch
+
+On touch devices, `readonly` props is pass to input to auto hide keyboard.
+
+If you don't want this feature, you can pass `readonlyOnTouch={false}`
+
+> Warning !!
+> It may be buggy on touch devices !
+
+<Canvas>
+  <Story name="Readonly On touch">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DatePicker
+          locale={enUS}
+          date={date}
+          readonlyOnTouch={false}
+          onChange={setDate}
+          portalContainer={document.body}>
+          {({ inputProps }) => <input {...inputProps} />}
+        </DatePicker>
       );
     }}
   </Story>

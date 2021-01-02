@@ -42,7 +42,7 @@ export interface DatePickerProps {
 
 const DatePicker: FC<DatePickerProps> = ({
   locale,
-  type,
+  type = 'day',
   date,
   format,
   minDate,

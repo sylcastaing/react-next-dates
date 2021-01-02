@@ -1,13 +1,40 @@
-import { Clock, TimePicker } from '../src';
+import { TimePicker } from '../src';
 
-import { Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
 import { useState } from 'react';
 
 import { enUS } from 'date-fns/locale';
 
-<Meta title="Time Picker" component={TimePicker} />
+<Meta title="Components/TimePicker" component={TimePicker} />
 
-# Default
+# Time Picker
+
+<br />
+
+## Props
+
+<ArgsTable of="." />
+
+## Children
+
+React next dates don't provide `Input` element.
+
+Like `DatePicker`, `TimePicker` children props is a function with parameters to render your own input with your own style.
+
+```tsx
+export interface TimePickerChildrenProps {
+  inputProps: DatePickerInputProps;
+  openTimePicker: () => void;
+}
+
+export type TimePickerChildren = (props: TimePickerChildrenProps) => ReactNode;
+```
+
+```tsx
+<TimePicker locale={enUS}>{({ inputProps }) => <input {...inputProps} />}</TimePicker>
+```
+
+## Default
 
 <Canvas>
   <Story name="Default">
@@ -15,9 +42,46 @@ import { enUS } from 'date-fns/locale';
       const [date, setDate] = useState(null);
       return (
         <TimePicker locale={enUS} date={date} onChange={setDate} portalContainer={document.body}>
-          {({ inputProps}) => <input {...inputProps}/>}
+          {({ inputProps }) => <input {...inputProps} />}
         </TimePicker>
-      )
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Precision
+
+You can provide a `precision` props with one of the following in minutes: `1 | 5 | 10 | 15 | 20 | 30 | 60`.
+
+Default precision is `1`.
+
+If precision is `60`, minutes picker is not shown.
+
+export const PrecisionTemplate = ({ precision }) => {
+  const [date, setDate] = useState(null);
+  return (
+    <>
+      <p>Precision: {precision}</p>
+      <TimePicker locale={enUS} date={date} precision={precision} onChange={setDate} portalContainer={document.body}>
+        {({ inputProps }) => <input {...inputProps} />}
+      </TimePicker>
+    </>
+  );
+};
+
+<Canvas>
+  <Story name="Precision">
+    {() => {
+      return (
+        <>
+          <PrecisionTemplate precision={5} />
+          <PrecisionTemplate precision={10} />
+          <PrecisionTemplate precision={15} />
+          <PrecisionTemplate precision={20} />
+          <PrecisionTemplate precision={30} />
+          <PrecisionTemplate precision={60} />
+        </>
+      );
     }}
   </Story>
 </Canvas>

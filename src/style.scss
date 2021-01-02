@@ -258,6 +258,7 @@ $theme: map-merge(
   &.clock {
     position: relative;
     max-width: 250px;
+    @include v(background, color-white);
 
     .navigation {
       display: grid;
@@ -356,21 +357,21 @@ $theme: map-merge(
       }
     }
   }
-}
 
-.react-next-dates-popper {
-  @include v(background, color-white);
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
-  z-index: 1000;
+  &.popper {
+    @include v(background, color-white);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+    z-index: 1000;
 
-  &.date {
-    width: 300px;
-  }
+    &.date {
+      width: 300px;
+    }
 
-  &.time {
-    width: 220px;
-    padding: 5px;
+    &.time {
+      width: 220px;
+      padding: 5px;
+    }
   }
 }

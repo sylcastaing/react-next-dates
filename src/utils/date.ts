@@ -1,7 +1,7 @@
 import { isValid, parse, format, isBefore, startOfDay, isAfter, set, differenceInDays } from 'date-fns';
 
 export function getDefaultDateFormat(locale: Locale, formatString?: string): string {
-  return formatString ?? locale.formatLong?.date({ width: 'short' }) ?? 'yyyy-MM-dd';
+  return formatString ?? locale.formatLong?.date({ width: 'short' }) ?? 'MM/dd/yyyy';
 }
 
 export function parseDate(value: string, formatString: string, locale: Locale): Date | null {

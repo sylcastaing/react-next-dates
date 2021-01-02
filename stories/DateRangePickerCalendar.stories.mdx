@@ -1,0 +1,38 @@
+import { useState } from 'react';
+
+import { DateRangePickerCalendar } from '../src';
+
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+
+import { enUS } from 'date-fns/locale';
+
+<Meta title="Components/DateRangePickerCalendar" component={DateRangePickerCalendar} />
+
+# Props
+
+<ArgsTable of="." />
+
+# Default
+
+<Canvas>
+  <Story name="Default">
+    {() => {
+      const [startDate, setStartDate] = useState(null);
+      const [endDate, setEndDate] = useState(null);
+      const [focus, setFocus] = useState('startDate');
+      const handleFocusChange = focus => setFocus(focus || 'startDate');
+      return (
+        <DateRangePickerCalendar
+          locale={enUS}
+          focus={focus}
+          startDate={startDate}
+          endDate={endDate}
+          onStartDateChange={setStartDate}
+          onEndDateChange={setEndDate}
+          onFocusChange={handleFocusChange}
+          className="story-date-range-picker-calendar"
+        />
+      );
+    }}
+  </Story>
+</Canvas>

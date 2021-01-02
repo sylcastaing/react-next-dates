@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.react-next-dates {
+  &.calendar {
+    max-width: 400px;
+  }
+}
+
+input {
+  display: inline-block;
+  max-width: 200px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 0 15px;
+  border: 1px solid #cacbce;
+  border-radius: 10px;
+  font-family: inherit;
+  outline: none;
+  margin: 10px;
+
+  &:focus {
+    outline: none;
+    border-color: #2c2e3d;
+  }
+}
+
+.custom-trigger-container {
+  position: relative;
+  max-width: 200px;
+
+  > button {
+    position: absolute;
+    top: 17px;
+    right: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+}

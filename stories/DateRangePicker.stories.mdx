@@ -1,19 +1,48 @@
-import { DateRangePicker } from '../src';
+import { useState } from 'react';
 
 import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
-import { useState } from 'react';
+
+import { DateRangePicker } from '../src';
 
 import { enUS } from 'date-fns/locale';
 
-<Meta title="DateRangePicker" component={DateRangePicker} />
+<Meta title="Components/DateRangePicker" component={DateRangePicker} />
 
 # Date Range Picker
 
-# Props
+<br />
+
+## Props
 
 <ArgsTable of="." />
 
-# Default
+## Children
+
+React next dates don't provide `Input` element.
+
+Like `DatePicker`, `DateRangePicker` children props is a function with parameters to render your own inputs with your own style.
+
+```tsx
+export interface DateRangePickerChildrenProps {
+  startDateInputProps: DatePickerInputProps;
+  endDateInputProps: DatePickerInputProps;
+}
+
+export type DateRangePickerChildren = (props: DateRangePickerChildrenProps) => ReactNode;
+```
+
+```tsx
+<DateRangePicker locale={enUS}>
+  {({ startDateInputProps, endDateInputProps }) => (
+    <>
+      <input {...startDateInputProps} />
+      <input {...endDateInputProps} />
+    </>
+  )}
+</DateRangePicker>
+```
+
+## Default
 
 <Canvas>
   <Story name="Default">
@@ -42,7 +71,7 @@ import { enUS } from 'date-fns/locale';
   </Story>
 </Canvas>
 
-# Min Date
+## Min Date
 
 <Canvas>
   <Story name="Min Date">
@@ -72,7 +101,7 @@ import { enUS } from 'date-fns/locale';
   </Story>
 </Canvas>
 
-# Max Date
+## Max Date
 
 <Canvas>
   <Story name="Max Date">
@@ -102,7 +131,7 @@ import { enUS } from 'date-fns/locale';
   </Story>
 </Canvas>
 
-# Min length (2)
+## Min length (2)
 
 <Canvas>
   <Story name="Min length">
@@ -132,7 +161,7 @@ import { enUS } from 'date-fns/locale';
   </Story>
 </Canvas>
 
-# Max length (5)
+## Max length (5)
 
 <Canvas>
   <Story name="Max length">

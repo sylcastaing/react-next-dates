@@ -1,0 +1,67 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Installation" />
+
+# Installation
+
+`React Next Dates` is available on [NPM](https://www.npmjs.com/package/react-next-dates).
+
+For date operations and translations, React Next Dates use [date-fns](https://date-fns.org/) as peerDependencies. Don't forget to install it.
+
+## Install package
+
+<br />
+
+### With NPM :
+
+```sh
+npm install react-next-dates date-fns --save
+```
+
+### With Yarn :
+
+```sh
+yarn add react-next-dates date-fns --save
+```
+
+### Peer Dependencies
+
+| Library   | Version  |
+| --------- | -------- |
+| date-fns  | `^2.0.0` |
+| react     | `>=16`   |
+| react-dom | `>=16`   |
+
+## Add styles
+
+Don't forget to inject stylesheet on your app.
+
+### CSS
+
+```js
+import 'react-next-dates/dist/style.css';
+```
+
+### Sass
+
+```js
+import 'react-next-dates/dist/style.scss';
+```
+
+## Locale
+
+All components need a `locale` props for translation and locale base display.
+
+Example :
+
+```tsx
+import React, { FC } from 'react';
+
+import { fr } from 'date-fns/locale';
+
+import { Calendar } from 'react-next-dates';
+
+const MyComponent: FC = () => {
+  return <Calendar locale={fr} />;
+};
+```
