@@ -9,9 +9,10 @@ import ClockHours from './hours/ClockHours';
 import ClockMinutes from './hours/ClockMinutes';
 import ClockNavigation from './navigation/ClockNavigation';
 
-export type TimeSelectionType = 'hours' | 'minutes';
+export type ClockSelection = 'hours' | 'minutes';
+export type ClockPrecision = 1 | 10 | 15 | 20 | 30 | 60;
 
-function getSelectionAngle(date: Date, selection: TimeSelectionType): number {
+function getSelectionAngle(date: Date, selection: ClockSelection): number {
   if (selection === 'hours') {
     return HOUR_ANGLE * (getHours(date) - 3);
   } else {
@@ -22,9 +23,10 @@ function getSelectionAngle(date: Date, selection: TimeSelectionType): number {
 export interface ClockProps {
   locale: Locale;
   date?: Date | null;
-  selection?: TimeSelectionType;
+  selection?: ClockSelection;
+  precision?: ClockPrecision;
   onChange?: DateChangeHandler;
-  onSelectionChange?: (selection: TimeSelectionType) => void;
+  onSelectionChange?: (selection: ClockSelection) => void;
   onSelectionEnd?: () => void;
 }
 
@@ -32,6 +34,7 @@ const Clock: FC<ClockProps> = ({
   locale,
   date: receivedDate,
   selection: receivedSelection,
+  precision = 1,
   onChange = constVoid,
   onSelectionChange,
   onSelectionEnd = constVoid,
@@ -44,7 +47,7 @@ const Clock: FC<ClockProps> = ({
 
   const [containerWidth, setContainerWidth] = useState<number | null>(() => containerRef.current?.clientWidth ?? null);
 
-  const [selection, setSelection] = useControllableState<TimeSelectionType>(
+  const [selection, setSelection] = useControllableState<ClockSelection>(
     () => 'hours',
     receivedSelection,
     onSelectionChange,
@@ -120,7 +123,9 @@ const Clock: FC<ClockProps> = ({
 
       const computedMinute = minute >= 60 ? minute - 60 : minute;
 
-      handleDateChange(setMinutes(date ?? startOfDay(new Date()), computedMinute), fireChange);
+      const roundedWithPrecision = (Math.round(computedMinute / precision) * precision) % 60;
+
+      handleDateChange(setMinutes(date ?? startOfDay(new Date()), roundedWithPrecision), fireChange);
     }
   };
 
@@ -140,7 +145,7 @@ const Clock: FC<ClockProps> = ({
 
     handleCalcSelected(currentTarget, pageX, pageY, true);
 
-    const newSelection = selection === 'hours' ? 'minutes' : 'hours';
+    const newSelection = selection === 'hours' && precision !== 60 ? 'minutes' : 'hours';
 
     setSelection(newSelection);
 
@@ -190,7 +195,7 @@ const Clock: FC<ClockProps> = ({
               {selection === 'hours' ? (
                 <ClockHours date={date} containerRadius={containerWidth / 2} />
               ) : (
-                <ClockMinutes date={date} containerRadius={containerWidth / 2} />
+                <ClockMinutes date={date} containerRadius={containerWidth / 2} precision={precision} />
               )}
 
               {date != null ? (

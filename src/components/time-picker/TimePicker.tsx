@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useState } from 'react';
-import { DatePickerInputProps, NullableDateChangeHandler, TimeSelectionType } from '../../index';
+import { DatePickerInputProps, NullableDateChangeHandler, ClockSelection, ClockPrecision } from '../../index';
 import { useDetectTouch, useOutsideClickHandler } from '../../hooks/utils';
 import { constVoid } from '../../utils/function';
 import useDateInput from '../../hooks/useDateInput';
@@ -17,6 +17,7 @@ export interface TimePickerProps {
   locale: Locale;
   format?: string;
   date?: Date | null;
+  precision?: ClockPrecision;
   placeholder?: string;
   portalContainer?: Element;
   readonlyOnTouch?: boolean;
@@ -29,6 +30,7 @@ const TimePicker: FC<TimePickerProps> = ({
   locale,
   format = 'HH:mm',
   date,
+  precision = 1,
   placeholder,
   portalContainer,
   readonlyOnTouch = true,
@@ -38,7 +40,7 @@ const TimePicker: FC<TimePickerProps> = ({
 }) => {
   const [isOpen, setOpen] = useState<boolean>(false);
 
-  const [selection, setSelection] = useState<TimeSelectionType>('hours');
+  const [selection, setSelection] = useState<ClockSelection>('hours');
 
   const openTimePicker = () => setOpen(true);
 
@@ -57,7 +59,7 @@ const TimePicker: FC<TimePickerProps> = ({
     onChange,
   });
 
-  const handleSelectionChange = (selection: TimeSelectionType) => {
+  const handleSelectionChange = (selection: ClockSelection) => {
     setSelection(selection);
   };
 
@@ -96,6 +98,7 @@ const TimePicker: FC<TimePickerProps> = ({
           locale={locale}
           date={date}
           selection={selection}
+          precision={precision}
           onChange={onChange}
           onSelectionChange={handleSelectionChange}
           onSelectionEnd={handleSelectionEnd}

@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { formatDate } from '../../../utils/date';
-import { TimeSelectionType } from '../Clock';
+import { ClockSelection } from '../Clock';
 
 interface ClockNavigationProps {
   locale: Locale;
   date: Date | null;
-  selection: TimeSelectionType;
-  onSelectionChange: (selection: TimeSelectionType) => void;
+  selection: ClockSelection;
+  onSelectionChange: (selection: ClockSelection) => void;
 }
 
 const ClockNavigation: FC<ClockNavigationProps> = ({ locale, date, selection, onSelectionChange }) => {
