@@ -40,7 +40,6 @@ const CalendarDayGrid: FC<CalendarDayGridProps> = ({
             key={day.toISOString()}
             locale={locale}
             day={day}
-            month={month}
             modifiers={modifiers}
             modifiersClassNames={modifiersClassNames}
             onClick={onSelect}

@@ -336,7 +336,7 @@ $theme: map-merge(
           height: 2px;
           width: calc(50% - 32px);
           @include v(background, color-primary);
-          transform-origin: left;
+          transform-origin: left center;
 
           &.pm {
             width: calc(25% - 12px);

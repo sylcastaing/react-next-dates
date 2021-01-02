@@ -11,14 +11,7 @@ export type DatePredicate = (date: Date) => boolean;
 
 export type CalendarType = 'day' | 'month' | 'year';
 
-export type BaseModifiersKey =
-  | 'disabled'
-  | 'selected'
-  | 'today'
-  | 'outside'
-  | 'selectedStart'
-  | 'selectedMiddle'
-  | 'selectedEnd';
+export type BaseModifiersKey = 'disabled' | 'selected' | 'today' | 'selectedStart' | 'selectedMiddle' | 'selectedEnd';
 
 export type Modifiers = { [key in BaseModifiersKey | string]: DatePredicate };
 export type ModifiersClassNames = { [key in BaseModifiersKey | string]: string };

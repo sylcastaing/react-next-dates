@@ -66,7 +66,7 @@ const Clock: FC<ClockProps> = ({
       }
     };
 
-    window.addEventListener('resize', getContainerWidth);
+    window.addEventListener('resize', getContainerWidth, { passive: true });
 
     getContainerWidth();
 

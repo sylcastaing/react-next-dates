@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { differenceInDays, getDate, isSameMonth, isToday, startOfWeek } from 'date-fns';
+import { differenceInDays, getDate, isToday, startOfWeek } from 'date-fns';
 import classNames from 'classnames';
 import { DateChangeHandler, Modifiers, ModifiersClassNames, NullableDateChangeHandler } from '../../../index';
 import { computeModifierClassNames, mergeModifiers } from '../../../utils/modifiers';
@@ -7,7 +7,6 @@ import { computeModifierClassNames, mergeModifiers } from '../../../utils/modifi
 interface CalendarDayProps {
   locale: Locale;
   day: Date;
-  month: Date;
   modifiers?: Modifiers;
   modifiersClassNames?: ModifiersClassNames;
   onClick: DateChangeHandler;
@@ -17,7 +16,6 @@ interface CalendarDayProps {
 const CalendarDay: FC<CalendarDayProps> = ({
   locale,
   day,
-  month,
   modifiers: receivedModifiers,
   modifiersClassNames,
   onClick,
@@ -34,7 +32,6 @@ const CalendarDay: FC<CalendarDayProps> = ({
   const modifiers = mergeModifiers(
     {
       today: date => isToday(date),
-      outside: date => !isSameMonth(date, month),
     },
     receivedModifiers,
   );
