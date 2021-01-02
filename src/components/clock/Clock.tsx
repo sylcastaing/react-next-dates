@@ -25,6 +25,7 @@ export interface ClockProps {
   date?: Date | null;
   selection?: ClockSelection;
   precision?: ClockPrecision;
+  className?: string;
   onChange?: DateChangeHandler;
   onSelectionChange?: (selection: ClockSelection) => void;
   onSelectionEnd?: () => void;
@@ -35,6 +36,7 @@ const Clock: FC<ClockProps> = ({
   date: receivedDate,
   selection: receivedSelection,
   precision = 1,
+  className,
   onChange = constVoid,
   onSelectionChange,
   onSelectionEnd = constVoid,
@@ -180,7 +182,7 @@ const Clock: FC<ClockProps> = ({
   };
 
   return (
-    <div className="react-next-dates clock-container">
+    <div className={classNames('react-next-dates', 'clock', className)}>
       <ClockNavigation
         locale={locale}
         date={date}

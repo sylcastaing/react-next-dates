@@ -19,6 +19,7 @@ export interface TimePickerProps {
   date?: Date | null;
   precision?: ClockPrecision;
   placeholder?: string;
+  className?: string;
   portalContainer?: Element;
   readonlyOnTouch?: boolean;
   autoOpen?: boolean;
@@ -32,6 +33,7 @@ const TimePicker: FC<TimePickerProps> = ({
   date,
   precision = 1,
   placeholder,
+  className,
   portalContainer,
   readonlyOnTouch = true,
   autoOpen = true,
@@ -99,6 +101,7 @@ const TimePicker: FC<TimePickerProps> = ({
           date={date}
           selection={selection}
           precision={precision}
+          className={className}
           onChange={onChange}
           onSelectionChange={handleSelectionChange}
           onSelectionEnd={handleSelectionEnd}
