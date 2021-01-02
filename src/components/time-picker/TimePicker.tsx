@@ -18,6 +18,7 @@ export interface TimePickerProps {
   format?: string;
   date?: Date | null;
   precision?: ClockPrecision;
+  vibrate?: boolean;
   placeholder?: string;
   className?: string;
   portalContainer?: Element;
@@ -32,6 +33,7 @@ const TimePicker: FC<TimePickerProps> = ({
   format = 'HH:mm',
   date,
   precision = 1,
+  vibrate = true,
   placeholder,
   className,
   portalContainer,
@@ -101,6 +103,7 @@ const TimePicker: FC<TimePickerProps> = ({
           date={date}
           selection={selection}
           precision={precision}
+          vibrate={vibrate}
           className={className}
           onChange={onChange}
           onSelectionChange={handleSelectionChange}

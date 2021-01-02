@@ -25,6 +25,7 @@ export interface ClockProps {
   date?: Date | null;
   selection?: ClockSelection;
   precision?: ClockPrecision;
+  vibrate?: boolean;
   className?: string;
   onChange?: DateChangeHandler;
   onSelectionChange?: (selection: ClockSelection) => void;
@@ -36,6 +37,7 @@ const Clock: FC<ClockProps> = ({
   date: receivedDate,
   selection: receivedSelection,
   precision = 1,
+  vibrate = true,
   className,
   onChange = constVoid,
   onSelectionChange,
@@ -80,6 +82,10 @@ const Clock: FC<ClockProps> = ({
   const handleDateChange = (date: Date, fireChange: boolean) => {
     setDate(d => {
       if (d === null || !isEqual(d, date)) {
+        if (vibrate && 'vibrate' in navigator) {
+          navigator.vibrate(10);
+        }
+
         return date;
       }
 
