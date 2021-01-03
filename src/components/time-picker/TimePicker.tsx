@@ -3,7 +3,7 @@ import { DatePickerInputProps, NullableDateChangeHandler, ClockSelection, ClockP
 import { useDetectTouch, useOutsideClickHandler } from '../../hooks/utils';
 import { constVoid } from '../../utils/function';
 import useDateInput from '../../hooks/useDateInput';
-import CalendarPopper from '../popper/CalendarPopper';
+import Popper from '../popper/Popper';
 import Clock from '../clock/Clock';
 
 export interface TimePickerChildrenProps {
@@ -91,10 +91,10 @@ const TimePicker: FC<TimePickerProps> = ({
         openTimePicker,
       })}
 
-      <CalendarPopper
+      <Popper
         ref={popperRef}
         isOpen={isOpen}
-        inputElement={inputRef.current}
+        referenceElement={inputRef.current}
         popperElement={popperRef.current}
         portalContainer={portalContainer}
         className="time">
@@ -109,7 +109,7 @@ const TimePicker: FC<TimePickerProps> = ({
           onSelectionChange={handleSelectionChange}
           onSelectionEnd={handleSelectionEnd}
         />
-      </CalendarPopper>
+      </Popper>
     </>
   );
 };

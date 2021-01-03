@@ -9,7 +9,7 @@ import {
 import { useDetectTouch, useOutsideClickHandler, usePrevious } from '../../hooks/utils';
 import { useDateInput } from '../../hooks';
 import { constVoid } from '../../utils/function';
-import CalendarPopper from '../popper/CalendarPopper';
+import Popper from '../popper/Popper';
 import DateRangePickerCalendar from '../date-range-picker-calendar/DateRangePickerCalendar';
 import { isRangeLengthValid } from '../../utils/date';
 
@@ -163,10 +163,10 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
         },
       })}
 
-      <CalendarPopper
+      <Popper
         ref={popperRef}
         isOpen={focus !== null}
-        inputElement={popperFocus === 'endDate' ? endDateInputRef.current : startDateInputRef.current}
+        referenceElement={popperFocus === 'endDate' ? endDateInputRef.current : startDateInputRef.current}
         popperElement={popperRef.current}
         portalContainer={portalContainer}
         className="date">
@@ -188,7 +188,7 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
           onFocusChange={setFocus}
           onMonthChange={setMonth}
         />
-      </CalendarPopper>
+      </Popper>
     </>
   );
 };

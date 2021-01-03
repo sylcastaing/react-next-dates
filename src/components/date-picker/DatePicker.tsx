@@ -11,7 +11,7 @@ import {
 import useDateInput from '../../hooks/useDateInput';
 import { useDetectTouch, useOutsideClickHandler } from '../../hooks/utils';
 import DatePickerCalendar from '../date-picker-calendar/DatePickerCalendar';
-import CalendarPopper from '../popper/CalendarPopper';
+import Popper from '../popper/Popper';
 import { constVoid } from '../../utils/function';
 
 export interface DatePickerChildrenProps {
@@ -115,10 +115,10 @@ const DatePicker: FC<DatePickerProps> = ({
         openDatePicker,
       })}
 
-      <CalendarPopper
+      <Popper
         ref={popperRef}
         isOpen={isOpen}
-        inputElement={inputRef.current}
+        referenceElement={inputRef.current}
         popperElement={popperRef.current}
         portalContainer={portalContainer}
         className="date">
@@ -135,7 +135,7 @@ const DatePicker: FC<DatePickerProps> = ({
           onDateChange={handleChange}
           onMonthChange={setMonth}
         />
-      </CalendarPopper>
+      </Popper>
     </>
   );
 };

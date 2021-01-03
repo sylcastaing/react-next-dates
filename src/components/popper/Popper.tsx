@@ -3,25 +3,26 @@ import { usePopper } from 'react-popper';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 
-interface CalendarPopperProps {
+export interface PopperProps {
   isOpen: boolean;
-  inputElement: HTMLInputElement | null;
-  popperElement: HTMLDivElement | null;
+  referenceElement: HTMLElement | null;
+  popperElement: HTMLElement | null;
   portalContainer?: Element;
+  offset?: [number, number];
   className?: string;
   children?: ReactNode;
 }
 
-const CalendarPopper = forwardRef<HTMLDivElement, CalendarPopperProps>(
-  ({ isOpen, inputElement, popperElement, portalContainer, className, children }, ref) => {
-    const { styles, attributes, forceUpdate } = usePopper(inputElement, popperElement, {
+const Popper = forwardRef<HTMLDivElement, PopperProps>(
+  ({ isOpen, referenceElement, popperElement, portalContainer, offset = [0, 5], className, children }, ref) => {
+    const { styles, attributes, forceUpdate } = usePopper(referenceElement, popperElement, {
       placement: 'bottom-start',
       strategy: portalContainer ? 'fixed' : 'absolute',
       modifiers: [
         {
           name: 'offset',
           options: {
-            offset: [0, 5],
+            offset,
           },
         },
         {
@@ -50,4 +51,4 @@ const CalendarPopper = forwardRef<HTMLDivElement, CalendarPopperProps>(
   },
 );
 
-export default CalendarPopper;
+export default Popper;
