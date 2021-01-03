@@ -1,0 +1,35 @@
+import { useState } from 'react';
+
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+
+import { DatePickerCalendar } from '../src';
+
+import { enUS } from 'date-fns/locale';
+
+<Meta title="Components/DatePickerCalendar" component={DatePickerCalendar} />
+
+# Date Picker Calendar
+
+This component can be used to display a date picker calendar.
+
+## Props
+
+<ArgsTable of="." />
+
+## Default
+
+<Canvas>
+  <Story name="Default">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DatePickerCalendar
+          locale={enUS}
+          date={date}
+          className="story-calendar"
+          onDateChange={setDate}
+        />
+      );
+    }}
+  </Story>
+</Canvas>

@@ -8,11 +8,15 @@ import { enUS } from 'date-fns/locale';
 
 <Meta title="Components/DateRangePickerCalendar" component={DateRangePickerCalendar} />
 
-# Props
+# Date Range Picker Calendar
+
+This component can be used to display a date range picker calendar.
+
+## Props
 
 <ArgsTable of="." />
 
-# Default
+## Default
 
 <Canvas>
   <Story name="Default">
@@ -30,7 +34,7 @@ import { enUS } from 'date-fns/locale';
           onStartDateChange={setStartDate}
           onEndDateChange={setEndDate}
           onFocusChange={handleFocusChange}
-          className="story-date-range-picker-calendar"
+          className="story-calendar"
         />
       );
     }}

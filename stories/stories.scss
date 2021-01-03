@@ -43,3 +43,12 @@ input {
     cursor: pointer;
   }
 }
+
+.story-calendar, .story-clock {
+  border: 1px solid #cacbce;
+  border-radius: 4px;
+
+  &.story-clock {
+    padding: 10px;
+  }
+}

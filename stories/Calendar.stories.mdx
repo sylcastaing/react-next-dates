@@ -1,23 +1,35 @@
+import { useState } from 'react';
+
 import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+
 import { Calendar } from '../src';
 
 import { enUS, fr } from 'date-fns/locale';
+import { isSameDay } from 'date-fns';
 
-<Meta title="Components/Calendar" component={Calendar} argTypes={{
-  locale: {
-    name: 'locale',
-    description: 'Date fns locale',
-    table: {
-      type: { summary: 'Locale' },
-    }
-  }
-}} />
+<Meta
+  title="Components/Calendar"
+  component={Calendar}
+  argTypes={{
+    locale: {
+      name: 'locale',
+      description: 'Date fns locale',
+      table: {
+        type: { summary: 'Locale' },
+      },
+    },
+  }}
+/>
 
-# Props
+# Calendar
+
+This component can be used to build your custom advanced calendar features.
+
+## Props
 
 <ArgsTable of="." />
 
-# Default
+## Default
 
 <Canvas>
   <Story name="Default">
@@ -25,7 +37,7 @@ import { enUS, fr } from 'date-fns/locale';
   </Story>
 </Canvas>
 
-# With french locale
+## Locale
 
 You can pass any `date-fns` locale on `locale` props.
 
@@ -35,7 +47,7 @@ You can pass any `date-fns` locale on `locale` props.
   </Story>
 </Canvas>
 
-# Month picker
+## Month picker
 
 <Canvas>
   <Story name="Month">
@@ -43,7 +55,7 @@ You can pass any `date-fns` locale on `locale` props.
   </Story>
 </Canvas>
 
-# Year picker
+## Year picker
 
 <Canvas>
   <Story name="Year">
@@ -51,7 +63,7 @@ You can pass any `date-fns` locale on `locale` props.
   </Story>
 </Canvas>
 
-# Min date
+## Min date
 
 <Canvas>
   <Story name="MinDate">
@@ -59,10 +71,38 @@ You can pass any `date-fns` locale on `locale` props.
   </Story>
 </Canvas>
 
-# Max date
+## Max date
 
 <Canvas>
   <Story name="MaxDate">
     <Calendar locale={enUS} maxDate={new Date()} className="story-calendar" />
+  </Story>
+</Canvas>
+
+## Advanced feature
+
+You can build all you need with modifiers.
+
+Example : multi date select
+
+<Canvas>
+  <Story name="Advanced">
+    {() => {
+      const [selected, setSelected] = useState([]);
+      const handleSelect = date => {
+        const isPresent = selected.findIndex(d => isSameDay(d, date)) >= 0
+        if (isPresent) {
+          setSelected(old => old.filter(d => !isSameDay(d, date)))
+        } else {
+          setSelected(old => [...old, date]);
+        }
+      };
+      const modifiers = {
+        day: {
+          selected: date => selected.findIndex(d => isSameDay(d, date)) >= 0,
+        },
+      };
+      return <Calendar locale={enUS} modifiers={modifiers} onSelect={handleSelect} className="story-calendar" />;
+    }}
   </Story>
 </Canvas>

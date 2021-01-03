@@ -29,7 +29,7 @@ export interface DatePickerCalendarProps {
 
 const DatePickerCalendar: FC<DatePickerCalendarProps> = ({
   locale,
-  type,
+  type = 'day',
   date = null,
   month: receivedMonth,
   minDate,

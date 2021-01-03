@@ -11,7 +11,7 @@ export const parameters = {
       order: [
         'Documentation',
         'Components',
-        ['DatePicker', 'DateRangePicker', 'TimePicker', 'Calendar', 'Clock', 'DateRangePickerCalendar'],
+        ['DatePicker', 'DateRangePicker', 'TimePicker', 'Calendar', 'Clock', 'DatePickerCalendar', 'DateRangePickerCalendar'],
       ],
     },
   },

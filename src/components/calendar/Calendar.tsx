@@ -34,7 +34,7 @@ export interface CalendarProps {
 
 const Calendar: FC<CalendarProps> = ({
   locale,
-  type,
+  type = 'day',
   month: receivedMonth,
   minDate,
   maxDate,
@@ -45,7 +45,7 @@ const Calendar: FC<CalendarProps> = ({
   onSelect = constVoid,
   onHover = constVoid,
 }) => {
-  const [mode, setMode] = useDependentState<CalendarType>(() => type ?? 'day', [type]);
+  const [mode, setMode] = useDependentState<CalendarType>(() => type, [type]);
 
   const [month, setMonth] = useControllableState(
     () => startOfMonth(new Date()),
