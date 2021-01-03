@@ -218,6 +218,15 @@ $theme: map-merge(
         border-radius: 100px;
         height: 35px;
 
+        &.-selected {
+          @include v(background, color-primary);
+          @include v(color, color-white);
+
+          &:hover {
+            @include v(background, color-primary);
+          }
+        }
+
         &:hover {
           @include v(background, color-light-grey);
         }
