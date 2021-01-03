@@ -49,21 +49,3 @@ import 'react-next-dates/dist/style.scss';
 ```
 
 > See [Theming Section](?path=/docs/documentation-theming--page)
-
-## Locale
-
-All components need a `locale` props for translation and locale base display.
-
-Example :
-
-```tsx
-import React, { FC } from 'react';
-
-import { fr } from 'date-fns/locale';
-
-import { Calendar } from 'react-next-dates';
-
-const MyComponent: FC = () => {
-  return <Calendar locale={fr} />;
-};
-```

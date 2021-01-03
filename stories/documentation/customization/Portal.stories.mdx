@@ -1,0 +1,21 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Customization/Portal" />
+
+# Portal
+
+Popper use [react-popper](https://github.com/popperjs/react-popper) for positioning.
+
+Default, Popper is render inside Picker components. It can cause container overflowing issues.
+
+To prevent this, React Next Dates Popper can use a react portal to render his content.
+
+To do this, all pickers have a `portalContainer` props.
+
+```tsx
+<DatePicker locale={fr} portalContainer={document.body}>
+  {({ inputProps }) => <input {...inputProps} />}
+</DatePicker>
+```
+
+> NB: This feature is use on all stories components to prevent overflow inside StoryBook containers.

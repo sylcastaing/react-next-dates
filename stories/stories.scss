@@ -7,6 +7,10 @@ html, body {
 .react-next-dates {
   &.calendar {
     max-width: 400px;
+
+    .day.--yellow {
+      color: #F7CA18;
+    }
   }
 }
 

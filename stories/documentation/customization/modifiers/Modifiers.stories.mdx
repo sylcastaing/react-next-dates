@@ -1,0 +1,118 @@
+import { Meta } from '@storybook/addon-docs/blocks'; import DisableWeekEnd from './DisableWeekEnd'; import YellowMonday
+  from './YellowMonday';
+
+<Meta title="Documentation/Customization/Modifiers" />
+
+# Modifiers
+
+All calendars, DatePicker and DateRangePicker can be fully customized by `modifiers`.
+
+Calendar selection, today display and disable management are fully implemented with modifiers.
+
+Modifiers are **predicates** to inject classes on Calendar.
+
+** Modifiers typing **
+
+```tsx
+export type CalendarType = 'day' | 'month' | 'year';
+
+export type BaseModifiersKey = 'disabled' | 'selected' | 'today' | 'selectedStart' | 'selectedMiddle' | 'selectedEnd';
+
+export type Modifiers = { [key in BaseModifiersKey | string]: DatePredicate };
+export type ModifiersClassNames = { [key in BaseModifiersKey | string]: string };
+
+export type CalendarModifiers = { [key in CalendarType]?: Modifiers };
+export type CalendarModifiersClassNames = { [key in CalendarType]?: ModifiersClassNames };
+```
+
+** Default modifiers classNames **
+
+```tsx
+export const DEFAULT_MODIFIERS_CLASS_NAMES: Record<BaseModifiersKey, string> = {
+  disabled: '-disabled',
+  selected: '-selected',
+  today: '-today',
+  selectedStart: '-selected-start',
+  selectedMiddle: '-selected-middle',
+  selectedEnd: '-selected-end',
+};
+```
+
+You can do anything with modifiers. Extends default behaviors or add new styling base on date predicate.
+
+> Modifiers are just for styling. Use `validate` props to validate input.
+
+## Examples
+
+## Disable week-end
+
+<DisableWeekEnd/>
+
+```tsx
+import React, { FC, useState } from 'react';
+import { CalendarModifiers, DatePicker } from 'react-next-dates';
+import { isSaturday, isSunday } from 'date-fns';
+
+import { enUS } from 'date-fns/locale';
+
+const modifiers: CalendarModifiers = {
+  day: {
+    disabled: date => isSunday(date) || isSaturday(date),
+  },
+};
+
+const DisableWeekEnd: FC = () => {
+  const [date, setDate] = useState<Date | null>(null);
+
+  return (
+    <DatePicker locale={enUS} date={date} onChange={setDate} modifiers={modifiers} portalContainer={document.body}>
+      {({ inputProps }) => <input {...inputProps} />}
+    </DatePicker>
+  );
+};
+
+export default DisableWeekEnd;
+```
+
+## Yellow monday
+
+<YellowMonday/>
+
+```tsx
+import React, { FC, useState } from 'react';
+import { CalendarModifiers, CalendarModifiersClassNames, DatePicker } from 'react-next-dates';
+
+import { enUS } from 'date-fns/locale';
+import { isMonday } from 'date-fns';
+
+const modifiers: CalendarModifiers = {
+  day: {
+    yellow: date => isMonday(date),
+  },
+};
+
+const modifiersClassNames: CalendarModifiersClassNames = {
+  day: {
+    yellow: '--yellow',
+  }
+};
+
+const YellowMonday: FC = () => {
+  const [date, setDate] = useState<Date | null>(null);
+
+  return (
+    <DatePicker locale={enUS} date={date} onChange={setDate} modifiers={modifiers} modifiersClassNames={modifiersClassNames} portalContainer={document.body}>
+      {({ inputProps }) => <input {...inputProps} />}
+    </DatePicker>
+  );
+};
+
+export default YellowMonday;
+
+```
+
+```.scss
+.day.--yellow {
+  color: #F7CA18;
+}
+```

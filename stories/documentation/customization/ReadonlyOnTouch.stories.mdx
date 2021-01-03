@@ -1,0 +1,21 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Customization/ReadonlyOnTouch" />
+
+# Readonly On Touch
+
+React Next Dates detect touch devices, and add a readonly props on input to auto hide keyboard.
+
+If you don't you this feature, and let your type the date with mobile keyboard, you can deactive this by pass `readonlyOnTouch={false}` on picker components.
+
+```tsx
+<DatePicker locale={fr} readonlyOnTouch={false}>
+  {({ inputProps }) => <input {...inputProps} />}
+</DatePicker>
+```
+
+> Warning ! This can be buggy !
+
+## Examples
+
+- [DatePicker](/?path=/docs/components-datepicker--readonly-on-touch#readonly-on-touch)

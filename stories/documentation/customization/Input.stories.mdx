@@ -1,0 +1,17 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Customization/Input" />
+
+# Input
+
+**This library don't render input.**
+
+Picker components have children function to render your own input with your own style.
+
+It's useful for styling your forms as you want !
+
+```tsx
+<DatePicker locale={fr}>
+  {({ inputProps }) => <input className="my-input-class" {...inputProps} />}
+</DatePicker>
+```

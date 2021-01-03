@@ -1,11 +1,11 @@
 import React, { FC, ReactNode, useState } from 'react';
 import {
   CalendarModifiers,
+  CalendarModifiersClassNames,
   CalendarType,
   DateChangeHandler,
   DatePickerInputProps,
   DatePredicate,
-  ModifiersClassNames,
   NullableDateChangeHandler,
 } from '../../index';
 import useDateInput from '../../hooks/useDateInput';
@@ -32,7 +32,7 @@ export interface DatePickerProps {
   placeholder?: string;
   className?: string;
   modifiers?: CalendarModifiers;
-  modifiersClassName?: ModifiersClassNames;
+  modifiersClassNames?: CalendarModifiersClassNames;
   portalContainer?: Element;
   readonlyOnTouch?: boolean;
   autoOpen?: boolean;
@@ -51,7 +51,7 @@ const DatePicker: FC<DatePickerProps> = ({
   placeholder,
   className,
   modifiers,
-  modifiersClassName,
+  modifiersClassNames,
   portalContainer,
   readonlyOnTouch = true,
   autoOpen = true,
@@ -133,7 +133,7 @@ const DatePicker: FC<DatePickerProps> = ({
           minDate={minDate}
           maxDate={maxDate}
           modifiers={modifiers}
-          modifiersClassNames={modifiersClassName}
+          modifiersClassNames={modifiersClassNames}
           className={className}
           onDateChange={handleChange}
           onMonthChange={setMonth}

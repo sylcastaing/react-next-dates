@@ -1,0 +1,18 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Customization/Format" />
+
+# Format
+
+Some components have optional props `format` for date and time display.
+
+## Default format
+
+| Type | Format                 |                                                               |
+| ---- | ---------------------- | ------------------------------------------------------------- |
+| Date | Base on `locale` props | `locale.formatLong?.date({ width: 'short' }) ?? 'MM/dd/yyyy'` |
+| Time | `HH:mm`                |                                                               |
+
+## Examples
+
+- [DatePicker](/?path=/docs/components-datepicker--format#format)
