@@ -26,7 +26,10 @@ Like `DatePicker`, `DateRangePicker` children props is a function with parameter
 export interface DateRangePickerChildrenProps {
   startDateInputProps: DatePickerInputProps;
   endDateInputProps: DatePickerInputProps;
+  openStartDatePicker: () => void;
+  openEndDatePicker: () => void;
 }
+
 
 export type DateRangePickerChildren = (props: DateRangePickerChildrenProps) => ReactNode;
 ```
@@ -182,6 +185,44 @@ export type DateRangePickerChildren = (props: DateRangePickerChildrenProps) => R
               <>
                 <input {...startDateInputProps} />
                 <input {...endDateInputProps} />
+              </>
+            )}
+          </DateRangePicker>
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Custom Trigger
+
+By default, calendar popper auto open on input focus. If you want a custom open trigger, you can deactivate `autoOpen` and call `openStartDatePicker` or `openEndDatePicker` function on children props.
+
+<Canvas>
+  <Story name="Custom Trigger">
+    {() => {
+      const [startDate, setStartDate] = useState(null);
+      const [endDate, setEndDate] = useState(null);
+      return (
+        <div className="date-picker-container">
+          <DateRangePicker
+            locale={enUS}
+            startDate={startDate}
+            endDate={endDate}
+            onStartDateChange={setStartDate}
+            onEndDateChange={setEndDate}
+            autoOpen={false}
+            portalContainer={document.body}>
+            {({ startDateInputProps, endDateInputProps, openStartDatePicker, openEndDatePicker }) => (
+              <>
+                <div className="custom-trigger-container">
+                  <input {...startDateInputProps} />
+                  <button onClick={openStartDatePicker} />
+                </div>
+                <div className="custom-trigger-container">
+                  <input {...endDateInputProps} />
+                  <button onClick={openEndDatePicker} />
+                </div>
               </>
             )}
           </DateRangePicker>

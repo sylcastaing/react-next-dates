@@ -62,9 +62,12 @@ const DatePicker: FC<DatePickerProps> = ({
 
   const [isOpen, setOpen] = useState<boolean>(false);
 
-  const openDatePicker = () => setOpen(true);
-
   const [inputRef, popperRef] = useOutsideClickHandler<HTMLInputElement, HTMLDivElement>(() => setOpen(false));
+
+  const openDatePicker = () => {
+    setOpen(true);
+    inputRef.current?.focus();
+  };
 
   const isTouch = useDetectTouch();
 

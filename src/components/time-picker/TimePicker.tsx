@@ -46,12 +46,15 @@ const TimePicker: FC<TimePickerProps> = ({
 
   const [selection, setSelection] = useState<ClockSelection>('hours');
 
-  const openTimePicker = () => setOpen(true);
-
   const [inputRef, popperRef] = useOutsideClickHandler<HTMLInputElement, HTMLDivElement>(() => {
     setOpen(false);
     setSelection('hours');
   });
+
+  const openTimePicker = () => {
+    setOpen(true);
+    inputRef.current?.focus();
+  };
 
   const isTouch = useDetectTouch();
 

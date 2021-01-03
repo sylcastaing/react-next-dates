@@ -85,3 +85,27 @@ export const PrecisionTemplate = ({ precision }) => {
     }}
   </Story>
 </Canvas>
+
+## Custom Trigger
+
+By default, clock popper auto open on input focus. If you want a custom open trigger, you can deactivate `autoOpen` and call `openDatePicker` function on children props.
+
+<Canvas>
+  <Story name="Custom Trigger">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <div className="custom-trigger-container">
+          <TimePicker locale={enUS} date={date} autoOpen={false} onChange={setDate} portalContainer={document.body}>
+            {({ inputProps, openTimePicker }) => (
+              <>
+                <input {...inputProps} />
+                <button onClick={openTimePicker} />
+              </>
+            )}
+          </TimePicker>
+        </div>
+      );
+    }}
+  </Story>
+</Canvas>

@@ -16,6 +16,8 @@ import { isRangeLengthValid } from '../../utils/date';
 export interface DateRangePickerChildrenProps {
   startDateInputProps: DatePickerInputProps;
   endDateInputProps: DatePickerInputProps;
+  openStartDatePicker: () => void;
+  openEndDatePicker: () => void;
 }
 
 export type DateRangePickerChildren = (props: DateRangePickerChildrenProps) => ReactNode;
@@ -36,6 +38,7 @@ export interface DateRangePickerProps {
   className?: string;
   portalContainer?: Element;
   readonlyOnTouch?: boolean;
+  autoOpen?: boolean;
   onStartDateChange?: NullableDateChangeHandler;
   onEndDateChange?: NullableDateChangeHandler;
   children: DateRangePickerChildren;
@@ -57,6 +60,7 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
   className,
   portalContainer,
   readonlyOnTouch = true,
+  autoOpen = true,
   onStartDateChange = constVoid,
   onEndDateChange = constVoid,
   children,
@@ -71,6 +75,16 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
     HTMLInputElement,
     HTMLDivElement
   >(() => setFocus(null));
+
+  const openStartDatePicker = () => {
+    setFocus('startDate');
+    startDateInputRef.current?.focus();
+  };
+
+  const openEndDatePicker = () => {
+    setFocus('endDate');
+    endDateInputRef.current?.focus();
+  };
 
   const isTouch = useDetectTouch();
 
@@ -131,7 +145,10 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
           ...startDateInputProps,
           onFocus: () => {
             startDateInputProps?.onFocus();
-            setFocus('startDate');
+
+            if (autoOpen) {
+              setFocus('startDate');
+            }
 
             if (startDate) {
               setMonth(startDate);
@@ -148,7 +165,10 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
           ...endDateInputProps,
           onFocus: () => {
             endDateInputProps?.onFocus();
-            setFocus('endDate');
+
+            if (autoOpen) {
+              setFocus('endDate');
+            }
 
             if (endDate) {
               setMonth(endDate);
@@ -161,6 +181,8 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
           ref: endDateInputRef,
           readOnly: readonlyOnTouch && isTouch,
         },
+        openStartDatePicker,
+        openEndDatePicker,
       })}
 
       <Popper
