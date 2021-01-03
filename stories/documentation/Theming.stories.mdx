@@ -1,0 +1,110 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Theming" />
+
+# Theming
+
+React next dates use sass for styling.
+
+Before theming, don't forget to [import StyleSheet](/?path=/docs/documentation-installation--page#add-styles).
+
+## Default Theme
+
+<br />
+
+### Colors
+
+<br />
+
+<ColorPalette>
+  <ColorItem title="Primary" subtitle="color-primary" colors={['#2979ff']} />
+  <ColorItem title="Grey" subtitle="color-grey" colors={['#6b6d77']} />
+  <ColorItem title="Dark Grey" subtitle="color-dark-grey" colors={['#2c2e3d']} />
+  <ColorItem title="Light Grey" subtitle="color-light-grey" colors={['#f2f2f2']} />
+  <ColorItem title="White" subtitle="color-white" colors={['#ffffff']} />
+  <ColorItem title="Dark" subtitle="color-dark" colors={['#000000']} />
+</ColorPalette>
+
+### Font sizes
+
+| Name        | Variable                | Value  |
+| ----------- | ----------------------- | ------ |
+| Small       | `font-size-small`       | `12px` |
+| Base        | `font-size-base`        | `14px` |
+| Large       | `font-size-large`       | `16px` |
+| Extra Large | `font-size-extra-large` | `18px` |
+
+## Using Sass
+
+Sass default theme :
+
+```scss
+$react-next-dates-theme: map-merge(
+  (
+    color-primary: #2979ff,
+    color-grey: #6b6d77,
+    color-light-grey: #f2f2f2,
+    color-dark-grey: #2c2e3d,
+    color-white: #ffffff,
+    color-dark: #000000,
+    font-size-small: 12px,
+    font-size-base: 14px,
+    font-size-large: 16px,
+    font-size-extra-large: 18px,
+  ),
+  $react-next-dates-theme
+);
+```
+
+You can override the theme with :
+
+```scss
+$react-next-dates-theme: (
+  color-primary: #06c9b2
+);
+
+@import 'react-next-dates/dist/style.scss';
+```
+
+## Using CSS
+
+React next dates use css variables for css theming.
+
+If you use css or css in js library like style-components you can override css variables on you code.
+
+**All css variables :**
+
+```css
+.react-next-dates {
+  --color-primary: #2979ff;
+  --color-grey: #6b6d77;
+  --color-light-grey: #f2f2f2;
+  --color-dark-grey: #2c2e3d;
+  --color-white: #ffffff;
+  --color-dark: #000000;
+  --font-size-small: 12px;
+  --font-size-base: 14px;
+  --font-size-large: 16px;
+  --font-size-extra-large: 18px;
+}
+```
+
+**In your code you can override variables :**
+
+```css
+.react-next-dates {
+  --color-primary: #06c9b2;
+}
+```
+
+> If your browser don't support [CSS Variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties#Browser_compatibility), library use sass theme.
+
+## Override style
+
+All styles are in this [file](https://github.com/sylcastaing/react-next-dates/blob/master/src/style.scss).
+
+### Inject className
+
+All components have optional props `className` to inject your custom class or to style them with css in js library.
+
+**Example :** [calendar story](?path=/docs/components-calendar--default-story) inject `story-calendar` className to add border.

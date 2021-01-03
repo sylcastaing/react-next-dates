@@ -1,6 +1,6 @@
-$theme: () !default;
+$react-next-dates-theme: () !default;
 
-$theme: map-merge(
+$react-next-dates-theme: map-merge(
   (
     color-primary: #2979ff,
     color-grey: #6b6d77,
@@ -13,16 +13,16 @@ $theme: map-merge(
     font-size-large: 16px,
     font-size-extra-large: 18px,
   ),
-  $theme
+  $react-next-dates-theme
 );
 
 @mixin v($property, $varName) {
-  #{$property}: map-get($theme, $varName);
+  #{$property}: map-get($react-next-dates-theme, $varName);
   #{$property}: var(--#{$varName});
 }
 
 .react-next-dates {
-  @each $key, $value in $theme {
+  @each $key, $value in $react-next-dates-theme {
     --#{$key}: #{$value};
   }
 
