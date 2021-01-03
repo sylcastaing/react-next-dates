@@ -12,6 +12,7 @@ export const parameters = {
         'Documentation',
         'Components',
         ['DatePicker', 'DateRangePicker', 'TimePicker', 'Calendar', 'Clock', 'DatePickerCalendar', 'DateRangePickerCalendar'],
+        'Hooks'
       ],
     },
   },

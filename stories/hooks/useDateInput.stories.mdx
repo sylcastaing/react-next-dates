@@ -1,0 +1,36 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Hooks/useDateInput" />
+
+# useDateInput
+
+`useDateInput` is the hooks use by all picker.
+
+You can use it to create custom date input feature.
+
+## Params
+
+```tsx
+export interface UseDateInputParams {
+  locale: Locale;
+  date?: Date | null;
+  format?: string;
+  minDate?: Date;
+  maxDate?: Date;
+  validate?: DatePredicate;
+  placeholder?: string;
+  onChange?: NullableDateChangeHandler;
+}
+```
+
+## Return
+
+```tsx
+export interface UseDateInputValue
+  extends Pick<
+    React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+    'type' | 'value' | 'placeholder' | 'onChange' | 'onBlur' | 'onFocus' | 'readOnly'
+  > {
+  onFocus: () => void;
+}
+```
