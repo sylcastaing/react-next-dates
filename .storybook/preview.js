@@ -10,7 +10,7 @@ export const parameters = {
       method: '',
       order: [
         'Documentation',
-        ['Installation', 'Theming'],
+        ['Installation', 'Theming', 'Customization', ['Locale', 'Input', 'Format']],
         'Components',
         ['DatePicker', 'DateRangePicker', 'TimePicker', 'Calendar', 'Clock', 'DatePickerCalendar', 'DateRangePickerCalendar'],
         'Hooks'
