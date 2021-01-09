@@ -27,11 +27,7 @@ export interface UseDateInputValue
 }
 
 function isDateValid(date?: Date | null, minDate?: Date, maxDate?: Date, validate?: (date: Date) => boolean): boolean {
-  if (date) {
-    return isValid(date) && isDateInRange(date, minDate, maxDate) && (validate ? validate(date) : true);
-  }
-
-  return false;
+  return date != null && isValid(date) && isDateInRange(date, minDate, maxDate) && (validate ? validate(date) : true);
 }
 
 export default function useDateInput({
@@ -47,7 +43,7 @@ export default function useDateInput({
   const defaultFormat = useMemo(() => getDefaultDateFormat(locale, format), [locale, format]);
 
   const [value, setValue] = useState<string>(() =>
-    date && isDateValid(date) ? formatDate(date, defaultFormat, locale) : '',
+    date != null && isDateValid(date) ? formatDate(date, defaultFormat, locale) : '',
   );
 
   const [focused, setFocused] = useState<boolean>(false);
@@ -59,7 +55,7 @@ export default function useDateInput({
 
     const parsedDate = parseDate(newValue, defaultFormat, locale);
 
-    if (parsedDate !== null && isDateValid(parsedDate, minDate, maxDate, validate)) {
+    if (parsedDate != null && isDateValid(parsedDate, minDate, maxDate, validate)) {
       onChange(parsedDate);
     }
   };

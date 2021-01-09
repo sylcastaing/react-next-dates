@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode, useLayoutEffect } from 'react';
+import React, { CSSProperties, forwardRef, ReactNode, useLayoutEffect } from 'react';
 import { usePopper } from 'react-popper';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
@@ -28,6 +28,9 @@ const Popper = forwardRef<HTMLDivElement, PopperProps>(
         {
           name: 'flip',
         },
+        {
+          name: 'preventOverflow',
+        },
       ],
     });
 
@@ -37,11 +40,13 @@ const Popper = forwardRef<HTMLDivElement, PopperProps>(
       }
     }, [isOpen, forceUpdate]);
 
+    const popperStyle: CSSProperties = isOpen ? styles.popper : { display: 'none' };
+
     const popper = (
       <div
         ref={ref}
         className={classNames('react-next-dates', 'popper', className)}
-        style={{ ...styles.popper, display: isOpen ? 'block' : 'none' }}
+        style={popperStyle}
         {...attributes.popper}>
         {isOpen ? children : null}
       </div>
