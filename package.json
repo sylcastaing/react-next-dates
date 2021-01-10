@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-3",
+  "version": "0.1.0",
   "name": "react-next-dates",
   "description": "Simple and Customizable DatePicker, DateRangePicker and TimePicker for React.",
   "keywords": [
