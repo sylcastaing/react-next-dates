@@ -109,7 +109,7 @@ const DateRangePickerCalendar: FC<DateRangePickerCalendarProps> = ({
       onStartDateChange(date);
       onFocusChange('endDate');
     } else if (focus === 'endDate') {
-      const date = setTimeOrRemoveTime(d, endDate);
+      const date = setTimeOrRemoveTime(d, endDate ?? startDate);
 
       if (startDate !== null && isBefore(date, startDate)) {
         onStartDateChange(setTimeOrRemoveTime(d, startDate));
