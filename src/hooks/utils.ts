@@ -31,7 +31,7 @@ export function useControllableState<S>(
 export function useOutsideClickHandler<
   A extends HTMLElement = HTMLElement,
   B extends HTMLElement = HTMLElement,
-  C extends HTMLElement = HTMLElement
+  C extends HTMLElement = HTMLElement,
 >(callback: () => void): [MutableRefObject<A | null>, MutableRefObject<B | null>, MutableRefObject<C | null>] {
   const refA = useRef<A | null>(null);
   const refB = useRef<B | null>(null);

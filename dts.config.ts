@@ -1,11 +1,13 @@
+import { DtsOptions, RollupOptions } from 'dts-cli';
+
 const postcss = require('rollup-plugin-postcss');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const copy = require('rollup-plugin-copy');
 
-module.exports = {
-  rollup(config, options) {
-    config.plugins.push(
+export default {
+  rollup(config: RollupOptions, options: DtsOptions) {
+    config.plugins?.push(
       postcss({
         plugins: [
           autoprefixer(),
@@ -19,7 +21,7 @@ module.exports = {
       }),
     );
 
-    config.plugins.push(
+    config.plugins?.push(
       copy({
         targets: [
           {
@@ -31,5 +33,5 @@ module.exports = {
     );
 
     return config;
-  },
-};
+  }
+}

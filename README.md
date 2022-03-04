@@ -73,7 +73,7 @@ All documentation is available on [StoryBook](https://sylcastaing.github.io/reac
 
 # Development
 
-This library was created with [tsdx](https://tsdx.io/)
+This library was created with [dts](https://weiran-zsd.github.io/dts-cli)
 
 # Credits
 
