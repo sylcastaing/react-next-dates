@@ -77,7 +77,10 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
     HTMLInputElement,
     HTMLInputElement,
     HTMLDivElement
-  >(() => setFocus(null));
+  >(() => {
+    setFocus(null);
+    setClockSelection('hours');
+  });
 
   const isTouch = useDetectTouch();
 
@@ -100,9 +103,13 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
   };
 
   const handleTimeInputChange: NullableDateChangeHandler = d => {
-    const oldDate = date ?? new Date();
-
-    onChange(setTime(oldDate, d ?? startOfDay(oldDate)));
+    if (d) {
+      onChange(setTime(date ?? new Date(), d));
+    } else if (date) {
+      onChange(startOfDay(date));
+    } else {
+      onChange(d);
+    }
   };
 
   const dateInputProps = useDateInput({

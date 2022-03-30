@@ -231,39 +231,3 @@ By default, calendar popper auto open on input focus. If you want a custom open 
     }}
   </Story>
 </Canvas>
-
-## Date Time Range Picker
-
-Date Time Range Picker Example
-
-<Canvas>
-  <Story name="Date Time Range Picker">
-    {() => {
-      const [startDate, setStartDate] = useState(null);
-      const [endDate, setEndDate] = useState(null);
-      return (
-        <DateRangePicker
-          locale={enUS}
-          startDate={startDate}
-          endDate={endDate}
-          onStartDateChange={setStartDate}
-          onEndDateChange={setEndDate}
-          portalContainer={document.body}>
-          {({ startDateInputProps, endDateInputProps }) => (
-            <div>
-              <input {...startDateInputProps} />
-              <TimePicker locale={enUS} date={startDate} onChange={setStartDate} portalContainer={document.body}>
-                {({ inputProps }) => <input {...inputProps} />}
-              </TimePicker>
-              <input {...endDateInputProps} />
-              <TimePicker locale={enUS} date={endDate} onChange={setEndDate} portalContainer={document.body}>
-                {({ inputProps }) => <input {...inputProps} />}
-              </TimePicker>
-            </div>
-          )}
-        </DateRangePicker>
-      );
-    }}
-  </Story>
-</Canvas>
-

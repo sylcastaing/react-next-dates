@@ -32,10 +32,22 @@ export function useOutsideClickHandler<
   A extends HTMLElement = HTMLElement,
   B extends HTMLElement = HTMLElement,
   C extends HTMLElement = HTMLElement,
->(callback: () => void): [MutableRefObject<A | null>, MutableRefObject<B | null>, MutableRefObject<C | null>] {
+  D extends HTMLElement = HTMLElement,
+  E extends HTMLElement = HTMLElement,
+>(
+  callback: () => void,
+): [
+  MutableRefObject<A | null>,
+  MutableRefObject<B | null>,
+  MutableRefObject<C | null>,
+  MutableRefObject<D | null>,
+  MutableRefObject<E | null>,
+] {
   const refA = useRef<A | null>(null);
   const refB = useRef<B | null>(null);
   const refC = useRef<C | null>(null);
+  const refD = useRef<D | null>(null);
+  const refE = useRef<E | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -43,7 +55,9 @@ export function useOutsideClickHandler<
         e.target instanceof Element &&
         !refA.current?.contains(e.target) &&
         !refB.current?.contains(e.target) &&
-        !refC.current?.contains(e.target)
+        !refC.current?.contains(e.target) &&
+        !refD.current?.contains(e.target) &&
+        !refE.current?.contains(e.target)
       ) {
         callback();
       }
@@ -56,7 +70,7 @@ export function useOutsideClickHandler<
     };
   }, [callback]);
 
-  return [refA, refB, refC];
+  return [refA, refB, refC, refD, refE];
 }
 
 export function usePrevious<T>(value: T) {

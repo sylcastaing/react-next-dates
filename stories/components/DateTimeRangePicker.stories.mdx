@@ -1,0 +1,74 @@
+import { Meta, ArgsTable, Canvas, Story } from '@storybook/addon-docs';
+
+import { useState } from 'react';
+
+import { enUS } from 'date-fns/locale';
+
+import { DateTimeRangePicker } from '../../src';
+
+<Meta title="Components/DateTimeRangePicker" component={DateTimeRangePicker} />
+
+# Date Time Range Picker
+
+<br />
+
+## Props
+
+<ArgsTable of="." />
+
+## Children
+
+React next dates don't provide `Input` element.
+
+Like `DatePicker`, `DateTimeRangePicker` children props is a function with parameters to render your own input with your own style.
+
+```tsx
+export interface DateTimeRangePickerChildrenProps {
+  startDateInputProps: DatePickerInputProps;
+  startTimeInputProps: DatePickerInputProps;
+  endDateInputProps: DatePickerInputProps;
+  endTimeInputProps: DatePickerInputProps;
+  openStartDatePicker: () => void;
+  openStartTimePicker: () => void;
+  openEndDatePicker: () => void;
+  openEndTimePicker: () => void;
+}
+
+export type DateTimeRangePickerChildren = (props: DateTimeRangePickerChildrenProps) => ReactNode;
+```
+
+```tsx
+<DateTimeRangePicker locale={enUS}>
+  {({ startDateInputProps, startTimeInputProps, endDateInputProps, endTimeInputProps }) => (
+    <>
+      <input {...startDateInputProps} />
+      <input {...startTimeInputProps} />
+      <input {...endDateInputProps} />
+      <input {...endTimeInputProps} />
+    </>
+  )}
+</DateTimeRangePicker>
+```
+
+## Default
+
+<Canvas>
+  <Story name="Default">
+    {() => {
+      const [startDate, setStartDate] = useState(null);
+      const [endDate, setEndDate] = useState(null);
+      return (
+        <DateTimeRangePicker locale={enUS} startDate={startDate} endDate={endDate} onStartDateChange={setStartDate} onEndDateChange={setEndDate} portalContainer={document.body}>
+          {({ startDateInputProps, startTimeInputProps, endDateInputProps, endTimeInputProps }) => (
+            <>
+              <input {...startDateInputProps} />
+              <input {...startTimeInputProps} />
+              <input {...endDateInputProps} />
+              <input {...endTimeInputProps} />
+            </>
+          )}
+        </DateTimeRangePicker>
+      );
+    }}
+  </Story>
+</Canvas>

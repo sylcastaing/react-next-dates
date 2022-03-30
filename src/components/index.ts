@@ -5,6 +5,7 @@ import DatePickerCalendar from './date-picker-calendar/DatePickerCalendar';
 import DateRangePicker from './date-range-picker/DateRangePicker';
 import DateRangePickerCalendar from './date-range-picker-calendar/DateRangePickerCalendar';
 import DateTimePicker from './date-time-picker/DateTimePicker';
+import DateTimeRangePicker from './date-time-range-picker/DateTimeRangePicker';
 import Popper from './popper/Popper';
 import TimePicker from './time-picker/TimePicker';
 
@@ -15,6 +16,7 @@ export * from './date-picker-calendar/DatePickerCalendar';
 export * from './date-range-picker/DateRangePicker';
 export * from './date-range-picker-calendar/DateRangePickerCalendar';
 export * from './date-time-picker/DateTimePicker';
+export * from './date-time-range-picker/DateTimeRangePicker';
 export * from './popper/Popper';
 export * from './time-picker/TimePicker';
 
@@ -26,6 +28,7 @@ export {
   DateRangePicker,
   DateRangePickerCalendar,
   DateTimePicker,
+  DateTimeRangePicker,
   Popper,
   TimePicker,
 };
