@@ -64,7 +64,7 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
   onEndDateChange = constVoid,
   children,
 }) => {
-  const [month, setMonth] = useState(startDate ?? endDate ?? new Date());
+  const [month, setMonth] = useState(() => startDate ?? endDate ?? new Date());
 
   const [focus, setFocus] = useState<DateRangeInputType | null>(null);
   const [popperFocus, setPopperFocus] = useState<DateRangeInputType | null>(null);

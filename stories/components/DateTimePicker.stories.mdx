@@ -1,0 +1,125 @@
+import { Meta, ArgsTable, Canvas, Story } from '@storybook/addon-docs/blocks';
+
+import { useState } from 'react';
+
+import { enUS } from 'date-fns/locale';
+
+import { DateTimePicker } from '../../src';
+
+<Meta title="Components/DateTimePicker" component={DateTimePicker} />
+
+# Date Time Picker
+
+<br />
+
+## Props
+
+<ArgsTable of="." />
+
+## Children
+
+React next dates don't provide `Input` element.
+
+Like `DatePicker`, `DateTimePicker` children props is a function with parameters to render your own input with your own style.
+
+```tsx
+export interface DateTimePickerChildrenProps {
+  dateInputProps: DatePickerInputProps;
+  timeInputProps: DatePickerInputProps;
+  openDatePicker: () => void;
+  openTimePicker: () => void;
+}
+
+export type DateTimePickerChildren = (props: DateTimePickerChildrenProps) => ReactNode;
+```
+
+```tsx
+<DateTimePicker locale={enUS}>
+  {({ dateInputProps, timeInputProps }) => (
+    <>
+      <input {...dateInputProps} />
+      <input {...timeInputProps} />
+    </>
+  )}
+</DateTimePicker>
+```
+
+## Default
+
+<Canvas>
+  <Story name="Default">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DateTimePicker locale={enUS} date={date} onChange={setDate} portalContainer={document.body}>
+          {({ dateInputProps, timeInputProps }) => (
+            <>
+              <input {...dateInputProps} />
+              <input {...timeInputProps} />
+            </>
+          )}
+        </DateTimePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Min Date
+
+<Canvas>
+  <Story name="Min Date">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DateTimePicker locale={enUS} date={date} minDate={new Date()} onChange={setDate} portalContainer={document.body}>
+          {({ dateInputProps, timeInputProps }) => (
+            <>
+              <input {...dateInputProps} />
+              <input {...timeInputProps} />
+            </>
+          )}
+        </DateTimePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Max Date
+
+<Canvas>
+  <Story name="Max Date">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DateTimePicker locale={enUS} date={date} maxDate={new Date()} onChange={setDate} portalContainer={document.body}>
+          {({ dateInputProps, timeInputProps }) => (
+            <>
+              <input {...dateInputProps} />
+              <input {...timeInputProps} />
+            </>
+          )}
+        </DateTimePicker>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Placeholder
+
+<Canvas>
+  <Story name="Placeholder">
+    {() => {
+      const [date, setDate] = useState(null);
+      return (
+        <DateTimePicker locale={enUS} date={date} datePlaceholder="Date" timePlaceholder="Time" onChange={setDate} portalContainer={document.body}>
+          {({ dateInputProps, timeInputProps }) => (
+            <>
+              <input {...dateInputProps} />
+              <input {...timeInputProps} />
+            </>
+          )}
+        </DateTimePicker>
+      );
+    }}
+  </Story>
+</Canvas>

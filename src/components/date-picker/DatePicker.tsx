@@ -55,7 +55,7 @@ const DatePicker: FC<DatePickerProps> = ({
   onChange = constVoid,
   children,
 }) => {
-  const [month, setMonth] = useState(date ?? new Date());
+  const [month, setMonth] = useState(() => date ?? new Date());
 
   const [isOpen, setOpen] = useState<boolean>(false);
 
@@ -96,7 +96,7 @@ const DatePicker: FC<DatePickerProps> = ({
         inputProps: {
           ...inputProps,
           onFocus: () => {
-            inputProps?.onFocus();
+            inputProps.onFocus();
 
             if (autoOpen) {
               openDatePicker();

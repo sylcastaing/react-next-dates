@@ -66,10 +66,6 @@ const TimePicker: FC<TimePickerProps> = ({
     onChange,
   });
 
-  const handleSelectionChange = (selection: ClockSelection) => {
-    setSelection(selection);
-  };
-
   const handleSelectionEnd = () => setOpen(false);
 
   return (
@@ -109,7 +105,7 @@ const TimePicker: FC<TimePickerProps> = ({
           vibrate={vibrate}
           className={className}
           onChange={onChange}
-          onSelectionChange={handleSelectionChange}
+          onSelectionChange={setSelection}
           onSelectionEnd={handleSelectionEnd}
         />
       </Popper>
