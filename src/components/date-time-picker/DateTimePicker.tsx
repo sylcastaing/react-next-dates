@@ -131,6 +131,8 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
 
   const handleSelectionEnd = () => setFocus(null);
 
+  const readOnly = readonlyOnTouch && isTouch;
+
   return (
     <>
       {children({
@@ -143,12 +145,12 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
               openDatePicker();
             }
 
-            if (readonlyOnTouch && isTouch) {
+            if (readOnly) {
               dateInputRef.current?.blur();
             }
           },
           ref: dateInputRef,
-          readOnly: readonlyOnTouch && isTouch,
+          readOnly,
         },
         timeInputProps: {
           ...timeInputProps,
@@ -159,12 +161,12 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
               openTimePicker();
             }
 
-            if (readonlyOnTouch && isTouch) {
+            if (readOnly) {
               dateInputRef.current?.blur();
             }
           },
           ref: timeInputRef,
-          readOnly: readonlyOnTouch && isTouch,
+          readOnly,
         },
         openDatePicker,
         openTimePicker,

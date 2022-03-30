@@ -131,6 +131,8 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
     onChange: handleEndDateInputChange,
   });
 
+  const readOnly = readonlyOnTouch && isTouch;
+
   return (
     <>
       {children({
@@ -147,12 +149,12 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
               setMonth(startDate);
             }
 
-            if (readonlyOnTouch && isTouch) {
+            if (readOnly) {
               startDateInputRef.current?.blur();
             }
           },
           ref: startDateInputRef,
-          readOnly: readonlyOnTouch && isTouch,
+          readOnly,
         },
         endDateInputProps: {
           ...endDateInputProps,
@@ -167,12 +169,12 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
               setMonth(endDate);
             }
 
-            if (readonlyOnTouch && isTouch) {
+            if (readOnly) {
               endDateInputRef.current?.blur();
             }
           },
           ref: endDateInputRef,
-          readOnly: readonlyOnTouch && isTouch,
+          readOnly,
         },
         openStartDatePicker,
         openEndDatePicker,

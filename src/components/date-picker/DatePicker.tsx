@@ -90,6 +90,8 @@ const DatePicker: FC<DatePickerProps> = ({
     setOpen(false);
   };
 
+  const readOnly = readonlyOnTouch && isTouch;
+
   return (
     <>
       {children({
@@ -102,12 +104,12 @@ const DatePicker: FC<DatePickerProps> = ({
               openDatePicker();
             }
 
-            if (readonlyOnTouch && isTouch) {
+            if (readOnly) {
               inputRef.current?.blur();
             }
           },
           ref: inputRef,
-          readOnly: readonlyOnTouch && isTouch,
+          readOnly,
         },
         openDatePicker,
       })}

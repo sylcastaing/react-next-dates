@@ -68,6 +68,8 @@ const TimePicker: FC<TimePickerProps> = ({
 
   const handleSelectionEnd = () => setOpen(false);
 
+  const readOnly = readonlyOnTouch && isTouch;
+
   return (
     <>
       {children({
@@ -80,12 +82,12 @@ const TimePicker: FC<TimePickerProps> = ({
               openTimePicker();
             }
 
-            if (readonlyOnTouch && isTouch) {
+            if (readOnly) {
               inputRef.current?.blur();
             }
           },
           ref: inputRef,
-          readOnly: readonlyOnTouch && isTouch,
+          readOnly,
         },
         openTimePicker,
       })}
