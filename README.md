@@ -56,7 +56,7 @@ import 'react-next-dates/dist/style.css';
 import 'react-next-dates/dist/style.scss';
 ```
 
-> See [Theming Section](https://sylcastaing.github.io/react-next-dates/?path=/docs/documentation-theming--page)
+> See [Theming Section](https://sylcastaing.github.io/react-next-dates/docs/documentation-theming--page)
 
 # Documentation
 
@@ -64,12 +64,12 @@ All documentation is available on [StoryBook](https://sylcastaing.github.io/reac
 
 **Quick links** :
 
-- [Installation](https://sylcastaing.github.io/react-next-dates/?path=/docs/documentation-installation--page)
-- [Theming](https://sylcastaing.github.io/react-next-dates/?path=/docs/documentation-theming--page)
-- [Customization](https://sylcastaing.github.io/react-next-dates/?path=/docs/documentation-customization)
-- [DatePicker](https://sylcastaing.github.io/react-next-dates/?path=/docs/components-datepicker)
-- [DateRangePicker](https://sylcastaing.github.io/react-next-dates/?path=/docs/components-daterangepicker)
-- [TimePicker](https://sylcastaing.github.io/react-next-dates/?path=/docs/components-timepicke)
+- [Installation](https://sylcastaing.github.io/react-next-dates/docs/documentation-installation--page)
+- [Theming](https://sylcastaing.github.io/react-next-dates/docs/documentation-theming--page)
+- [Customization](https://sylcastaing.github.io/react-next-dates/docs/documentation-customization)
+- [DatePicker](https://sylcastaing.github.io/react-next-dates/docs/components-datepicker)
+- [DateRangePicker](https://sylcastaing.github.io/react-next-dates/docs/components-daterangepicker)
+- [TimePicker](https://sylcastaing.github.io/react-next-dates/docs/components-timepicke)
 
 # Development
 
