@@ -15,7 +15,6 @@ specifiers:
   '@storybook/storybook-deployer': 2.8.11
   '@storybook/theming': 6.4.19
   '@tsconfig/create-react-app': 1.0.2
-  '@types/classnames': 2.3.1
   '@types/node': 17.0.23
   '@types/react': 17.0.43
   '@types/react-dom': 17.0.14
@@ -31,6 +30,7 @@ specifiers:
   np: 7.6.1
   pinst: 3.0.0
   postcss: 8.4.12
+  prettier: 2.6.1
   react: 17.0.2
   react-dom: 17.0.2
   react-is: 17.0.2
@@ -63,7 +63,6 @@ devDependencies:
   '@storybook/storybook-deployer': 2.8.11
   '@storybook/theming': 6.4.19_react-dom@17.0.2+react@17.0.2
   '@tsconfig/create-react-app': 1.0.2
-  '@types/classnames': 2.3.1
   '@types/node': 17.0.23
   '@types/react': 17.0.43
   '@types/react-dom': 17.0.14
@@ -78,6 +77,7 @@ devDependencies:
   np: 7.6.1
   pinst: 3.0.0
   postcss: 8.4.12
+  prettier: 2.6.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-is: 17.0.2
@@ -3928,13 +3928,6 @@ packages:
       '@types/responselike': 1.0.0
     dev: true
 
-  /@types/classnames/2.3.1:
-    resolution: {integrity: sha512-zeOWb0JGBoVmlQoznvqXbE0tEC/HONsnoUNH19Hc96NFsTAwTXbTqb8FMYkru1F/iqp7a18Ws3nWJvtA1sHD1A==}
-    deprecated: This is a stub types definition. classnames provides its own type definitions, so you do not need this installed.
-    dependencies:
-      classnames: 2.3.1
-    dev: true
-
   /@types/color-convert/2.0.0:
     resolution: {integrity: sha512-m7GG7IKKGuJUXvkZ1qqG3ChccdIM/qBBo913z+Xft0nKCX4hAU/IxKwZBU4cpRZ7GS5kV4vOblUkILtSShCPXQ==}
     dependencies:
@@ -5885,6 +5878,7 @@ packages:
 
   /classnames/2.3.1:
     resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
+    dev: false
 
   /clean-css/4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}

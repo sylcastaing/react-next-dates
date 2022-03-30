@@ -3,7 +3,18 @@ import CalendarDayGrid from './day/CalendarDayGrid';
 
 import classNames from 'classnames';
 import CalendarNavigation from './navigation/CalendarNavigation';
-import { lastDayOfMonth, lastDayOfYear, set, setDate, startOfMonth } from 'date-fns';
+import {
+  endOfMonth,
+  endOfYear,
+  isAfter,
+  isBefore,
+  isSameMonth,
+  isSameYear,
+  set,
+  setDate,
+  startOfMonth,
+  startOfYear,
+} from 'date-fns';
 import CalendarYearGrid from './year/CalendarYearGrid';
 import CalendarMonthGrid from './month/CalendarMonthGrid';
 import {
@@ -59,10 +70,14 @@ const Calendar: FC<CalendarProps> = ({
         disabled: date => !isDateInRange(date, minDate, maxDate),
       },
       month: {
-        disabled: date => !isDateInRange(lastDayOfMonth(date), minDate, maxDate),
+        disabled: date =>
+          !(minDate ? isBefore(date, endOfMonth(minDate)) || isSameMonth(date, minDate) : false) &&
+          !(maxDate ? isAfter(date, startOfMonth(maxDate)) || isSameMonth(date, maxDate) : false),
       },
       year: {
-        disabled: date => !isDateInRange(lastDayOfYear(date), minDate, maxDate),
+        disabled: date =>
+          !(minDate ? isBefore(date, endOfYear(minDate)) || isSameYear(date, minDate) : false) &&
+          !(maxDate ? isAfter(date, startOfYear(maxDate)) || isSameYear(date, maxDate) : false),
       },
     },
     receivedModifiers,
