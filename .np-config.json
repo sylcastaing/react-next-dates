@@ -1,3 +1,4 @@
 {
-  "yarn": false
+  "yarn": false,
+  "message": "chore: bump version %s"
 }
