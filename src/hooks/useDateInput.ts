@@ -2,18 +2,15 @@ import React, { ChangeEventHandler, FocusEventHandler, useEffect, useMemo, useSt
 
 import { isValid, Locale } from 'date-fns';
 
-import { formatDate, getDefaultDateFormat, isDateInRange, parseDate } from '../utils/date';
+import { formatDate, getDefaultDateFormat, parseDate } from '../utils/date';
 
-import { DatePredicate, NullableDateChangeHandler } from '../index';
+import { NullableDateChangeHandler } from '../index';
 import { constVoid } from '../utils/function';
 
 export interface UseDateInputParams {
   locale: Locale;
   date?: Date | null;
   format?: string;
-  minDate?: Date;
-  maxDate?: Date;
-  validate?: DatePredicate;
   placeholder?: string;
   onChange?: NullableDateChangeHandler;
 }
@@ -26,17 +23,14 @@ export interface UseDateInputValue
   onFocus: () => void;
 }
 
-function isDateValid(date?: Date | null, minDate?: Date, maxDate?: Date, validate?: (date: Date) => boolean): boolean {
-  return date != null && isValid(date) && isDateInRange(date, minDate, maxDate) && (validate ? validate(date) : true);
+function isDateValid(date?: Date | null): date is Date {
+  return date != null && isValid(date);
 }
 
 export default function useDateInput({
   locale,
   date,
   format,
-  minDate,
-  maxDate,
-  validate,
   placeholder,
   onChange = constVoid,
 }: UseDateInputParams): UseDateInputValue {
@@ -55,7 +49,7 @@ export default function useDateInput({
 
     const parsedDate = parseDate(newValue, defaultFormat, locale);
 
-    if (parsedDate != null && isDateValid(parsedDate, minDate, maxDate, validate)) {
+    if (isDateValid(parsedDate)) {
       onChange(parsedDate);
     }
   };
@@ -64,9 +58,9 @@ export default function useDateInput({
     if (value) {
       const parsedDate = parseDate(value, defaultFormat, locale);
 
-      if (parsedDate && isDateValid(parsedDate, minDate, maxDate, validate)) {
+      if (isDateValid(parsedDate)) {
         setValue(formatDate(parsedDate, defaultFormat, locale));
-      } else if (date && isDateValid(date, minDate, maxDate, validate)) {
+      } else if (isDateValid(date)) {
         setValue(formatDate(date, defaultFormat, locale));
       } else {
         setValue('');
@@ -82,9 +76,9 @@ export default function useDateInput({
 
   useEffect(() => {
     if (!focused) {
-      setValue(date && isDateValid(date, minDate, maxDate, validate) ? formatDate(date, defaultFormat, locale) : '');
+      setValue(isDateValid(date) ? formatDate(date, defaultFormat, locale) : '');
     }
-  }, [date, focused, defaultFormat, locale, minDate, maxDate, validate]);
+  }, [focused, date, defaultFormat, locale]);
 
   return {
     type: 'text',

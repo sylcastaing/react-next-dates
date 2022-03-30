@@ -9,7 +9,7 @@ import {
 import { useControllableState } from '../../hooks/utils';
 import { isSameDay, isSameMonth, isSameYear, startOfMonth } from 'date-fns';
 import Calendar from '../calendar/Calendar';
-import { isDateInRange, setTimeOrRemoveTime } from '../../utils/date';
+import { setTimeOrRemoveTime } from '../../utils/date';
 import { mergeCalendarModifiers } from '../../utils/modifiers';
 import { constVoid } from '../../utils/function';
 
@@ -47,7 +47,7 @@ const DatePickerCalendar: FC<DatePickerCalendarProps> = ({
   );
 
   const isSelected = (d: Date) => {
-    if (date === null || !isDateInRange(d, minDate, maxDate)) {
+    if (date === null) {
       return false;
     }
 

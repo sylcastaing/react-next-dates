@@ -11,7 +11,6 @@ import { useDateInput } from '../../hooks';
 import { constVoid } from '../../utils/function';
 import Popper from '../popper/Popper';
 import DateRangePickerCalendar from '../date-range-picker-calendar/DateRangePickerCalendar';
-import { isRangeLengthValid } from '../../utils/date';
 
 export interface DateRangePickerChildrenProps {
   startDateInputProps: DatePickerInputProps;
@@ -120,22 +119,16 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
     date: startDate,
     locale,
     format,
-    minDate,
-    maxDate,
     placeholder: startDatePlaceholder,
     onChange: handleStartDateInputChange,
-    validate: date => !endDate || isRangeLengthValid(date, endDate, minLength, maxLength),
   });
 
   const endDateInputProps = useDateInput({
     date: endDate,
     locale,
     format,
-    minDate,
-    maxDate,
     placeholder: endDatePlaceholder,
     onChange: handleEndDateInputChange,
-    validate: date => !startDate || isRangeLengthValid(startDate, date, minLength, maxLength),
   });
 
   return (

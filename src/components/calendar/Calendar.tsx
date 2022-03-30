@@ -3,18 +3,7 @@ import CalendarDayGrid from './day/CalendarDayGrid';
 
 import classNames from 'classnames';
 import CalendarNavigation from './navigation/CalendarNavigation';
-import {
-  endOfMonth,
-  endOfYear,
-  isAfter,
-  isBefore,
-  isSameMonth,
-  isSameYear,
-  set,
-  setDate,
-  startOfMonth,
-  startOfYear,
-} from 'date-fns';
+import { isAfter, isBefore, set, setDate, startOfMonth, startOfYear } from 'date-fns';
 import CalendarYearGrid from './year/CalendarYearGrid';
 import CalendarMonthGrid from './month/CalendarMonthGrid';
 import {
@@ -71,13 +60,13 @@ const Calendar: FC<CalendarProps> = ({
       },
       month: {
         disabled: date =>
-          !(minDate ? isBefore(date, endOfMonth(minDate)) || isSameMonth(date, minDate) : false) &&
-          !(maxDate ? isAfter(date, startOfMonth(maxDate)) || isSameMonth(date, maxDate) : false),
+          (minDate ? isBefore(startOfMonth(date), startOfMonth(minDate)) : false) ||
+          (maxDate ? isAfter(startOfMonth(date), startOfMonth(maxDate)) : false),
       },
       year: {
         disabled: date =>
-          !(minDate ? isBefore(date, endOfYear(minDate)) || isSameYear(date, minDate) : false) &&
-          !(maxDate ? isAfter(date, startOfYear(maxDate)) || isSameYear(date, maxDate) : false),
+          (minDate ? isBefore(startOfYear(date), startOfYear(minDate)) : false) ||
+          (maxDate ? isAfter(startOfYear(date), startOfYear(maxDate)) : false),
       },
     },
     receivedModifiers,

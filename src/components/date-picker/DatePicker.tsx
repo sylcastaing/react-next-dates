@@ -5,7 +5,6 @@ import {
   CalendarType,
   DateChangeHandler,
   DatePickerInputProps,
-  DatePredicate,
   NullableDateChangeHandler,
 } from '../../index';
 import useDateInput from '../../hooks/useDateInput';
@@ -28,7 +27,6 @@ export interface DatePickerProps {
   format?: string;
   minDate?: Date;
   maxDate?: Date;
-  validate?: DatePredicate;
   placeholder?: string;
   className?: string;
   modifiers?: CalendarModifiers;
@@ -47,7 +45,6 @@ const DatePicker: FC<DatePickerProps> = ({
   format,
   minDate,
   maxDate,
-  validate,
   placeholder,
   className,
   modifiers,
@@ -83,9 +80,6 @@ const DatePicker: FC<DatePickerProps> = ({
     locale,
     date,
     format,
-    minDate,
-    maxDate,
-    validate,
     placeholder,
     onChange: handleDateInputChange,
   });
