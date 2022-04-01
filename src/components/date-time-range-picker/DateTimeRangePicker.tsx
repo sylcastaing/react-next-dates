@@ -263,6 +263,11 @@ const DateTimeRangePicker: FC<DateTimeRangePickerProps> = ({
         endTimeInputProps: {
           ...endTimeInputProps,
           onFocus: handleFocus(endTimeInputProps, 'endTime'),
+          onBlur: e => {
+            endTimeInputProps.onBlur(e);
+
+            setFocus(null);
+          },
           ref: endTimeInputRef,
           readOnly,
         },

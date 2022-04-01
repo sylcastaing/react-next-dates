@@ -86,6 +86,11 @@ const TimePicker: FC<TimePickerProps> = ({
               inputRef.current?.blur();
             }
           },
+          onBlur: e => {
+            inputProps.onBlur(e);
+
+            setOpen(false);
+          },
           ref: inputRef,
           readOnly,
         },

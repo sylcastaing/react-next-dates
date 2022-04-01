@@ -172,6 +172,11 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
         timeInputProps: {
           ...timeInputProps,
           onFocus: handleFocus(timeInputProps, 'time'),
+          onBlur: e => {
+            timeInputProps.onBlur(e);
+
+            setFocus(null);
+          },
           ref: timeInputRef,
           readOnly,
         },
