@@ -15,13 +15,12 @@ export interface UseDateInputParams {
   onChange?: NullableDateChangeHandler;
 }
 
-export interface UseDateInputValue
-  extends Pick<
+export type UseDateInputValue = Required<
+  Pick<
     React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
-    'type' | 'value' | 'placeholder' | 'onChange' | 'onBlur' | 'onFocus' | 'readOnly'
-  > {
-  onFocus: () => void;
-}
+    'type' | 'value' | 'placeholder' | 'onChange' | 'onBlur' | 'onFocus'
+  >
+> & { readOnly?: boolean };
 
 function isDateValid(date?: Date | null): date is Date {
   return date != null && isValid(date);
@@ -72,7 +71,7 @@ export default function useDateInput({
     setFocused(false);
   };
 
-  const handleFocus = () => setFocused(true);
+  const handleFocus: FocusEventHandler<HTMLInputElement> = () => setFocused(true);
 
   useEffect(() => {
     if (!focused) {

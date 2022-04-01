@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, FocusEventHandler, ReactNode, useState } from 'react';
 import {
   ClockPrecision,
   ClockSelection,
@@ -16,6 +16,7 @@ import { startOfDay } from 'date-fns';
 import Popper from '../popper/Popper';
 import Clock from '../clock/Clock';
 import DateRangePickerCalendar from '../date-range-picker-calendar/DateRangePickerCalendar';
+import { UseDateInputValue } from '../../hooks/useDateInput';
 
 export interface DateTimeRangePickerChildrenProps {
   startDateInputProps: DatePickerInputProps;
@@ -57,6 +58,8 @@ interface DateTimeRangePickerProps {
   children: DateTimeRangePickerChildren;
 }
 
+type DateTimeRangePickerFocus = 'startDate' | 'startTime' | 'endDate' | 'endTime';
+
 const DateTimeRangePicker: FC<DateTimeRangePickerProps> = ({
   locale,
   dateFormat,
@@ -85,7 +88,7 @@ const DateTimeRangePicker: FC<DateTimeRangePickerProps> = ({
 }) => {
   const [month, setMonth] = useState(() => startDate ?? endDate ?? new Date());
 
-  const [focus, setFocus] = useState<'startDate' | 'startTime' | 'endDate' | 'endTime' | null>(null);
+  const [focus, setFocus] = useState<DateTimeRangePickerFocus | null>(null);
 
   const [clockSelection, setClockSelection] = useState<ClockSelection>('hours');
 
@@ -192,7 +195,7 @@ const DateTimeRangePicker: FC<DateTimeRangePickerProps> = ({
 
   const readOnly = readonlyOnTouch && isTouch;
 
-  const getPopperReferenceElement = () => {
+  const getRefFromFocus = (focus: DateTimeRangePickerFocus | null) => {
     switch (focus) {
       case 'startTime':
         return startTimeInputRef.current;
@@ -216,70 +219,50 @@ const DateTimeRangePicker: FC<DateTimeRangePickerProps> = ({
 
   const handleTimeSelectionEnd = () => setFocus(old => (old === 'startTime' ? 'endDate' : null));
 
+  const handleFocus =
+    (inputProps: UseDateInputValue, focus: DateTimeRangePickerFocus): FocusEventHandler<HTMLInputElement> =>
+    e => {
+      inputProps.onFocus(e);
+
+      if (focus === 'startDate' && startDate) {
+        setMonth(startDate);
+      } else if (focus === 'endDate' && endDate) {
+        setMonth(endDate);
+      }
+
+      if (autoOpen) {
+        setFocus(focus);
+      }
+
+      if (readOnly) {
+        getRefFromFocus(focus)?.blur();
+      }
+    };
+
   return (
     <>
       {children({
         startDateInputProps: {
           ...startDateInputProps,
-          onFocus: () => {
-            startDateInputProps.onFocus();
-
-            if (autoOpen) {
-              openStartDatePicker();
-            }
-
-            if (readOnly) {
-              startDateInputRef.current?.blur();
-            }
-          },
+          onFocus: handleFocus(startDateInputProps, 'startDate'),
           ref: startDateInputRef,
           readOnly,
         },
         startTimeInputProps: {
           ...startTimeInputProps,
-          onFocus: () => {
-            startTimeInputProps.onFocus();
-
-            if (autoOpen) {
-              openStartTimePicker();
-            }
-
-            if (readOnly) {
-              startTimeInputRef.current?.blur();
-            }
-          },
+          onFocus: handleFocus(startTimeInputProps, 'startTime'),
           ref: startTimeInputRef,
           readOnly,
         },
         endDateInputProps: {
           ...endDateInputProps,
-          onFocus: () => {
-            endDateInputProps.onFocus();
-
-            if (autoOpen) {
-              openEndDatePicker();
-            }
-
-            if (readOnly) {
-              endDateInputRef.current?.blur();
-            }
-          },
+          onFocus: handleFocus(endDateInputProps, 'endDate'),
           ref: endDateInputRef,
           readOnly,
         },
         endTimeInputProps: {
           ...endTimeInputProps,
-          onFocus: () => {
-            endTimeInputProps.onFocus();
-
-            if (autoOpen) {
-              openEndTimePicker();
-            }
-
-            if (readOnly) {
-              endTimeInputRef.current?.blur();
-            }
-          },
+          onFocus: handleFocus(endTimeInputProps, 'endTime'),
           ref: endTimeInputRef,
           readOnly,
         },
@@ -292,7 +275,7 @@ const DateTimeRangePicker: FC<DateTimeRangePickerProps> = ({
       <Popper
         ref={popperRef}
         isOpen={focus !== null}
-        referenceElement={getPopperReferenceElement()}
+        referenceElement={getRefFromFocus(focus)}
         popperElement={popperRef.current}
         portalContainer={portalContainer}
         className={focus === 'startTime' || focus === 'endTime' ? 'time' : 'date'}>

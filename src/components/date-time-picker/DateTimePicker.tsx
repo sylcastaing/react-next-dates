@@ -8,7 +8,7 @@ import {
   NullableDateChangeHandler,
   useDateInput,
 } from '../../index';
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, FocusEventHandler, ReactNode, useState } from 'react';
 import { constVoid } from '../../utils/function';
 import { useDetectTouch, useOutsideClickHandler } from '../../hooks/utils';
 import Popper from '../popper/Popper';
@@ -16,6 +16,7 @@ import DatePickerCalendar from '../date-picker-calendar/DatePickerCalendar';
 import Clock from '../clock/Clock';
 import { startOfDay } from 'date-fns';
 import { setTime } from '../../utils/date';
+import { UseDateInputValue } from '../../hooks/useDateInput';
 
 export interface DateTimePickerChildrenProps {
   dateInputProps: DatePickerInputProps;
@@ -47,6 +48,8 @@ export interface DateTimePickerProps {
   children: DateTimePickerChildren;
 }
 
+type DateTimePickerFocus = 'date' | 'time';
+
 const DateTimePicker: FC<DateTimePickerProps> = ({
   locale,
   date,
@@ -69,7 +72,7 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
 }) => {
   const [month, setMonth] = useState(() => date ?? new Date());
 
-  const [focus, setFocus] = useState<'date' | 'time' | null>(null);
+  const [focus, setFocus] = useState<DateTimePickerFocus | null>(null);
 
   const [clockSelection, setClockSelection] = useState<ClockSelection>('hours');
 
@@ -140,38 +143,35 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
 
   const readOnly = readonlyOnTouch && isTouch;
 
+  const getRefFromFocus = (focus: DateTimePickerFocus | null) =>
+    focus === 'time' ? timeInputRef.current : dateInputRef.current;
+
+  const handleFocus =
+    (inputProps: UseDateInputValue, focus: DateTimePickerFocus): FocusEventHandler<HTMLInputElement> =>
+    e => {
+      inputProps.onFocus(e);
+
+      if (autoOpen) {
+        setFocus(focus);
+      }
+
+      if (readOnly) {
+        getRefFromFocus(focus)?.blur();
+      }
+    };
+
   return (
     <>
       {children({
         dateInputProps: {
           ...dateInputProps,
-          onFocus: () => {
-            dateInputProps.onFocus();
-
-            if (autoOpen) {
-              openDatePicker();
-            }
-
-            if (readOnly) {
-              dateInputRef.current?.blur();
-            }
-          },
+          onFocus: handleFocus(dateInputProps, 'date'),
           ref: dateInputRef,
           readOnly,
         },
         timeInputProps: {
           ...timeInputProps,
-          onFocus: () => {
-            timeInputProps.onFocus();
-
-            if (autoOpen) {
-              openTimePicker();
-            }
-
-            if (readOnly) {
-              dateInputRef.current?.blur();
-            }
-          },
+          onFocus: handleFocus(timeInputProps, 'time'),
           ref: timeInputRef,
           readOnly,
         },
@@ -182,7 +182,7 @@ const DateTimePicker: FC<DateTimePickerProps> = ({
       <Popper
         ref={popperRef}
         isOpen={focus !== null}
-        referenceElement={focus === 'time' ? timeInputRef.current : dateInputRef.current}
+        referenceElement={getRefFromFocus(focus)}
         popperElement={popperRef.current}
         portalContainer={portalContainer}
         className={focus === 'time' ? 'time' : 'date'}>

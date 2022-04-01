@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react';
+import React, { FC, FocusEventHandler, ReactNode, useEffect, useState } from 'react';
 import {
   DatePickerInputProps,
   DateRangeInputType,
@@ -11,6 +11,7 @@ import { useDateInput } from '../../hooks';
 import { constVoid } from '../../utils/function';
 import Popper from '../popper/Popper';
 import DateRangePickerCalendar from '../date-range-picker-calendar/DateRangePickerCalendar';
+import { UseDateInputValue } from '../../hooks/useDateInput';
 
 export interface DateRangePickerChildrenProps {
   startDateInputProps: DatePickerInputProps;
@@ -133,46 +134,41 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
 
   const readOnly = readonlyOnTouch && isTouch;
 
+  const getRefFromFocus = (focus: DateRangeInputType | null) =>
+    focus === 'endDate' ? endDateInputRef.current : startDateInputRef.current;
+
+  const handleFocus =
+    (inputProps: UseDateInputValue, focus: DateRangeInputType): FocusEventHandler<HTMLInputElement> =>
+    e => {
+      inputProps.onFocus(e);
+
+      if (focus === 'startDate' && startDate) {
+        setMonth(startDate);
+      } else if (focus === 'endDate' && endDate) {
+        setMonth(endDate);
+      }
+
+      if (autoOpen) {
+        setFocus(focus);
+      }
+
+      if (readOnly) {
+        getRefFromFocus(focus)?.blur();
+      }
+    };
+
   return (
     <>
       {children({
         startDateInputProps: {
           ...startDateInputProps,
-          onFocus: () => {
-            startDateInputProps?.onFocus();
-
-            if (autoOpen) {
-              setFocus('startDate');
-            }
-
-            if (startDate) {
-              setMonth(startDate);
-            }
-
-            if (readOnly) {
-              startDateInputRef.current?.blur();
-            }
-          },
+          onFocus: handleFocus(startDateInputProps, 'startDate'),
           ref: startDateInputRef,
           readOnly,
         },
         endDateInputProps: {
           ...endDateInputProps,
-          onFocus: () => {
-            endDateInputProps?.onFocus();
-
-            if (autoOpen) {
-              setFocus('endDate');
-            }
-
-            if (endDate) {
-              setMonth(endDate);
-            }
-
-            if (readOnly) {
-              endDateInputRef.current?.blur();
-            }
-          },
+          onFocus: handleFocus(endDateInputProps, 'endDate'),
           ref: endDateInputRef,
           readOnly,
         },
@@ -183,7 +179,7 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
       <Popper
         ref={popperRef}
         isOpen={focus !== null}
-        referenceElement={popperFocus === 'endDate' ? endDateInputRef.current : startDateInputRef.current}
+        referenceElement={getRefFromFocus(popperFocus)}
         popperElement={popperRef.current}
         portalContainer={portalContainer}
         className="date">

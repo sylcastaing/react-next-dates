@@ -97,11 +97,11 @@ const DatePicker: FC<DatePickerProps> = ({
       {children({
         inputProps: {
           ...inputProps,
-          onFocus: () => {
-            inputProps.onFocus();
+          onFocus: e => {
+            inputProps.onFocus(e);
 
             if (autoOpen) {
-              openDatePicker();
+              setOpen(true);
             }
 
             if (readOnly) {

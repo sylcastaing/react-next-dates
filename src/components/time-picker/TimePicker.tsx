@@ -75,11 +75,11 @@ const TimePicker: FC<TimePickerProps> = ({
       {children({
         inputProps: {
           ...inputProps,
-          onFocus: () => {
-            inputProps?.onFocus();
+          onFocus: e => {
+            inputProps.onFocus(e);
 
             if (autoOpen) {
-              openTimePicker();
+              setOpen(true);
             }
 
             if (readOnly) {
