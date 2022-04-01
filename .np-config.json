@@ -1,4 +1,5 @@
 {
   "yarn": false,
+  "cleanup": false,
   "message": "chore: bump version %s"
 }
