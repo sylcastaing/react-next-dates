@@ -30,7 +30,7 @@ export interface DateTimeRangePickerChildrenProps {
 
 export type DateTimeRangePickerChildren = (props: DateTimeRangePickerChildrenProps) => ReactNode;
 
-interface DateTimeRangePickerProps {
+export interface DateTimeRangePickerProps {
   locale: Locale;
   dateFormat?: string;
   timeFormat?: string;
