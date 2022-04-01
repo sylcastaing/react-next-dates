@@ -169,11 +169,6 @@ const DateRangePicker: FC<DateRangePickerProps> = ({
         endDateInputProps: {
           ...endDateInputProps,
           onFocus: handleFocus(endDateInputProps, 'endDate'),
-          onBlur: e => {
-            endDateInputProps.onBlur(e);
-
-            setFocus(null);
-          },
           ref: endDateInputRef,
           readOnly,
         },
