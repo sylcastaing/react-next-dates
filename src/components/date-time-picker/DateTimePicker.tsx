@@ -1,3 +1,5 @@
+import React, { FC, FocusEventHandler, ReactNode, useState } from 'react';
+
 import {
   CalendarModifiers,
   CalendarModifiersClassNames,
@@ -6,9 +8,8 @@ import {
   DateChangeHandler,
   DatePickerInputProps,
   NullableDateChangeHandler,
-  useDateInput,
 } from '../../index';
-import React, { FC, FocusEventHandler, ReactNode, useState } from 'react';
+
 import { constVoid } from '../../utils/function';
 import { useDetectTouch, useOutsideClickHandler } from '../../hooks/utils';
 import Popper from '../popper/Popper';
@@ -16,7 +17,7 @@ import DatePickerCalendar from '../date-picker-calendar/DatePickerCalendar';
 import Clock from '../clock/Clock';
 import { startOfDay } from 'date-fns';
 import { setTime } from '../../utils/date';
-import { UseDateInputValue } from '../../hooks/useDateInput';
+import useDateInput, { UseDateInputValue } from '../../hooks/useDateInput';
 
 export interface DateTimePickerChildrenProps {
   dateInputProps: DatePickerInputProps;

@@ -7,7 +7,6 @@ import {
   Modifiers,
   ModifiersClassNames,
   NullableDateChangeHandler,
-  useDateInput,
 } from '../../index';
 import { constVoid } from '../../utils/function';
 import { useDetectTouch, useOutsideClickHandler } from '../../hooks/utils';
@@ -16,7 +15,7 @@ import { startOfDay } from 'date-fns';
 import Popper from '../popper/Popper';
 import Clock from '../clock/Clock';
 import DateRangePickerCalendar from '../date-range-picker-calendar/DateRangePickerCalendar';
-import { UseDateInputValue } from '../../hooks/useDateInput';
+import useDateInput, { UseDateInputValue } from '../../hooks/useDateInput';
 
 export interface DateTimeRangePickerChildrenProps {
   startDateInputProps: DatePickerInputProps;
