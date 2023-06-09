@@ -49,9 +49,9 @@
     "postpublish": "pinst --enable"
   },
   "dependencies": {
-    "@popperjs/core": "2.11.4",
-    "classnames": "2.3.1",
-    "react-popper": "2.2.5"
+    "@popperjs/core": "^2.11.8",
+    "classnames": "^2.3.2",
+    "react-popper": "^2.3.0"
   },
   "peerDependencies": {
     "date-fns": "^2.0.0",
